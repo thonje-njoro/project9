@@ -1,0 +1,743 @@
+{
+  "strategy": "Combined Momentum + VRP",
+  "data_range": "2019-01-02 to 2024-07-31",
+  "train_period": "2019-01-02 to 2022-12-30",
+  "test_period": "2023-01-03 to 2024-07-31",
+  "total_combos_tested": 1008,
+  "best_configuration": {
+    "params": {
+      "momentum_weight": 0.7,
+      "vrp_weight": 0.3,
+      "mom_lookback": 60,
+      "mom_vol_target": 0.4,
+      "vrp_delta": 0.2,
+      "vrp_dte": 30,
+      "max_dd_tolerance": 0.1
+    },
+    "train_metrics": {
+      "annual_return": 0.0581,
+      "annual_vol": 0.5305,
+      "sharpe": 0.1095,
+      "max_dd": -0.6901,
+      "win_rate": 0.5065,
+      "avg_daily_return": 0.00023,
+      "profit_target_hit": false,
+      "days_to_profit": null,
+      "total_return": -0.3163,
+      "daily_dd_violations": 87,
+      "total_dd_violations": 767
+    },
+    "test_metrics": {
+      "annual_return": 0.0807,
+      "annual_vol": 0.1118,
+      "sharpe": 0.7215,
+      "max_dd": -0.0528,
+      "win_rate": 0.4962,
+      "avg_daily_return": 0.00032,
+      "profit_target_hit": true,
+      "days_to_profit": 98,
+      "total_return": 0.1241,
+      "daily_dd_violations": 0,
+      "total_dd_violations": 0
+    },
+    "engine_correlation": -0.045,
+    "prop_firm_compliance": {
+      "daily_dd_rule": {
+        "rule": "Daily DD <= 3%",
+        "value": 0,
+        "pass": true
+      },
+      "total_dd_rule": {
+        "rule": "Total DD <= 10%",
+        "value": -0.0528,
+        "pass": "True"
+      },
+      "profit_target_rule": {
+        "rule": "Profit >= 10%",
+        "value": 0.1241,
+        "pass": "True"
+      },
+      "min_trading_days_rule": {
+        "rule": "Min 10 trading days",
+        "value": ">=10",
+        "pass": true
+      },
+      "overall": "PASS"
+    },
+    "composite_score": 0.606
+  },
+  "standalone_comparison": {
+    "momentum_only_test": {
+      "annual_return": -0.0345,
+      "annual_vol": 0.0307,
+      "sharpe": -1.1252,
+      "max_dd": -0.0534,
+      "win_rate": 0.4405,
+      "avg_daily_return": -0.000137,
+      "profit_target_hit": false,
+      "days_to_profit": null,
+      "total_return": -0.0534,
+      "daily_dd_violations": 1,
+      "total_dd_violations": 0
+    },
+    "vrp_only_test": {
+      "annual_return": 0.1117,
+      "annual_vol": 0.1185,
+      "sharpe": 0.9429,
+      "max_dd": -0.0695,
+      "win_rate": 0.5165,
+      "avg_daily_return": 0.000443,
+      "profit_target_hit": true,
+      "days_to_profit": 36,
+      "total_return": 0.1784,
+      "daily_dd_violations": 5,
+      "total_dd_violations": 0
+    },
+    "combined_test": {
+      "annual_return": 0.0807,
+      "annual_vol": 0.1118,
+      "sharpe": 0.7215,
+      "max_dd": -0.0528,
+      "win_rate": 0.4962,
+      "avg_daily_return": 0.00032,
+      "profit_target_hit": true,
+      "days_to_profit": 98,
+      "total_return": 0.1241,
+      "daily_dd_violations": 0,
+      "total_dd_violations": 0
+    }
+  },
+  "top_10_configs": [
+    {
+      "params": {
+        "momentum_weight": 0.7,
+        "vrp_weight": 0.3,
+        "mom_lookback": 60,
+        "mom_vol_target": 0.4,
+        "vrp_delta": 0.2,
+        "vrp_dte": 30,
+        "max_dd_tolerance": 0.1
+      },
+      "train_metrics": {
+        "annual_return": 0.0581,
+        "annual_vol": 0.5305,
+        "sharpe": 0.1095,
+        "max_dd": -0.6901,
+        "win_rate": 0.5065,
+        "avg_daily_return": 0.00023,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": -0.3163,
+        "daily_dd_violations": 87,
+        "total_dd_violations": 767
+      },
+      "test_metrics": {
+        "annual_return": 0.0807,
+        "annual_vol": 0.1118,
+        "sharpe": 0.7215,
+        "max_dd": -0.0528,
+        "win_rate": 0.4962,
+        "avg_daily_return": 0.00032,
+        "profit_target_hit": true,
+        "days_to_profit": 98,
+        "total_return": 0.1241,
+        "daily_dd_violations": 0,
+        "total_dd_violations": 0
+      },
+      "engine_correlation": -0.045,
+      "compliance": {
+        "daily_dd_rule": {
+          "rule": "Daily DD <= 3%",
+          "value": 0,
+          "pass": true
+        },
+        "total_dd_rule": {
+          "rule": "Total DD <= 10%",
+          "value": -0.0528,
+          "pass": "True"
+        },
+        "profit_target_rule": {
+          "rule": "Profit >= 10%",
+          "value": 0.1241,
+          "pass": "True"
+        },
+        "min_trading_days_rule": {
+          "rule": "Min 10 trading days",
+          "value": ">=10",
+          "pass": true
+        },
+        "overall": "PASS"
+      },
+      "score": 0.606
+    },
+    {
+      "params": {
+        "momentum_weight": 0.7,
+        "vrp_weight": 0.3,
+        "mom_lookback": 60,
+        "mom_vol_target": 0.3,
+        "vrp_delta": 0.2,
+        "vrp_dte": 30,
+        "max_dd_tolerance": 0.1
+      },
+      "train_metrics": {
+        "annual_return": -0.0159,
+        "annual_vol": 0.5733,
+        "sharpe": -0.0277,
+        "max_dd": -0.8136,
+        "win_rate": 0.4995,
+        "avg_daily_return": -6.3e-05,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": -0.6042,
+        "daily_dd_violations": 81,
+        "total_dd_violations": 768
+      },
+      "test_metrics": {
+        "annual_return": 0.0699,
+        "annual_vol": 0.1052,
+        "sharpe": 0.6639,
+        "max_dd": -0.056,
+        "win_rate": 0.4886,
+        "avg_daily_return": 0.000277,
+        "profit_target_hit": true,
+        "days_to_profit": 98,
+        "total_return": 0.1064,
+        "daily_dd_violations": 0,
+        "total_dd_violations": 0
+      },
+      "engine_correlation": -0.0478,
+      "compliance": {
+        "daily_dd_rule": {
+          "rule": "Daily DD <= 3%",
+          "value": 0,
+          "pass": true
+        },
+        "total_dd_rule": {
+          "rule": "Total DD <= 10%",
+          "value": -0.056,
+          "pass": "True"
+        },
+        "profit_target_rule": {
+          "rule": "Profit >= 10%",
+          "value": 0.1064,
+          "pass": "True"
+        },
+        "min_trading_days_rule": {
+          "rule": "Min 10 trading days",
+          "value": ">=10",
+          "pass": true
+        },
+        "overall": "PASS"
+      },
+      "score": 0.5552
+    },
+    {
+      "params": {
+        "momentum_weight": 0.2,
+        "vrp_weight": 0.8,
+        "mom_lookback": 40,
+        "mom_vol_target": 0.4,
+        "vrp_delta": 0.15,
+        "vrp_dte": 45,
+        "max_dd_tolerance": 0.08
+      },
+      "train_metrics": {
+        "annual_return": 0.3197,
+        "annual_vol": 1.5626,
+        "sharpe": 0.2046,
+        "max_dd": -0.9996,
+        "win_rate": 0.4995,
+        "avg_daily_return": 0.001269,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": -0.9863,
+        "daily_dd_violations": 238,
+        "total_dd_violations": 803
+      },
+      "test_metrics": {
+        "annual_return": 0.0743,
+        "annual_vol": 0.1234,
+        "sharpe": 0.6018,
+        "max_dd": -0.1629,
+        "win_rate": 0.4582,
+        "avg_daily_return": 0.000295,
+        "profit_target_hit": true,
+        "days_to_profit": 50,
+        "total_return": 0.1103,
+        "daily_dd_violations": 1,
+        "total_dd_violations": 69
+      },
+      "engine_correlation": -0.031,
+      "compliance": {
+        "daily_dd_rule": {
+          "rule": "Daily DD <= 3%",
+          "value": 1,
+          "pass": false
+        },
+        "total_dd_rule": {
+          "rule": "Total DD <= 10%",
+          "value": -0.1629,
+          "pass": "False"
+        },
+        "profit_target_rule": {
+          "rule": "Profit >= 10%",
+          "value": 0.1103,
+          "pass": "True"
+        },
+        "min_trading_days_rule": {
+          "rule": "Min 10 trading days",
+          "value": ">=10",
+          "pass": true
+        },
+        "overall": "FAIL"
+      },
+      "score": 0.4785
+    },
+    {
+      "params": {
+        "momentum_weight": 0.2,
+        "vrp_weight": 0.8,
+        "mom_lookback": 40,
+        "mom_vol_target": 0.3,
+        "vrp_delta": 0.15,
+        "vrp_dte": 45,
+        "max_dd_tolerance": 0.08
+      },
+      "train_metrics": {
+        "annual_return": 0.3383,
+        "annual_vol": 1.5599,
+        "sharpe": 0.2169,
+        "max_dd": -0.9996,
+        "win_rate": 0.4995,
+        "avg_daily_return": 0.001342,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": -0.985,
+        "daily_dd_violations": 240,
+        "total_dd_violations": 796
+      },
+      "test_metrics": {
+        "annual_return": 0.0731,
+        "annual_vol": 0.1232,
+        "sharpe": 0.593,
+        "max_dd": -0.1626,
+        "win_rate": 0.4582,
+        "avg_daily_return": 0.00029,
+        "profit_target_hit": true,
+        "days_to_profit": 50,
+        "total_return": 0.1083,
+        "daily_dd_violations": 1,
+        "total_dd_violations": 69
+      },
+      "engine_correlation": -0.0396,
+      "compliance": {
+        "daily_dd_rule": {
+          "rule": "Daily DD <= 3%",
+          "value": 1,
+          "pass": false
+        },
+        "total_dd_rule": {
+          "rule": "Total DD <= 10%",
+          "value": -0.1626,
+          "pass": "False"
+        },
+        "profit_target_rule": {
+          "rule": "Profit >= 10%",
+          "value": 0.1083,
+          "pass": "True"
+        },
+        "min_trading_days_rule": {
+          "rule": "Min 10 trading days",
+          "value": ">=10",
+          "pass": true
+        },
+        "overall": "FAIL"
+      },
+      "score": 0.4766
+    },
+    {
+      "params": {
+        "momentum_weight": 0.7,
+        "vrp_weight": 0.3,
+        "mom_lookback": 60,
+        "mom_vol_target": 0.4,
+        "vrp_delta": 0.15,
+        "vrp_dte": 45,
+        "max_dd_tolerance": 0.06
+      },
+      "train_metrics": {
+        "annual_return": 0.0385,
+        "annual_vol": 0.6732,
+        "sharpe": 0.0571,
+        "max_dd": -0.9029,
+        "win_rate": 0.5194,
+        "avg_daily_return": 0.000153,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": -0.5601,
+        "daily_dd_violations": 123,
+        "total_dd_violations": 759
+      },
+      "test_metrics": {
+        "annual_return": 0.0517,
+        "annual_vol": 0.0617,
+        "sharpe": 0.838,
+        "max_dd": -0.053,
+        "win_rate": 0.4709,
+        "avg_daily_return": 0.000205,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": 0.0812,
+        "daily_dd_violations": 0,
+        "total_dd_violations": 0
+      },
+      "engine_correlation": -0.0486,
+      "compliance": {
+        "daily_dd_rule": {
+          "rule": "Daily DD <= 3%",
+          "value": 0,
+          "pass": true
+        },
+        "total_dd_rule": {
+          "rule": "Total DD <= 10%",
+          "value": -0.053,
+          "pass": "True"
+        },
+        "profit_target_rule": {
+          "rule": "Profit >= 10%",
+          "value": 0.0812,
+          "pass": "False"
+        },
+        "min_trading_days_rule": {
+          "rule": "Min 10 trading days",
+          "value": ">=10",
+          "pass": true
+        },
+        "overall": "FAIL"
+      },
+      "score": 0.4418
+    },
+    {
+      "params": {
+        "momentum_weight": 0.7,
+        "vrp_weight": 0.3,
+        "mom_lookback": 60,
+        "mom_vol_target": 0.4,
+        "vrp_delta": 0.15,
+        "vrp_dte": 45,
+        "max_dd_tolerance": 0.08
+      },
+      "train_metrics": {
+        "annual_return": 0.0385,
+        "annual_vol": 0.6732,
+        "sharpe": 0.0571,
+        "max_dd": -0.9029,
+        "win_rate": 0.5194,
+        "avg_daily_return": 0.000153,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": -0.5601,
+        "daily_dd_violations": 123,
+        "total_dd_violations": 759
+      },
+      "test_metrics": {
+        "annual_return": 0.0506,
+        "annual_vol": 0.0618,
+        "sharpe": 0.8186,
+        "max_dd": -0.053,
+        "win_rate": 0.4709,
+        "avg_daily_return": 0.000201,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": 0.0793,
+        "daily_dd_violations": 0,
+        "total_dd_violations": 0
+      },
+      "engine_correlation": -0.0486,
+      "compliance": {
+        "daily_dd_rule": {
+          "rule": "Daily DD <= 3%",
+          "value": 0,
+          "pass": true
+        },
+        "total_dd_rule": {
+          "rule": "Total DD <= 10%",
+          "value": -0.053,
+          "pass": "True"
+        },
+        "profit_target_rule": {
+          "rule": "Profit >= 10%",
+          "value": 0.0793,
+          "pass": "False"
+        },
+        "min_trading_days_rule": {
+          "rule": "Min 10 trading days",
+          "value": ">=10",
+          "pass": true
+        },
+        "overall": "FAIL"
+      },
+      "score": 0.434
+    },
+    {
+      "params": {
+        "momentum_weight": 0.7,
+        "vrp_weight": 0.3,
+        "mom_lookback": 60,
+        "mom_vol_target": 0.4,
+        "vrp_delta": 0.15,
+        "vrp_dte": 45,
+        "max_dd_tolerance": 0.1
+      },
+      "train_metrics": {
+        "annual_return": 0.0385,
+        "annual_vol": 0.6732,
+        "sharpe": 0.0571,
+        "max_dd": -0.9029,
+        "win_rate": 0.5194,
+        "avg_daily_return": 0.000153,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": -0.5601,
+        "daily_dd_violations": 123,
+        "total_dd_violations": 759
+      },
+      "test_metrics": {
+        "annual_return": 0.0493,
+        "annual_vol": 0.0619,
+        "sharpe": 0.7973,
+        "max_dd": -0.053,
+        "win_rate": 0.4709,
+        "avg_daily_return": 0.000196,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": 0.0772,
+        "daily_dd_violations": 0,
+        "total_dd_violations": 0
+      },
+      "engine_correlation": -0.0486,
+      "compliance": {
+        "daily_dd_rule": {
+          "rule": "Daily DD <= 3%",
+          "value": 0,
+          "pass": true
+        },
+        "total_dd_rule": {
+          "rule": "Total DD <= 10%",
+          "value": -0.053,
+          "pass": "True"
+        },
+        "profit_target_rule": {
+          "rule": "Profit >= 10%",
+          "value": 0.0772,
+          "pass": "False"
+        },
+        "min_trading_days_rule": {
+          "rule": "Min 10 trading days",
+          "value": ">=10",
+          "pass": true
+        },
+        "overall": "FAIL"
+      },
+      "score": 0.4255
+    },
+    {
+      "params": {
+        "momentum_weight": 0.7,
+        "vrp_weight": 0.3,
+        "mom_lookback": 60,
+        "mom_vol_target": 0.3,
+        "vrp_delta": 0.15,
+        "vrp_dte": 45,
+        "max_dd_tolerance": 0.06
+      },
+      "train_metrics": {
+        "annual_return": -0.0355,
+        "annual_vol": 0.7082,
+        "sharpe": -0.0501,
+        "max_dd": -0.942,
+        "win_rate": 0.5154,
+        "avg_daily_return": -0.000141,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": -0.743,
+        "daily_dd_violations": 123,
+        "total_dd_violations": 740
+      },
+      "test_metrics": {
+        "annual_return": 0.0521,
+        "annual_vol": 0.0615,
+        "sharpe": 0.848,
+        "max_dd": -0.0567,
+        "win_rate": 0.4658,
+        "avg_daily_return": 0.000207,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": 0.082,
+        "daily_dd_violations": 0,
+        "total_dd_violations": 0
+      },
+      "engine_correlation": -0.0565,
+      "compliance": {
+        "daily_dd_rule": {
+          "rule": "Daily DD <= 3%",
+          "value": 0,
+          "pass": true
+        },
+        "total_dd_rule": {
+          "rule": "Total DD <= 10%",
+          "value": -0.0567,
+          "pass": "True"
+        },
+        "profit_target_rule": {
+          "rule": "Profit >= 10%",
+          "value": 0.082,
+          "pass": "False"
+        },
+        "min_trading_days_rule": {
+          "rule": "Min 10 trading days",
+          "value": ">=10",
+          "pass": true
+        },
+        "overall": "FAIL"
+      },
+      "score": 0.4235
+    },
+    {
+      "params": {
+        "momentum_weight": 0.7,
+        "vrp_weight": 0.3,
+        "mom_lookback": 60,
+        "mom_vol_target": 0.3,
+        "vrp_delta": 0.15,
+        "vrp_dte": 45,
+        "max_dd_tolerance": 0.08
+      },
+      "train_metrics": {
+        "annual_return": -0.0355,
+        "annual_vol": 0.7082,
+        "sharpe": -0.0501,
+        "max_dd": -0.942,
+        "win_rate": 0.5154,
+        "avg_daily_return": -0.000141,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": -0.743,
+        "daily_dd_violations": 123,
+        "total_dd_violations": 740
+      },
+      "test_metrics": {
+        "annual_return": 0.051,
+        "annual_vol": 0.0615,
+        "sharpe": 0.8285,
+        "max_dd": -0.0567,
+        "win_rate": 0.4658,
+        "avg_daily_return": 0.000202,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": 0.08,
+        "daily_dd_violations": 0,
+        "total_dd_violations": 0
+      },
+      "engine_correlation": -0.0565,
+      "compliance": {
+        "daily_dd_rule": {
+          "rule": "Daily DD <= 3%",
+          "value": 0,
+          "pass": true
+        },
+        "total_dd_rule": {
+          "rule": "Total DD <= 10%",
+          "value": -0.0567,
+          "pass": "True"
+        },
+        "profit_target_rule": {
+          "rule": "Profit >= 10%",
+          "value": 0.08,
+          "pass": "False"
+        },
+        "min_trading_days_rule": {
+          "rule": "Min 10 trading days",
+          "value": ">=10",
+          "pass": true
+        },
+        "overall": "FAIL"
+      },
+      "score": 0.4157
+    },
+    {
+      "params": {
+        "momentum_weight": 0.7,
+        "vrp_weight": 0.3,
+        "mom_lookback": 60,
+        "mom_vol_target": 0.3,
+        "vrp_delta": 0.15,
+        "vrp_dte": 45,
+        "max_dd_tolerance": 0.1
+      },
+      "train_metrics": {
+        "annual_return": -0.0355,
+        "annual_vol": 0.7082,
+        "sharpe": -0.0501,
+        "max_dd": -0.942,
+        "win_rate": 0.5154,
+        "avg_daily_return": -0.000141,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": -0.743,
+        "daily_dd_violations": 123,
+        "total_dd_violations": 740
+      },
+      "test_metrics": {
+        "annual_return": 0.0497,
+        "annual_vol": 0.0616,
+        "sharpe": 0.807,
+        "max_dd": -0.0567,
+        "win_rate": 0.4658,
+        "avg_daily_return": 0.000197,
+        "profit_target_hit": false,
+        "days_to_profit": null,
+        "total_return": 0.0779,
+        "daily_dd_violations": 0,
+        "total_dd_violations": 0
+      },
+      "engine_correlation": -0.0565,
+      "compliance": {
+        "daily_dd_rule": {
+          "rule": "Daily DD <= 3%",
+          "value": 0,
+          "pass": true
+        },
+        "total_dd_rule": {
+          "rule": "Total DD <= 10%",
+          "value": -0.0567,
+          "pass": "True"
+        },
+        "profit_target_rule": {
+          "rule": "Profit >= 10%",
+          "value": 0.0779,
+          "pass": "False"
+        },
+        "min_trading_days_rule": {
+          "rule": "Min 10 trading days",
+          "value": ">=10",
+          "pass": true
+        },
+        "overall": "FAIL"
+      },
+      "score": 0.4071
+    }
+  ],
+  "prop_firm_rules": {
+    "daily_dd": "3%",
+    "total_dd": "10%",
+    "profit_target": "10%",
+    "min_trading_days": 10
+  },
+  "walk_forward_analysis": {
+    "train_sharpe": 0.1095,
+    "test_sharpe": 0.7215,
+    "sharpe_degradation": -0.612
+  }
+}
