@@ -92,6 +92,16 @@ def generate_signals(
     
     day_groups = df.attrs.get("day_groups", [])
     n = len(c)
+    # Recompute day_groups if indices don't match (slice case)
+    if day_groups:
+        last_end = day_groups[-1][1]
+        if last_end > n:
+            dates = df.index.date
+            ds = np.array([str(d) for d in dates])
+            changes = np.where(ds[1:] != ds[:-1])[0] + 1
+            starts = np.concatenate([[0], changes])
+            ends = np.concatenate([changes, [len(ds)]])
+            day_groups = list(zip(starts, ends))
     
     long_entries = np.zeros(n, dtype=bool)
     long_exits = np.zeros(n, dtype=bool)
