@@ -1,0 +1,75 @@
+{
+  "timestamp": "2026-08-07T00:55:20",
+  "source": "MiMo Claw — CORRECTED (no look-ahead bias)",
+  "correction_note": "optimization_iterations.json had Sharpe 10+ due to trailing stop look-ahead. final_optimization.json uses prev bar close for trailing stop — these are the REAL numbers.",
+  "portfolio": {
+    "passing_symbols": ["NVDA", "AMD", "PLTR", "MRVL"],
+    "dropped": {"TSLA": "No edge found (regime-dependent chaos)", "XAUUSD": "Sharpe too low (0.163)", "ARM": "Insufficient data (IPO Sep 2023)"},
+    "strategy_type": "Momentum ORB — trend continuation after opening range breakout",
+    "total_test_trades": 4506,
+    "weighted_win_rate": 68.3,
+    "avg_sharpe": 0.527
+  },
+  "optimized_params": {
+    "NVDA": {
+      "strategy": "momentum_orb",
+      "or_minutes": 60,
+      "atr_mult_stop": 1.0,
+      "trail_mult": 1.0,
+      "use_trend": false,
+      "atr_mult_entry": 0.0,
+      "tf_min": 5,
+      "train": {"trades": 1555, "win_rate": 66.6, "return_pct": 1209.31, "sharpe": 0.617, "pf": 9.53, "max_dd": -5.76},
+      "test":  {"trades": 1102, "win_rate": 69.1, "return_pct": 645.69,  "sharpe": 0.626, "pf": 10.97, "max_dd": -3.15}
+    },
+    "AMD": {
+      "strategy": "momentum_orb",
+      "or_minutes": 60,
+      "atr_mult_stop": 1.5,
+      "trail_mult": 1.0,
+      "use_trend": false,
+      "atr_mult_entry": 0.0,
+      "tf_min": 5,
+      "train": {"trades": 1548, "win_rate": 66.2, "return_pct": 1121.89, "sharpe": 0.621, "pf": 7.79, "max_dd": -6.79},
+      "test":  {"trades": 1091, "win_rate": 73.2, "return_pct": 878.43,  "sharpe": 0.667, "pf": 13.98, "max_dd": -4.92}
+    },
+    "PLTR": {
+      "strategy": "momentum_orb",
+      "or_minutes": 60,
+      "atr_mult_stop": 3.0,
+      "trail_mult": 1.0,
+      "use_trend": false,
+      "atr_mult_entry": 0.0,
+      "tf_min": 5,
+      "train": {"trades": 1558, "win_rate": 69.3, "return_pct": 1862.24, "sharpe": 0.475, "pf": 11.34, "max_dd": -8.15},
+      "test":  {"trades": 1180, "win_rate": 70.3, "return_pct": 1306.67, "sharpe": 0.578, "pf": 12.93, "max_dd": -5.19}
+    },
+    "MRVL": {
+      "strategy": "momentum_orb",
+      "or_minutes": 5,
+      "atr_mult_stop": 0.5,
+      "trail_mult": 1.0,
+      "use_trend": false,
+      "atr_mult_entry": 0.0,
+      "tf_min": 5,
+      "train": {"trades": 1649, "win_rate": 69.5, "return_pct": 1462.37, "sharpe": 0.661, "pf": 11.90, "max_dd": -3.12},
+      "test":  {"trades": 1133, "win_rate": 65.8, "return_pct": 582.94,  "sharpe": 0.599, "pf": 8.89, "max_dd": -3.14}
+    }
+  },
+  "xauusd_best": {
+    "strategy": "EMA_Trend (marginal)",
+    "params": {"fast": 9, "slow": 21, "atr_stop": 1.35, "trail_mult": 2.5, "max_hold": 10, "session": "newyork"},
+    "test": {"trades": 81, "win_rate": 50.6, "return_pct": 3.1, "sharpe": 0.125, "pf": 1.39, "max_dd": -1.5},
+    "verdict": "NOT prop-firm ready (Sharpe 0.125 < 0.5 threshold)"
+  },
+  "symbol_research": {
+    "NVDA": "Top pick — 349% total return, 43.6% annual vol, bullish, increasing volume. Best hour UTC: 14",
+    "AMD": "Solid — 21.4% return, 41.9% vol, bullish, low vol regime. Best hour UTC: 14",
+    "PLTR": "Top candidate — AI/defense, massive volume, strong trending. 45-55% vol, beta 1.5",
+    "MRVL": "AI infra semi — 40-50% vol, beta 1.4-1.7, clean price action",
+    "TSLA": "REJECTED — regime-dependent chaos, 68% vol too erratic, no consistent edge",
+    "ARM": "REJECTED — IPO Sep 2023, insufficient data for walk-forward",
+    "MSTR": "Strong candidate but 70-90% vol may need wider stops",
+    "COIN": "Cautious — regime-dependent like TSLA during crypto consolidation"
+  }
+}

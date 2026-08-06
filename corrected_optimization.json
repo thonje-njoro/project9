@@ -1,0 +1,45 @@
+{
+  "XAUUSD": {
+    "strategy": "MeanRev",
+    "params": {
+      "z_entry": 1.8,
+      "z_exit": 0.0,
+      "atr_mult": 1.0,
+      "max_hold": 8,
+      "session_filter": "london",
+      "dow_filter": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "train": {
+      "trades": 204,
+      "win_rate": 37.3,
+      "total_return": 2.89,
+      "sharpe": 0.044,
+      "profit_factor": 1.14,
+      "max_dd": -4.09,
+      "expectancy": 0.0142
+    },
+    "test": {
+      "trades": 220,
+      "win_rate": 42.3,
+      "total_return": 11.58,
+      "sharpe": 0.163,
+      "profit_factor": 1.53,
+      "max_dd": -3.91,
+      "expectancy": 0.0526
+    },
+    "prop_checks": {
+      "WR>=45": false,
+      "PF>=1.2": "True",
+      "Sharpe>=0.5": "False",
+      "MaxDD<=15": "True",
+      "Trades>=30": true,
+      "Return>0": "True"
+    },
+    "prop_pass": false
+  }
+}

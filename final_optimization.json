@@ -1,0 +1,187 @@
+{
+  "timestamp": "2026-08-06T23:21:38.550890",
+  "elapsed_minutes": 6.5,
+  "results": {
+    "NVDA": {
+      "strategy": "ORB",
+      "params": {
+        "or_minutes": 60,
+        "atr_mult_entry": 0.0,
+        "atr_mult_stop": 1.0,
+        "use_trend": false,
+        "trail_mult": 1.0,
+        "tf_min": 5
+      },
+      "train": {
+        "trades": 1555,
+        "win_rate": 66.6,
+        "total_return": 1209.31,
+        "sharpe": 0.617,
+        "profit_factor": 9.53,
+        "max_dd": -5.76,
+        "expectancy": 0.7777
+      },
+      "test": {
+        "trades": 1102,
+        "win_rate": 69.1,
+        "total_return": 645.69,
+        "sharpe": 0.626,
+        "profit_factor": 10.97,
+        "max_dd": -3.15,
+        "expectancy": 0.5859
+      },
+      "prop_pass": true
+    },
+    "AMD": {
+      "strategy": "ORB",
+      "params": {
+        "or_minutes": 60,
+        "atr_mult_entry": 0.0,
+        "atr_mult_stop": 1.5,
+        "use_trend": false,
+        "trail_mult": 1.0,
+        "tf_min": 5
+      },
+      "train": {
+        "trades": 1548,
+        "win_rate": 66.2,
+        "total_return": 1121.89,
+        "sharpe": 0.621,
+        "profit_factor": 7.79,
+        "max_dd": -6.79,
+        "expectancy": 0.7247
+      },
+      "test": {
+        "trades": 1091,
+        "win_rate": 73.2,
+        "total_return": 878.43,
+        "sharpe": 0.667,
+        "profit_factor": 13.98,
+        "max_dd": -4.92,
+        "expectancy": 0.8052
+      },
+      "prop_pass": true
+    },
+    "PLTR": {
+      "strategy": "ORB",
+      "params": {
+        "or_minutes": 60,
+        "atr_mult_entry": 0.0,
+        "atr_mult_stop": 3.0,
+        "use_trend": false,
+        "trail_mult": 1.0,
+        "tf_min": 5
+      },
+      "train": {
+        "trades": 1558,
+        "win_rate": 69.3,
+        "total_return": 1862.24,
+        "sharpe": 0.475,
+        "profit_factor": 11.34,
+        "max_dd": -8.15,
+        "expectancy": 1.1953
+      },
+      "test": {
+        "trades": 1180,
+        "win_rate": 70.3,
+        "total_return": 1306.67,
+        "sharpe": 0.578,
+        "profit_factor": 12.93,
+        "max_dd": -5.19,
+        "expectancy": 1.1073
+      },
+      "prop_pass": true
+    },
+    "ARM": {
+      "strategy": null,
+      "params": null,
+      "train": null,
+      "test": null,
+      "prop_pass": false
+    },
+    "MRVL": {
+      "strategy": "ORB",
+      "params": {
+        "or_minutes": 5,
+        "atr_mult_entry": 0.0,
+        "atr_mult_stop": 0.5,
+        "use_trend": false,
+        "trail_mult": 1.0,
+        "tf_min": 5
+      },
+      "train": {
+        "trades": 1649,
+        "win_rate": 69.5,
+        "total_return": 1462.37,
+        "sharpe": 0.661,
+        "profit_factor": 11.9,
+        "max_dd": -3.12,
+        "expectancy": 0.8868
+      },
+      "test": {
+        "trades": 1133,
+        "win_rate": 65.8,
+        "total_return": 582.94,
+        "sharpe": 0.599,
+        "profit_factor": 8.89,
+        "max_dd": -3.14,
+        "expectancy": 0.5145
+      },
+      "prop_pass": true
+    },
+    "XAUUSD": {
+      "strategy": null,
+      "params": {
+        "z_entry": 1.8,
+        "z_exit": 0.0,
+        "atr_mult": 1.0,
+        "max_hold": 8,
+        "session_filter": "london",
+        "dow_filter": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "train": {
+        "trades": 204,
+        "win_rate": 37.3,
+        "total_return": 2.89,
+        "sharpe": 0.044,
+        "profit_factor": 1.14,
+        "max_dd": -4.09,
+        "expectancy": 0.0142
+      },
+      "test": {
+        "trades": 220,
+        "win_rate": 42.3,
+        "total_return": 11.58,
+        "sharpe": 0.163,
+        "profit_factor": 1.53,
+        "max_dd": -3.91,
+        "expectancy": 0.0526
+      },
+      "prop_pass": false
+    }
+  },
+  "prop_passers": [
+    "NVDA",
+    "AMD",
+    "PLTR",
+    "MRVL"
+  ],
+  "portfolio": {
+    "symbols": [
+      "NVDA",
+      "AMD",
+      "PLTR",
+      "MRVL",
+      "XAUUSD"
+    ],
+    "total_trades": 4726,
+    "weighted_wr": 68.3,
+    "total_return": 3425.31,
+    "avg_sharpe": 0.527
+  }
+}
