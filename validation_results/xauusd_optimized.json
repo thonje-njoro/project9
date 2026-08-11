@@ -1,0 +1,56 @@
+{
+  "symbol": "XAUUSD",
+  "strategy": "Donchian Breakout",
+  "params": {
+    "lookback": 50,
+    "rr_target": 3.0
+  },
+  "full_backtest": {
+    "trades": 56,
+    "wr": 50.0,
+    "pf": 2.298,
+    "sharpe": 5.867,
+    "max_dd": 7.82,
+    "ret": 57.22,
+    "avg_rr": 2.3
+  },
+  "walk_forward": {
+    "windows": [
+      {
+        "trades": 14,
+        "wr": 35.71,
+        "pf": 1.256,
+        "sharpe": 1.627,
+        "max_dd": 6.53,
+        "ret": 3.31,
+        "avg_rr": 2.26
+      },
+      {
+        "trades": 18,
+        "wr": 38.89,
+        "pf": 1.391,
+        "sharpe": 2.352,
+        "max_dd": 6.77,
+        "ret": 5.9,
+        "avg_rr": 2.19
+      },
+      {
+        "trades": 20,
+        "wr": 65.0,
+        "pf": 3.33,
+        "sharpe": 8.989,
+        "max_dd": 6.03,
+        "ret": 35.63,
+        "avg_rr": 1.79
+      }
+    ],
+    "passed": 1
+  },
+  "monte_carlo": {
+    "p_dd20": 98.7,
+    "p_dd30": 100.0,
+    "p_profit": 99.7
+  },
+  "correlation_xcu": NaN,
+  "all_pass": false
+}
