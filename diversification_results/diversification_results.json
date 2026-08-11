@@ -1,0 +1,64 @@
+[
+  {
+    "symbol": "XCUUSD",
+    "class": "commodity",
+    "strategy": "VWAP",
+    "wr": 76.0,
+    "pf": 2.311,
+    "sharpe": 5.207,
+    "max_dd": 14.8,
+    "p_dd20": 71.0
+  },
+  {
+    "symbol": "EURUSD",
+    "class": "forex",
+    "strategy": "rsi",
+    "wr": 100.0,
+    "pf": 999.0,
+    "sharpe": 18.51,
+    "max_dd": 0.0,
+    "p_dd20": 100.0,
+    "test_sharpe": 12.691,
+    "test_pf": 40.759,
+    "test_wr": 82.35
+  },
+  {
+    "symbol": "AUDUSD",
+    "class": "forex",
+    "strategy": "rsi",
+    "wr": 92.98,
+    "pf": 211.04,
+    "sharpe": 15.788,
+    "max_dd": 0.08,
+    "p_dd20": 100.0,
+    "test_sharpe": 12.773,
+    "test_pf": 111.406,
+    "test_wr": 87.88
+  },
+  {
+    "symbol": "CL",
+    "class": "commodity",
+    "strategy": "rsi",
+    "wr": 98.41,
+    "pf": 1072.006,
+    "sharpe": 17.56,
+    "max_dd": 0.04,
+    "p_dd20": 100.0,
+    "test_sharpe": 11.81,
+    "test_pf": 200.359,
+    "test_wr": 92.11
+  },
+  {
+    "symbol": "NATGAS",
+    "class": "commodity",
+    "strategy": "rsi",
+    "wr": 98.11,
+    "pf": 4988.202,
+    "sharpe": 19.442,
+    "max_dd": 0.03,
+    "p_dd20": 100.0,
+    "test_sharpe": 25.622,
+    "test_pf": 999.0,
+    "test_wr": 100.0
+  }
+]
