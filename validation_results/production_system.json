@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-08-11T15:43:15.879907",
+  "config": {
+    "initial_capital": 10000,
+    "risk_per_trade": 0.01,
+    "max_daily_loss": 0.03,
+    "max_drawdown": 0.15,
+    "max_consecutive_losses": 2,
+    "commission": 0.0005,
+    "slippage": 0.0005
+  },
+  "xcu_params": {
+    "lookback": 50,
+    "entry_mult": 2.0,
+    "stop_atr_mult": 2.0
+  },
+  "xauusd_params": {
+    "lookback": 50,
+    "rr_target": 3.0,
+    "stop_atr_mult": 2.0
+  },
+  "trades": 122,
+  "capital": 21737.115917928324,
+  "status": {
+    "capital": 21737.115917928324,
+    "peak_capital": 22498.789174956437,
+    "drawdown": 0.0338539665892748,
+    "daily_pnl": 0,
+    "consecutive_losses": 0,
+    "trading_enabled": true
+  }
+}
