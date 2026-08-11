@@ -1,5 +1,6 @@
 {
-  "p1": {
+  "timestamp": "2026-08-11T08:10:08.465738",
+  "phase1": {
     "XCU_VWAP": {
       "trades": 25,
       "wr": 76.0,
@@ -9,6 +10,26 @@
       "ret": 42.52,
       "lb": 50,
       "em": 2.0
+    },
+    "XPT_BB": {
+      "trades": 31,
+      "wr": 70.97,
+      "pf": 1.659,
+      "sharpe": 2.884,
+      "max_dd": 50.38,
+      "ret": 45.41,
+      "period": 50,
+      "std": 2.0
+    },
+    "XCU_BB": {
+      "trades": 26,
+      "wr": 69.23,
+      "pf": 2.416,
+      "sharpe": 5.755,
+      "max_dd": 12.4,
+      "ret": 51.34,
+      "period": 50,
+      "std": 2.5
     },
     "MOM_NVDA": {
       "trades": 208,
@@ -86,28 +107,66 @@
       "fast": 9,
       "slow": 21
     },
-    "BB_XCUUSD": {
-      "trades": 26,
-      "wr": 69.23,
-      "pf": 2.416,
-      "sharpe": 5.755,
-      "max_dd": 12.4,
-      "ret": 51.34,
-      "period": 50,
-      "std": 2.5
+    "VWAP_MR_NVDA": {
+      "trades": 650,
+      "wr": 70.92,
+      "pf": 1.004,
+      "sharpe": 0.013,
+      "max_dd": 47.48,
+      "ret": 1.57,
+      "lb": 100,
+      "z": 1.5
     },
-    "BB_XPTUSD": {
-      "trades": 31,
-      "wr": 70.97,
-      "pf": 1.659,
-      "sharpe": 2.884,
-      "max_dd": 50.38,
-      "ret": 45.41,
-      "period": 50,
-      "std": 2.0
+    "VWAP_MR_AMD": {
+      "trades": 393,
+      "wr": 67.68,
+      "pf": 1.046,
+      "sharpe": 0.235,
+      "max_dd": 26.44,
+      "ret": 13.88,
+      "lb": 100,
+      "z": 2.5
+    },
+    "VWAP_MR_PLTR": {
+      "trades": 534,
+      "wr": 69.85,
+      "pf": 1.297,
+      "sharpe": 1.134,
+      "max_dd": 53.82,
+      "ret": 94.8,
+      "lb": 50,
+      "z": 3.0
+    },
+    "VWAP_MR_MRVL": {
+      "trades": 488,
+      "wr": 75.2,
+      "pf": 1.926,
+      "sharpe": 3.277,
+      "max_dd": 12.85,
+      "ret": 226.12,
+      "lb": 50,
+      "z": 3.0
+    },
+    "MOM_XAUUSD": {
+      "trades": 1539,
+      "wr": 52.63,
+      "pf": 1.151,
+      "sharpe": 0.747,
+      "max_dd": 27.86,
+      "ret": 76.81,
+      "lb": 200
+    },
+    "MOM_XAGUSD": {
+      "trades": 1305,
+      "wr": 53.03,
+      "pf": 1.114,
+      "sharpe": 0.573,
+      "max_dd": 42.04,
+      "ret": 115.17,
+      "lb": 100
     }
   },
-  "p2": {
+  "phase2": {
     "XCU_VWAP": {
       "passed": 0,
       "total": 3
@@ -127,25 +186,46 @@
     "MOM_MRVL": {
       "passed": 2,
       "total": 3
+    },
+    "BB_XCUUSD": {
+      "passed": 0,
+      "total": 3
+    },
+    "BB_XPTUSD": {
+      "passed": 1,
+      "total": 3
     }
   },
-  "p3": {
+  "phase3": {
     "XCU_VWAP": {
-      "wr_p50": 76.0,
+      "wr_median": 76.0,
       "wr_p5": 60.0,
-      "pf_p50": 2.394,
-      "pf_p5": 0.963,
-      "sharpe_p50": 5.472,
-      "sharpe_p5": -0.234,
-      "dd_p50": 13.64,
+      "pf_median": 2.389,
+      "pf_p5": 0.982,
+      "sharpe_median": 5.494,
+      "sharpe_p5": -0.116,
+      "dd_median": 13.64,
       "dd_p5": 8.24,
-      "ret_p50": 42.99,
-      "p_wr60": 97.69,
-      "p_pf13": 85.3,
-      "p_dd20": 70.88,
-      "p_profit": 94.16
+      "p_wr60": 97.78,
+      "p_pf13": 85.7,
+      "p_dd20": 70.99,
+      "p_profit": 94.57
+    },
+    "XPT_BB": {
+      "wr_median": 70.97,
+      "wr_p5": 58.06,
+      "pf_median": 1.741,
+      "pf_p5": 0.73,
+      "sharpe_median": 3.203,
+      "sharpe_p5": -1.713,
+      "dd_median": 29.76,
+      "dd_p5": 11.22,
+      "p_wr60": 91.23,
+      "p_pf13": 68.92,
+      "p_dd20": 13.04,
+      "p_profit": 84.15
     }
   },
-  "deflated_sharpe": 2.7796741841835475,
+  "deflated_sharpe": 2.631,
   "ready": "True"
 }
