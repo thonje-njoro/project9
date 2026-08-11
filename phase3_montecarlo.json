@@ -1,0 +1,30 @@
+{
+  "XCU_VWAP": {
+    "wr_median": 76.0,
+    "wr_p5": 60.0,
+    "pf_median": 2.389,
+    "pf_p5": 0.982,
+    "sharpe_median": 5.494,
+    "sharpe_p5": -0.116,
+    "dd_median": 13.64,
+    "dd_p5": 8.24,
+    "p_wr60": 97.78,
+    "p_pf13": 85.7,
+    "p_dd20": 70.99,
+    "p_profit": 94.57
+  },
+  "XPT_BB": {
+    "wr_median": 70.97,
+    "wr_p5": 58.06,
+    "pf_median": 1.741,
+    "pf_p5": 0.73,
+    "sharpe_median": 3.203,
+    "sharpe_p5": -1.713,
+    "dd_median": 29.76,
+    "dd_p5": 11.22,
+    "p_wr60": 91.23,
+    "p_pf13": 68.92,
+    "p_dd20": 13.04,
+    "p_profit": 84.15
+  }
+}

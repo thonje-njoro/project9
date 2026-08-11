@@ -1,0 +1,22 @@
+{
+  "XCU_VWAP": {
+    "passed": 0,
+    "total": 3
+  },
+  "MOM_NVDA": {
+    "passed": 1,
+    "total": 3
+  },
+  "MOM_AMD": {
+    "passed": 2,
+    "total": 3
+  },
+  "MOM_PLTR": {
+    "passed": 0,
+    "total": 3
+  },
+  "MOM_MRVL": {
+    "passed": 2,
+    "total": 3
+  }
+}

@@ -1,0 +1,231 @@
+{
+  "timestamp": "2026-08-11T08:10:08.465738",
+  "phase1": {
+    "XCU_VWAP": {
+      "trades": 25,
+      "wr": 76.0,
+      "pf": 2.311,
+      "sharpe": 5.207,
+      "max_dd": 14.8,
+      "ret": 42.52,
+      "lb": 50,
+      "em": 2.0
+    },
+    "XPT_BB": {
+      "trades": 31,
+      "wr": 70.97,
+      "pf": 1.659,
+      "sharpe": 2.884,
+      "max_dd": 50.38,
+      "ret": 45.41,
+      "period": 50,
+      "std": 2.0
+    },
+    "XCU_BB": {
+      "trades": 26,
+      "wr": 69.23,
+      "pf": 2.416,
+      "sharpe": 5.755,
+      "max_dd": 12.4,
+      "ret": 51.34,
+      "period": 50,
+      "std": 2.5
+    },
+    "MOM_NVDA": {
+      "trades": 208,
+      "wr": 51.44,
+      "pf": 1.824,
+      "sharpe": 2.502,
+      "max_dd": 37.77,
+      "ret": 181.31,
+      "lb": 60
+    },
+    "MOM_AMD": {
+      "trades": 248,
+      "wr": 48.79,
+      "pf": 1.274,
+      "sharpe": 1.224,
+      "max_dd": 46.25,
+      "ret": 93.27,
+      "lb": 20
+    },
+    "MOM_PLTR": {
+      "trades": 170,
+      "wr": 54.12,
+      "pf": 1.394,
+      "sharpe": 1.439,
+      "max_dd": 45.87,
+      "ret": 94.7,
+      "lb": 100
+    },
+    "MOM_MRVL": {
+      "trades": 254,
+      "wr": 50.0,
+      "pf": 1.242,
+      "sharpe": 1.2,
+      "max_dd": 34.59,
+      "ret": 70.97,
+      "lb": 100
+    },
+    "EMA_NVDA": {
+      "trades": 69,
+      "wr": 59.42,
+      "pf": 2.291,
+      "sharpe": 4.06,
+      "max_dd": 17.08,
+      "ret": 81.55,
+      "fast": 5,
+      "slow": 200
+    },
+    "EMA_AMD": {
+      "trades": 69,
+      "wr": 55.07,
+      "pf": 1.547,
+      "sharpe": 2.244,
+      "max_dd": 22.67,
+      "ret": 46.99,
+      "fast": 5,
+      "slow": 200
+    },
+    "EMA_PLTR": {
+      "trades": 71,
+      "wr": 52.11,
+      "pf": 1.38,
+      "sharpe": 1.841,
+      "max_dd": 19.04,
+      "ret": 34.73,
+      "fast": 5,
+      "slow": 200
+    },
+    "EMA_MRVL": {
+      "trades": 334,
+      "wr": 48.8,
+      "pf": 1.113,
+      "sharpe": 0.597,
+      "max_dd": 54.89,
+      "ret": 49.58,
+      "fast": 9,
+      "slow": 21
+    },
+    "VWAP_MR_NVDA": {
+      "trades": 650,
+      "wr": 70.92,
+      "pf": 1.004,
+      "sharpe": 0.013,
+      "max_dd": 47.48,
+      "ret": 1.57,
+      "lb": 100,
+      "z": 1.5
+    },
+    "VWAP_MR_AMD": {
+      "trades": 393,
+      "wr": 67.68,
+      "pf": 1.046,
+      "sharpe": 0.235,
+      "max_dd": 26.44,
+      "ret": 13.88,
+      "lb": 100,
+      "z": 2.5
+    },
+    "VWAP_MR_PLTR": {
+      "trades": 534,
+      "wr": 69.85,
+      "pf": 1.297,
+      "sharpe": 1.134,
+      "max_dd": 53.82,
+      "ret": 94.8,
+      "lb": 50,
+      "z": 3.0
+    },
+    "VWAP_MR_MRVL": {
+      "trades": 488,
+      "wr": 75.2,
+      "pf": 1.926,
+      "sharpe": 3.277,
+      "max_dd": 12.85,
+      "ret": 226.12,
+      "lb": 50,
+      "z": 3.0
+    },
+    "MOM_XAUUSD": {
+      "trades": 1539,
+      "wr": 52.63,
+      "pf": 1.151,
+      "sharpe": 0.747,
+      "max_dd": 27.86,
+      "ret": 76.81,
+      "lb": 200
+    },
+    "MOM_XAGUSD": {
+      "trades": 1305,
+      "wr": 53.03,
+      "pf": 1.114,
+      "sharpe": 0.573,
+      "max_dd": 42.04,
+      "ret": 115.17,
+      "lb": 100
+    }
+  },
+  "phase2": {
+    "XCU_VWAP": {
+      "passed": 0,
+      "total": 3
+    },
+    "MOM_NVDA": {
+      "passed": 1,
+      "total": 3
+    },
+    "MOM_AMD": {
+      "passed": 2,
+      "total": 3
+    },
+    "MOM_PLTR": {
+      "passed": 0,
+      "total": 3
+    },
+    "MOM_MRVL": {
+      "passed": 2,
+      "total": 3
+    },
+    "BB_XCUUSD": {
+      "passed": 0,
+      "total": 3
+    },
+    "BB_XPTUSD": {
+      "passed": 1,
+      "total": 3
+    }
+  },
+  "phase3": {
+    "XCU_VWAP": {
+      "wr_median": 76.0,
+      "wr_p5": 60.0,
+      "pf_median": 2.389,
+      "pf_p5": 0.982,
+      "sharpe_median": 5.494,
+      "sharpe_p5": -0.116,
+      "dd_median": 13.64,
+      "dd_p5": 8.24,
+      "p_wr60": 97.78,
+      "p_pf13": 85.7,
+      "p_dd20": 70.99,
+      "p_profit": 94.57
+    },
+    "XPT_BB": {
+      "wr_median": 70.97,
+      "wr_p5": 58.06,
+      "pf_median": 1.741,
+      "pf_p5": 0.73,
+      "sharpe_median": 3.203,
+      "sharpe_p5": -1.713,
+      "dd_median": 29.76,
+      "dd_p5": 11.22,
+      "p_wr60": 91.23,
+      "p_pf13": 68.92,
+      "p_dd20": 13.04,
+      "p_profit": 84.15
+    }
+  },
+  "deflated_sharpe": 2.631,
+  "ready": "True"
+}
