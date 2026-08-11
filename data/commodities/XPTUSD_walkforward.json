@@ -1,0 +1,191 @@
+{
+  "symbol": "XPT/USD",
+  "type": "walk_forward",
+  "timestamp": "2026-08-10 23:39:12",
+  "windows": 3,
+  "results": [
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "params": {
+        "period": 20,
+        "std_dev": 2.0,
+        "exit_at_mid": true
+      },
+      "window": "Train 2021-2023 / Test 2023-2024",
+      "train_period": "2021-01-01 to 2023-01-01",
+      "test_period": "2023-01-01 to 2024-01-01",
+      "win_rate": 66.67,
+      "profit_factor": 2.077,
+      "sharpe_ratio": 5.356,
+      "max_drawdown": 1.99,
+      "total_trades": 12,
+      "avg_pnl": 1.0602,
+      "total_return": 4.02,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "params": {
+        "period": 20,
+        "std_dev": 2.0,
+        "exit_at_mid": true
+      },
+      "window": "Train 2022-2024 / Test 2024-2025",
+      "train_period": "2022-01-01 to 2024-01-01",
+      "test_period": "2024-01-01 to 2025-01-01",
+      "win_rate": 84.62,
+      "profit_factor": 36.933,
+      "sharpe_ratio": 25.105,
+      "max_drawdown": 1.0,
+      "total_trades": 13,
+      "avg_pnl": 2.2651,
+      "total_return": 9.35,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "params": {
+        "period": 20,
+        "std_dev": 2.0,
+        "exit_at_mid": true
+      },
+      "window": "Train 2023-2025 / Test 2025-2026",
+      "train_period": "2023-01-01 to 2025-01-01",
+      "test_period": "2025-01-01 to 2026-01-01",
+      "win_rate": 72.73,
+      "profit_factor": 0.341,
+      "sharpe_ratio": -4.804,
+      "max_drawdown": 1.0,
+      "total_trades": 11,
+      "avg_pnl": -4.4301,
+      "total_return": 5.07,
+      "meets_criteria": "False"
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "params": {
+        "period": 20,
+        "z_entry": 2.0,
+        "z_exit": 0.0
+      },
+      "window": "Train 2021-2023 / Test 2023-2024",
+      "train_period": "2021-01-01 to 2023-01-01",
+      "test_period": "2023-01-01 to 2024-01-01",
+      "win_rate": 66.67,
+      "profit_factor": 2.077,
+      "sharpe_ratio": 5.356,
+      "max_drawdown": 1.99,
+      "total_trades": 12,
+      "avg_pnl": 1.0602,
+      "total_return": 4.02,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "params": {
+        "period": 20,
+        "z_entry": 2.0,
+        "z_exit": 0.0
+      },
+      "window": "Train 2022-2024 / Test 2024-2025",
+      "train_period": "2022-01-01 to 2024-01-01",
+      "test_period": "2024-01-01 to 2025-01-01",
+      "win_rate": 84.62,
+      "profit_factor": 36.933,
+      "sharpe_ratio": 25.105,
+      "max_drawdown": 1.0,
+      "total_trades": 13,
+      "avg_pnl": 2.2651,
+      "total_return": 9.35,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "params": {
+        "period": 20,
+        "z_entry": 2.0,
+        "z_exit": 0.0
+      },
+      "window": "Train 2023-2025 / Test 2025-2026",
+      "train_period": "2023-01-01 to 2025-01-01",
+      "test_period": "2025-01-01 to 2026-01-01",
+      "win_rate": 72.73,
+      "profit_factor": 0.341,
+      "sharpe_ratio": -4.804,
+      "max_drawdown": 1.0,
+      "total_trades": 11,
+      "avg_pnl": -4.4301,
+      "total_return": 5.07,
+      "meets_criteria": "False"
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "params": {
+        "period": 14,
+        "oversold": 30,
+        "overbought": 70,
+        "exit_mid": 50
+      },
+      "window": "Train 2021-2023 / Test 2023-2024",
+      "train_period": "2021-01-01 to 2023-01-01",
+      "test_period": "2023-01-01 to 2024-01-01",
+      "win_rate": 76.92,
+      "profit_factor": 1.507,
+      "sharpe_ratio": 2.51,
+      "max_drawdown": 1.0,
+      "total_trades": 13,
+      "avg_pnl": 0.8505,
+      "total_return": 7.18,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "params": {
+        "period": 14,
+        "oversold": 30,
+        "overbought": 70,
+        "exit_mid": 50
+      },
+      "window": "Train 2022-2024 / Test 2024-2025",
+      "train_period": "2022-01-01 to 2024-01-01",
+      "test_period": "2024-01-01 to 2025-01-01",
+      "win_rate": 75.0,
+      "profit_factor": 3.268,
+      "sharpe_ratio": 7.761,
+      "max_drawdown": 1.01,
+      "total_trades": 8,
+      "avg_pnl": 1.4764,
+      "total_return": 4.04,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "params": {
+        "period": 14,
+        "oversold": 30,
+        "overbought": 70,
+        "exit_mid": 50
+      },
+      "window": "Train 2023-2025 / Test 2025-2026",
+      "train_period": "2023-01-01 to 2025-01-01",
+      "test_period": "2025-01-01 to 2026-01-01",
+      "win_rate": 70.0,
+      "profit_factor": 0.346,
+      "sharpe_ratio": -4.693,
+      "max_drawdown": 1.99,
+      "total_trades": 10,
+      "avg_pnl": -3.8158,
+      "total_return": 4.03,
+      "meets_criteria": "False"
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "type": "robustness_breaker",
+  "symbol": "XCU/USD",
+  "strategy": "VWAP Reversion",
+  "timestamp": "2026-08-11 00:11:44",
+  "reasons": {
+    "gap_risk": {
+      "max_gap_pct": 3.3,
+      "gaps_gt_2pct": 6,
+      "Normal days": {
+        "wr": 72.7,
+        "pf": 1.57
+      }
+    },
+    "volume_dryup": {
+      "vol_median": 40344.0,
+      "low_vol_days": 174,
+      "low_vol_wr": 70.0,
+      "low_vol_pf": 1.3
+    },
+    "structural_break": {
+      "periods": [
+        {
+          "period": "2021-01 to 2022-01",
+          "wr": 77.8,
+          "pf": 1.96,
+          "sharpe": 4.22,
+          "dd": 1.0,
+          "trades": 27,
+          "meets": true
+        },
+        {
+          "period": "2021-07 to 2022-07",
+          "wr": 80.0,
+          "pf": 1.57,
+          "sharpe": 2.4,
+          "dd": 1.0,
+          "trades": 25,
+          "meets": true
+        },
+        {
+          "period": "2021-12 to 2022-12",
+          "wr": 82.6,
+          "pf": 1.37,
+          "sharpe": 1.64,
+          "dd": 2.0,
+          "trades": 23,
+          "meets": "False"
+        },
+        {
+          "period": "2022-06 to 2023-06",
+          "wr": 83.3,
+          "pf": 2.37,
+          "sharpe": 5.85,
+          "dd": 2.0,
+          "trades": 24,
+          "meets": true
+        },
+        {
+          "period": "2022-12 to 2023-12",
+          "wr": 72.7,
+          "pf": 2.53,
+          "sharpe": 5.97,
+          "dd": 2.0,
+          "trades": 22,
+          "meets": true
+        },
+        {
+          "period": "2023-06 to 2024-06",
+          "wr": 64.7,
+          "pf": 0.81,
+          "sharpe": -1.05,
+          "dd": 3.0,
+          "trades": 17,
+          "meets": false
+        },
+        {
+          "period": "2023-12 to 2024-12",
+          "wr": 56.2,
+          "pf": 0.69,
+          "sharpe": -2.27,
+          "dd": 4.0,
+          "trades": 16,
+          "meets": false
+        },
+        {
+          "period": "2024-06 to 2025-06",
+          "wr": 61.9,
+          "pf": 1.5,
+          "sharpe": 2.75,
+          "dd": 2.0,
+          "trades": 21,
+          "meets": false
+        },
+        {
+          "period": "2024-12 to 2025-12",
+          "wr": 61.9,
+          "pf": 1.89,
+          "sharpe": 4.03,
+          "dd": 2.0,
+          "trades": 21,
+          "meets": false
+        },
+        {
+          "period": "2025-06 to 2026-06",
+          "wr": 66.7,
+          "pf": 2.48,
+          "sharpe": 5.0,
+          "dd": 2.0,
+          "trades": 24,
+          "meets": true
+        },
+        {
+          "period": "2025-12 to 2026-12",
+          "wr": 70.6,
+          "pf": 3.01,
+          "sharpe": 7.87,
+          "dd": 2.0,
+          "trades": 17,
+          "meets": false
+        }
+      ],
+      "pass_rate": 45.5,
+      "losing_periods": 2,
+      "worst_pf": 0.69,
+      "worst_dd": 4.0,
+      "verdict": "MODERATE RISK \u2014 some losing periods exist"
+    },
+    "price_direction": {
+      "bull": {
+        "wr": 71.2,
+        "pf": 1.89,
+        "sharpe": 3.9,
+        "dd": 4.9,
+        "trades": 66,
+        "meets": true
+      },
+      "bear": {
+        "wr": 71.2,
+        "pf": 1.19,
+        "sharpe": 0.94,
+        "dd": 2.0,
+        "trades": 52,
+        "meets": "False"
+      },
+      "verdict": "MODERATE RISK \u2014 only works in one direction"
+    },
+    "slippage": {
+      "breakeven_slippage_pct": 0.05,
+      "verdict": "HIGH RISK \u2014 breaks at very low slippage"
+    },
+    "trade_clustering": {
+      "avg_gap_days": 15.4,
+      "median_gap_days": 13.0,
+      "max_gap_days": 57,
+      "cluster_pct": 11.6,
+      "verdict": "LOW RISK \u2014 well-spaced trades"
+    },
+    "data_quality": {
+      "total_bars": 1741,
+      "large_gaps": 0,
+      "zero_range_candles": 0,
+      "extreme_moves": 13,
+      "max_daily_move_pct": 17.99,
+      "verdict": "LOW RISK \u2014 data quality acceptable"
+    },
+    "parameter_sensitivity": {
+      "total_combos": 50,
+      "passing": 27,
+      "pass_rate": 54.0,
+      "profitable_pct": 90.0,
+      "verdict": "LOW RISK \u2014 robust across parameters"
+    },
+    "stress_scenarios": {
+      "trend_scenario": {
+        "wr": 73.1,
+        "pf": 1.59
+      },
+      "crash_scenario": {
+        "wr": 72.9,
+        "pf": 1.59
+      },
+      "verdict": "LOW RISK \u2014 survives simulated stress scenarios"
+    }
+  },
+  "high_risks": [
+    "slippage"
+  ],
+  "moderate_risks": [
+    "structural_break",
+    "price_direction"
+  ],
+  "low_risks": [
+    "gap_risk",
+    "volume_dryup",
+    "trade_clustering",
+    "data_quality",
+    "parameter_sensitivity",
+    "stress_scenarios"
+  ],
+  "risk_score": 5,
+  "overall": "\ud83d\udfe1 MODERATE OVERALL RISK \u2014 Some vulnerabilities, proceed with caution"
+}

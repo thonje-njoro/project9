@@ -1,0 +1,188 @@
+{
+  "symbol": "XCU/USD",
+  "type": "walk_forward",
+  "timestamp": "2026-08-10 23:39:12",
+  "windows": 3,
+  "results": [
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "params": {
+        "lookback": 20,
+        "entry_mult": 1.0
+      },
+      "window": "Train 2021-2023 / Test 2023-2024",
+      "train_period": "2021-01-01 to 2023-01-01",
+      "test_period": "2023-01-01 to 2024-01-01",
+      "win_rate": 72.73,
+      "profit_factor": 2.559,
+      "sharpe_ratio": 6.019,
+      "max_drawdown": 1.99,
+      "total_trades": 22,
+      "avg_pnl": 0.8919,
+      "total_return": 10.4,
+      "meets_criteria": true
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "params": {
+        "lookback": 20,
+        "entry_mult": 1.0
+      },
+      "window": "Train 2022-2024 / Test 2024-2025",
+      "train_period": "2022-01-01 to 2024-01-01",
+      "test_period": "2024-01-01 to 2025-01-01",
+      "win_rate": 52.94,
+      "profit_factor": 0.659,
+      "sharpe_ratio": -2.513,
+      "max_drawdown": 3.96,
+      "total_trades": 17,
+      "avg_pnl": -0.6709,
+      "total_return": 0.92,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "params": {
+        "lookback": 20,
+        "entry_mult": 1.0
+      },
+      "window": "Train 2023-2025 / Test 2025-2026",
+      "train_period": "2023-01-01 to 2025-01-01",
+      "test_period": "2025-01-01 to 2026-01-01",
+      "win_rate": 65.0,
+      "profit_factor": 1.518,
+      "sharpe_ratio": 2.445,
+      "max_drawdown": 2.0,
+      "total_trades": 20,
+      "avg_pnl": 0.5576,
+      "total_return": 6.08,
+      "meets_criteria": true
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "params": {
+        "period": 14,
+        "oversold": 30,
+        "overbought": 70,
+        "exit_mid": 50
+      },
+      "window": "Train 2021-2023 / Test 2023-2024",
+      "train_period": "2021-01-01 to 2023-01-01",
+      "test_period": "2023-01-01 to 2024-01-01",
+      "win_rate": 72.73,
+      "profit_factor": 3.473,
+      "sharpe_ratio": 8.148,
+      "max_drawdown": 1.01,
+      "total_trades": 11,
+      "avg_pnl": 1.2244,
+      "total_return": 5.07,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "params": {
+        "period": 14,
+        "oversold": 30,
+        "overbought": 70,
+        "exit_mid": 50
+      },
+      "window": "Train 2022-2024 / Test 2024-2025",
+      "train_period": "2022-01-01 to 2024-01-01",
+      "test_period": "2024-01-01 to 2025-01-01",
+      "win_rate": 46.67,
+      "profit_factor": 0.958,
+      "sharpe_ratio": -0.241,
+      "max_drawdown": 3.98,
+      "total_trades": 15,
+      "avg_pnl": -0.0669,
+      "total_return": -1.07,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "params": {
+        "period": 14,
+        "oversold": 30,
+        "overbought": 70,
+        "exit_mid": 50
+      },
+      "window": "Train 2023-2025 / Test 2025-2026",
+      "train_period": "2023-01-01 to 2025-01-01",
+      "test_period": "2025-01-01 to 2026-01-01",
+      "win_rate": 66.67,
+      "profit_factor": 2.063,
+      "sharpe_ratio": 4.858,
+      "max_drawdown": 2.97,
+      "total_trades": 9,
+      "avg_pnl": 1.745,
+      "total_return": 3.0,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "params": {
+        "period": 20,
+        "std_dev": 2.0,
+        "exit_at_mid": true
+      },
+      "window": "Train 2021-2023 / Test 2023-2024",
+      "train_period": "2021-01-01 to 2023-01-01",
+      "test_period": "2023-01-01 to 2024-01-01",
+      "win_rate": 85.71,
+      "profit_factor": 3.09,
+      "sharpe_ratio": 8.231,
+      "max_drawdown": 1.0,
+      "total_trades": 7,
+      "avg_pnl": 1.2163,
+      "total_return": 5.09,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "params": {
+        "period": 20,
+        "std_dev": 2.0,
+        "exit_at_mid": true
+      },
+      "window": "Train 2022-2024 / Test 2024-2025",
+      "train_period": "2022-01-01 to 2024-01-01",
+      "test_period": "2024-01-01 to 2025-01-01",
+      "win_rate": 60.0,
+      "profit_factor": 0.906,
+      "sharpe_ratio": -0.593,
+      "max_drawdown": 1.02,
+      "total_trades": 10,
+      "avg_pnl": -0.2415,
+      "total_return": 1.97,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "params": {
+        "period": 20,
+        "std_dev": 2.0,
+        "exit_at_mid": true
+      },
+      "window": "Train 2023-2025 / Test 2025-2026",
+      "train_period": "2023-01-01 to 2025-01-01",
+      "test_period": "2025-01-01 to 2026-01-01",
+      "win_rate": 50.0,
+      "profit_factor": 1.207,
+      "sharpe_ratio": 1.153,
+      "max_drawdown": 1.99,
+      "total_trades": 10,
+      "avg_pnl": 0.3761,
+      "total_return": -0.05,
+      "meets_criteria": false
+    }
+  ]
+}

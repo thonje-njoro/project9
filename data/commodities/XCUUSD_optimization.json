@@ -1,0 +1,1406 @@
+{
+  "symbol": "XCU/USD",
+  "type": "optimization",
+  "timestamp": "2026-08-10 23:40:18",
+  "total_combos_tested": 50,
+  "passing": 24,
+  "results": [
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 35,
+        "overbought": 80,
+        "exit_mid": 50
+      },
+      "win_rate": 69.09,
+      "profit_factor": 2.364,
+      "sharpe_ratio": 5.286,
+      "max_drawdown": 2.99,
+      "total_trades": 55,
+      "avg_pnl": 1.4328,
+      "total_return": 23.03,
+      "meets_criteria": true,
+      "score": 1.3689
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 35,
+        "overbought": 80,
+        "exit_mid": 55
+      },
+      "win_rate": 63.46,
+      "profit_factor": 2.215,
+      "sharpe_ratio": 5.111,
+      "max_drawdown": 3.98,
+      "total_trades": 52,
+      "avg_pnl": 1.4621,
+      "total_return": 14.73,
+      "meets_criteria": false,
+      "score": 1.336
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 35,
+        "overbought": 80,
+        "exit_mid": 45
+      },
+      "win_rate": 71.19,
+      "profit_factor": 1.984,
+      "sharpe_ratio": 4.228,
+      "max_drawdown": 2.99,
+      "total_trades": 59,
+      "avg_pnl": 1.0737,
+      "total_return": 28.03,
+      "meets_criteria": true,
+      "score": 1.3254
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 21,
+        "oversold": 35,
+        "overbought": 65,
+        "exit_mid": 50
+      },
+      "win_rate": 71.15,
+      "profit_factor": 1.946,
+      "sharpe_ratio": 3.943,
+      "max_drawdown": 2.98,
+      "total_trades": 52,
+      "avg_pnl": 1.4162,
+      "total_return": 24.29,
+      "meets_criteria": true,
+      "score": 1.3175
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 21,
+        "oversold": 30,
+        "overbought": 65,
+        "exit_mid": 55
+      },
+      "win_rate": 74.0,
+      "profit_factor": 1.837,
+      "sharpe_ratio": 3.331,
+      "max_drawdown": 2.01,
+      "total_trades": 50,
+      "avg_pnl": 1.2429,
+      "total_return": 26.81,
+      "meets_criteria": true,
+      "score": 1.3089
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 35,
+        "overbought": 75,
+        "exit_mid": 55
+      },
+      "win_rate": 65.08,
+      "profit_factor": 2.028,
+      "sharpe_ratio": 4.555,
+      "max_drawdown": 3.94,
+      "total_trades": 63,
+      "avg_pnl": 1.1986,
+      "total_return": 20.55,
+      "meets_criteria": true,
+      "score": 1.3059
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 21,
+        "oversold": 35,
+        "overbought": 65,
+        "exit_mid": 55
+      },
+      "win_rate": 73.21,
+      "profit_factor": 1.832,
+      "sharpe_ratio": 3.418,
+      "max_drawdown": 2.0,
+      "total_trades": 56,
+      "avg_pnl": 1.2716,
+      "total_return": 29.33,
+      "meets_criteria": true,
+      "score": 1.3044
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 35,
+        "overbought": 75,
+        "exit_mid": 50
+      },
+      "win_rate": 67.69,
+      "profit_factor": 1.914,
+      "sharpe_ratio": 3.996,
+      "max_drawdown": 2.98,
+      "total_trades": 65,
+      "avg_pnl": 1.0428,
+      "total_return": 25.45,
+      "meets_criteria": true,
+      "score": 1.2952
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 35,
+        "overbought": 65,
+        "exit_mid": 50
+      },
+      "win_rate": 71.26,
+      "profit_factor": 1.822,
+      "sharpe_ratio": 3.67,
+      "max_drawdown": 2.97,
+      "total_trades": 87,
+      "avg_pnl": 0.9747,
+      "total_return": 44.15,
+      "meets_criteria": true,
+      "score": 1.2932
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 21,
+        "oversold": 35,
+        "overbought": 65,
+        "exit_mid": 45
+      },
+      "win_rate": 74.0,
+      "profit_factor": 1.742,
+      "sharpe_ratio": 3.391,
+      "max_drawdown": 2.01,
+      "total_trades": 50,
+      "avg_pnl": 1.2389,
+      "total_return": 26.81,
+      "meets_criteria": true,
+      "score": 1.29
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 30,
+        "entry_mult": 1.25
+      },
+      "win_rate": 73.17,
+      "profit_factor": 1.694,
+      "sharpe_ratio": 3.153,
+      "max_drawdown": 2.0,
+      "total_trades": 82,
+      "avg_pnl": 0.9409,
+      "total_return": 45.63,
+      "meets_criteria": true,
+      "score": 1.2764
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 40,
+        "entry_mult": 0.5
+      },
+      "win_rate": 77.08,
+      "profit_factor": 1.598,
+      "sharpe_ratio": 2.608,
+      "max_drawdown": 1.99,
+      "total_trades": 96,
+      "avg_pnl": 0.6969,
+      "total_return": 67.4,
+      "meets_criteria": true,
+      "score": 1.2754
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 30,
+        "entry_mult": 0.75
+      },
+      "win_rate": 76.47,
+      "profit_factor": 1.605,
+      "sharpe_ratio": 2.632,
+      "max_drawdown": 2.0,
+      "total_trades": 102,
+      "avg_pnl": 0.6971,
+      "total_return": 70.73,
+      "meets_criteria": true,
+      "score": 1.274
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 30,
+        "entry_mult": 0.5
+      },
+      "win_rate": 77.42,
+      "profit_factor": 1.544,
+      "sharpe_ratio": 2.367,
+      "max_drawdown": 2.97,
+      "total_trades": 124,
+      "avg_pnl": 0.6086,
+      "total_return": 96.17,
+      "meets_criteria": true,
+      "score": 1.2661
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 30,
+        "entry_mult": 1.5
+      },
+      "win_rate": 73.91,
+      "profit_factor": 1.613,
+      "sharpe_ratio": 2.926,
+      "max_drawdown": 2.0,
+      "total_trades": 69,
+      "avg_pnl": 0.9095,
+      "total_return": 38.62,
+      "meets_criteria": true,
+      "score": 1.2638
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 20,
+        "entry_mult": 1.0
+      },
+      "win_rate": 73.08,
+      "profit_factor": 1.589,
+      "sharpe_ratio": 2.674,
+      "max_drawdown": 3.96,
+      "total_trades": 130,
+      "avg_pnl": 0.663,
+      "total_return": 81.03,
+      "meets_criteria": true,
+      "score": 1.2551
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 20,
+        "entry_mult": 1.25
+      },
+      "win_rate": 71.79,
+      "profit_factor": 1.614,
+      "sharpe_ratio": 2.79,
+      "max_drawdown": 3.96,
+      "total_trades": 117,
+      "avg_pnl": 0.7199,
+      "total_return": 65.56,
+      "meets_criteria": true,
+      "score": 1.2541
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 40,
+        "entry_mult": 1.25
+      },
+      "win_rate": 68.97,
+      "profit_factor": 1.662,
+      "sharpe_ratio": 2.983,
+      "max_drawdown": 2.99,
+      "total_trades": 58,
+      "avg_pnl": 0.9092,
+      "total_return": 24.25,
+      "meets_criteria": true,
+      "score": 1.2506
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 30,
+        "entry_mult": 1.0
+      },
+      "win_rate": 73.86,
+      "profit_factor": 1.533,
+      "sharpe_ratio": 2.456,
+      "max_drawdown": 2.01,
+      "total_trades": 88,
+      "avg_pnl": 0.7219,
+      "total_return": 51.53,
+      "meets_criteria": true,
+      "score": 1.2475
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 40,
+        "entry_mult": 1.5
+      },
+      "win_rate": 66.67,
+      "profit_factor": 1.665,
+      "sharpe_ratio": 3.069,
+      "max_drawdown": 2.99,
+      "total_trades": 54,
+      "avg_pnl": 0.9614,
+      "total_return": 19.4,
+      "meets_criteria": true,
+      "score": 1.2407
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "std_dev": 2.25,
+        "exit_at_mid": true
+      },
+      "win_rate": 71.43,
+      "profit_factor": 1.682,
+      "sharpe_ratio": 3.105,
+      "max_drawdown": 2.97,
+      "total_trades": 49,
+      "avg_pnl": 0.934,
+      "total_return": 23.07,
+      "meets_criteria": true,
+      "score": 1.2407
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 1.5,
+        "exit_at_mid": true
+      },
+      "win_rate": 70.51,
+      "profit_factor": 1.567,
+      "sharpe_ratio": 2.728,
+      "max_drawdown": 2.97,
+      "total_trades": 78,
+      "avg_pnl": 0.7802,
+      "total_return": 37.18,
+      "meets_criteria": true,
+      "score": 1.2389
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "std_dev": 1.5,
+        "exit_at_mid": true
+      },
+      "win_rate": 70.53,
+      "profit_factor": 1.511,
+      "sharpe_ratio": 2.294,
+      "max_drawdown": 2.98,
+      "total_trades": 95,
+      "avg_pnl": 0.6631,
+      "total_return": 47.0,
+      "meets_criteria": true,
+      "score": 1.2278
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 1.75,
+        "exit_at_mid": true
+      },
+      "win_rate": 68.12,
+      "profit_factor": 1.562,
+      "sharpe_ratio": 2.781,
+      "max_drawdown": 2.98,
+      "total_trades": 69,
+      "avg_pnl": 0.8293,
+      "total_return": 27.96,
+      "meets_criteria": true,
+      "score": 1.2268
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 30,
+        "std_dev": 1.5,
+        "exit_at_mid": true
+      },
+      "win_rate": 71.88,
+      "profit_factor": 1.471,
+      "sharpe_ratio": 2.333,
+      "max_drawdown": 2.97,
+      "total_trades": 64,
+      "avg_pnl": 0.7423,
+      "total_return": 31.89,
+      "meets_criteria": "False",
+      "score": 1.226
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 30,
+        "std_dev": 2.0,
+        "exit_at_mid": true
+      },
+      "win_rate": 67.31,
+      "profit_factor": 1.514,
+      "sharpe_ratio": 2.719,
+      "max_drawdown": 2.97,
+      "total_trades": 52,
+      "avg_pnl": 0.8699,
+      "total_return": 19.41,
+      "meets_criteria": true,
+      "score": 1.2134
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "std_dev": 1.75,
+        "exit_at_mid": true
+      },
+      "win_rate": 70.0,
+      "profit_factor": 1.447,
+      "sharpe_ratio": 2.094,
+      "max_drawdown": 2.97,
+      "total_trades": 80,
+      "avg_pnl": 0.6369,
+      "total_return": 37.16,
+      "meets_criteria": "False",
+      "score": 1.2126
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "std_dev": 1.5,
+        "exit_at_mid": false
+      },
+      "win_rate": 64.71,
+      "profit_factor": 1.56,
+      "sharpe_ratio": 2.81,
+      "max_drawdown": 2.02,
+      "total_trades": 68,
+      "avg_pnl": 0.8813,
+      "total_return": 21.73,
+      "meets_criteria": false,
+      "score": 1.2106
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 30,
+        "std_dev": 1.75,
+        "exit_at_mid": true
+      },
+      "win_rate": 67.86,
+      "profit_factor": 1.394,
+      "sharpe_ratio": 2.098,
+      "max_drawdown": 2.97,
+      "total_trades": 56,
+      "avg_pnl": 0.6813,
+      "total_return": 21.8,
+      "meets_criteria": "False",
+      "score": 1.192
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "std_dev": 1.75,
+        "exit_at_mid": false
+      },
+      "win_rate": 67.31,
+      "profit_factor": 1.406,
+      "sharpe_ratio": 1.991,
+      "max_drawdown": 3.0,
+      "total_trades": 52,
+      "avg_pnl": 0.8188,
+      "total_return": 19.41,
+      "meets_criteria": "False",
+      "score": 1.1919
+    },
+    {
+      "strategy": "Donchian Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "entry_period": 30,
+        "exit_period": 5
+      },
+      "win_rate": 36.0,
+      "profit_factor": 0.676,
+      "sharpe_ratio": -2.336,
+      "max_drawdown": 14.99,
+      "total_trades": 50,
+      "avg_pnl": -0.6932,
+      "total_return": -13.28,
+      "meets_criteria": false,
+      "score": 0.5015
+    },
+    {
+      "strategy": "Donchian Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "entry_period": 40,
+        "exit_period": 5
+      },
+      "win_rate": 38.1,
+      "profit_factor": 0.6,
+      "sharpe_ratio": -2.928,
+      "max_drawdown": 11.49,
+      "total_trades": 42,
+      "avg_pnl": -0.8729,
+      "total_return": -9.71,
+      "meets_criteria": false,
+      "score": 0.4678
+    },
+    {
+      "strategy": "Donchian Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "entry_period": 20,
+        "exit_period": 20
+      },
+      "win_rate": 38.46,
+      "profit_factor": 0.778,
+      "sharpe_ratio": -1.549,
+      "max_drawdown": 11.45,
+      "total_trades": 39,
+      "avg_pnl": -0.7438,
+      "total_return": -8.79,
+      "meets_criteria": false,
+      "score": 0.4642
+    },
+    {
+      "strategy": "Donchian Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "entry_period": 20,
+        "exit_period": 5
+      },
+      "win_rate": 33.33,
+      "profit_factor": 0.706,
+      "sharpe_ratio": -1.984,
+      "max_drawdown": 23.1,
+      "total_trades": 63,
+      "avg_pnl": -0.5872,
+      "total_return": -19.2,
+      "meets_criteria": false,
+      "score": 0.4248
+    },
+    {
+      "strategy": "Donchian Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "entry_period": 20,
+        "exit_period": 10
+      },
+      "win_rate": 30.19,
+      "profit_factor": 0.723,
+      "sharpe_ratio": -1.988,
+      "max_drawdown": 22.29,
+      "total_trades": 53,
+      "avg_pnl": -0.6581,
+      "total_return": -19.16,
+      "meets_criteria": false,
+      "score": 0.4185
+    },
+    {
+      "strategy": "Donchian Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "entry_period": 30,
+        "exit_period": 20
+      },
+      "win_rate": 36.36,
+      "profit_factor": 0.724,
+      "sharpe_ratio": -1.918,
+      "max_drawdown": 9.66,
+      "total_trades": 33,
+      "avg_pnl": -0.9161,
+      "total_return": -8.76,
+      "meets_criteria": false,
+      "score": 0.4044
+    },
+    {
+      "strategy": "Donchian Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "entry_period": 15,
+        "exit_period": 5
+      },
+      "win_rate": 32.47,
+      "profit_factor": 0.681,
+      "sharpe_ratio": -2.304,
+      "max_drawdown": 25.45,
+      "total_trades": 77,
+      "avg_pnl": -0.679,
+      "total_return": -23.96,
+      "meets_criteria": false,
+      "score": 0.4039
+    },
+    {
+      "strategy": "Donchian Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "entry_period": 15,
+        "exit_period": 10
+      },
+      "win_rate": 30.3,
+      "profit_factor": 0.646,
+      "sharpe_ratio": -2.672,
+      "max_drawdown": 26.1,
+      "total_trades": 66,
+      "avg_pnl": -0.8608,
+      "total_return": -23.15,
+      "meets_criteria": false,
+      "score": 0.3839
+    },
+    {
+      "strategy": "Donchian Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "entry_period": 30,
+        "exit_period": 10
+      },
+      "win_rate": 30.23,
+      "profit_factor": 0.674,
+      "sharpe_ratio": -2.462,
+      "max_drawdown": 17.47,
+      "total_trades": 43,
+      "avg_pnl": -0.8378,
+      "total_return": -15.82,
+      "meets_criteria": false,
+      "score": 0.3835
+    },
+    {
+      "strategy": "Donchian Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "entry_period": 10,
+        "exit_period": 10
+      },
+      "win_rate": 29.27,
+      "profit_factor": 0.624,
+      "sharpe_ratio": -2.927,
+      "max_drawdown": 31.83,
+      "total_trades": 82,
+      "avg_pnl": -0.9559,
+      "total_return": -29.12,
+      "meets_criteria": false,
+      "score": 0.3542
+    },
+    {
+      "strategy": "EMA Crossover",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 8,
+        "slow": 26,
+        "trend_period": 100
+      },
+      "win_rate": 21.15,
+      "profit_factor": 0.534,
+      "sharpe_ratio": -3.855,
+      "max_drawdown": 27.57,
+      "total_trades": 52,
+      "avg_pnl": -1.4177,
+      "total_return": -26.11,
+      "meets_criteria": false,
+      "score": 0.3132
+    },
+    {
+      "strategy": "EMA Crossover",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 16,
+        "slow": 50,
+        "trend_period": 100
+      },
+      "win_rate": 28.95,
+      "profit_factor": 0.463,
+      "sharpe_ratio": -4.622,
+      "max_drawdown": 16.62,
+      "total_trades": 38,
+      "avg_pnl": -2.0073,
+      "total_return": -14.95,
+      "meets_criteria": false,
+      "score": 0.3091
+    },
+    {
+      "strategy": "EMA Crossover",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 8,
+        "slow": 50,
+        "trend_period": 100
+      },
+      "win_rate": 25.0,
+      "profit_factor": 0.349,
+      "sharpe_ratio": -6.481,
+      "max_drawdown": 22.3,
+      "total_trades": 48,
+      "avg_pnl": -2.089,
+      "total_return": -21.53,
+      "meets_criteria": false,
+      "score": 0.3068
+    },
+    {
+      "strategy": "EMA Crossover",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 8,
+        "slow": 26,
+        "trend_period": 150
+      },
+      "win_rate": 20.41,
+      "profit_factor": 0.525,
+      "sharpe_ratio": -3.881,
+      "max_drawdown": 26.83,
+      "total_trades": 49,
+      "avg_pnl": -1.4325,
+      "total_return": -25.36,
+      "meets_criteria": false,
+      "score": 0.3048
+    },
+    {
+      "strategy": "EMA Crossover",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 8,
+        "slow": 34,
+        "trend_period": 200
+      },
+      "win_rate": 20.83,
+      "profit_factor": 0.503,
+      "sharpe_ratio": -3.968,
+      "max_drawdown": 26.09,
+      "total_trades": 48,
+      "avg_pnl": -1.4916,
+      "total_return": -24.6,
+      "meets_criteria": false,
+      "score": 0.2992
+    },
+    {
+      "strategy": "EMA Crossover",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 20,
+        "slow": 50,
+        "trend_period": 100
+      },
+      "win_rate": 26.32,
+      "profit_factor": 0.482,
+      "sharpe_ratio": -4.473,
+      "max_drawdown": 18.27,
+      "total_trades": 38,
+      "avg_pnl": -1.7799,
+      "total_return": -16.63,
+      "meets_criteria": false,
+      "score": 0.2903
+    },
+    {
+      "strategy": "EMA Crossover",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 12,
+        "slow": 26,
+        "trend_period": 100
+      },
+      "win_rate": 22.22,
+      "profit_factor": 0.436,
+      "sharpe_ratio": -5.037,
+      "max_drawdown": 23.83,
+      "total_trades": 45,
+      "avg_pnl": -1.8237,
+      "total_return": -22.3,
+      "meets_criteria": false,
+      "score": 0.2841
+    },
+    {
+      "strategy": "EMA Crossover",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 8,
+        "slow": 34,
+        "trend_period": 100
+      },
+      "win_rate": 20.0,
+      "profit_factor": 0.372,
+      "sharpe_ratio": -6.117,
+      "max_drawdown": 26.84,
+      "total_trades": 50,
+      "avg_pnl": -1.9841,
+      "total_return": -26.1,
+      "meets_criteria": false,
+      "score": 0.2786
+    },
+    {
+      "strategy": "EMA Crossover",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 8,
+        "slow": 26,
+        "trend_period": 200
+      },
+      "win_rate": 19.57,
+      "profit_factor": 0.472,
+      "sharpe_ratio": -4.438,
+      "max_drawdown": 26.08,
+      "total_trades": 46,
+      "avg_pnl": -1.6196,
+      "total_return": -24.6,
+      "meets_criteria": false,
+      "score": 0.2757
+    },
+    {
+      "strategy": "EMA Crossover",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 8,
+        "slow": 75,
+        "trend_period": 100
+      },
+      "win_rate": 21.43,
+      "profit_factor": 0.488,
+      "sharpe_ratio": -4.444,
+      "max_drawdown": 23.05,
+      "total_trades": 42,
+      "avg_pnl": -1.6906,
+      "total_return": -21.5,
+      "meets_criteria": false,
+      "score": 0.2745
+    }
+  ],
+  "passing_results": [
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 35,
+        "overbought": 80,
+        "exit_mid": 50
+      },
+      "win_rate": 69.09,
+      "profit_factor": 2.364,
+      "sharpe_ratio": 5.286,
+      "max_drawdown": 2.99,
+      "total_trades": 55,
+      "avg_pnl": 1.4328,
+      "total_return": 23.03,
+      "meets_criteria": true,
+      "score": 1.3689
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 35,
+        "overbought": 80,
+        "exit_mid": 45
+      },
+      "win_rate": 71.19,
+      "profit_factor": 1.984,
+      "sharpe_ratio": 4.228,
+      "max_drawdown": 2.99,
+      "total_trades": 59,
+      "avg_pnl": 1.0737,
+      "total_return": 28.03,
+      "meets_criteria": true,
+      "score": 1.3254
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 21,
+        "oversold": 35,
+        "overbought": 65,
+        "exit_mid": 50
+      },
+      "win_rate": 71.15,
+      "profit_factor": 1.946,
+      "sharpe_ratio": 3.943,
+      "max_drawdown": 2.98,
+      "total_trades": 52,
+      "avg_pnl": 1.4162,
+      "total_return": 24.29,
+      "meets_criteria": true,
+      "score": 1.3175
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 21,
+        "oversold": 30,
+        "overbought": 65,
+        "exit_mid": 55
+      },
+      "win_rate": 74.0,
+      "profit_factor": 1.837,
+      "sharpe_ratio": 3.331,
+      "max_drawdown": 2.01,
+      "total_trades": 50,
+      "avg_pnl": 1.2429,
+      "total_return": 26.81,
+      "meets_criteria": true,
+      "score": 1.3089
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 35,
+        "overbought": 75,
+        "exit_mid": 55
+      },
+      "win_rate": 65.08,
+      "profit_factor": 2.028,
+      "sharpe_ratio": 4.555,
+      "max_drawdown": 3.94,
+      "total_trades": 63,
+      "avg_pnl": 1.1986,
+      "total_return": 20.55,
+      "meets_criteria": true,
+      "score": 1.3059
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 21,
+        "oversold": 35,
+        "overbought": 65,
+        "exit_mid": 55
+      },
+      "win_rate": 73.21,
+      "profit_factor": 1.832,
+      "sharpe_ratio": 3.418,
+      "max_drawdown": 2.0,
+      "total_trades": 56,
+      "avg_pnl": 1.2716,
+      "total_return": 29.33,
+      "meets_criteria": true,
+      "score": 1.3044
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 35,
+        "overbought": 75,
+        "exit_mid": 50
+      },
+      "win_rate": 67.69,
+      "profit_factor": 1.914,
+      "sharpe_ratio": 3.996,
+      "max_drawdown": 2.98,
+      "total_trades": 65,
+      "avg_pnl": 1.0428,
+      "total_return": 25.45,
+      "meets_criteria": true,
+      "score": 1.2952
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 35,
+        "overbought": 65,
+        "exit_mid": 50
+      },
+      "win_rate": 71.26,
+      "profit_factor": 1.822,
+      "sharpe_ratio": 3.67,
+      "max_drawdown": 2.97,
+      "total_trades": 87,
+      "avg_pnl": 0.9747,
+      "total_return": 44.15,
+      "meets_criteria": true,
+      "score": 1.2932
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 21,
+        "oversold": 35,
+        "overbought": 65,
+        "exit_mid": 45
+      },
+      "win_rate": 74.0,
+      "profit_factor": 1.742,
+      "sharpe_ratio": 3.391,
+      "max_drawdown": 2.01,
+      "total_trades": 50,
+      "avg_pnl": 1.2389,
+      "total_return": 26.81,
+      "meets_criteria": true,
+      "score": 1.29
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 30,
+        "entry_mult": 1.25
+      },
+      "win_rate": 73.17,
+      "profit_factor": 1.694,
+      "sharpe_ratio": 3.153,
+      "max_drawdown": 2.0,
+      "total_trades": 82,
+      "avg_pnl": 0.9409,
+      "total_return": 45.63,
+      "meets_criteria": true,
+      "score": 1.2764
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 40,
+        "entry_mult": 0.5
+      },
+      "win_rate": 77.08,
+      "profit_factor": 1.598,
+      "sharpe_ratio": 2.608,
+      "max_drawdown": 1.99,
+      "total_trades": 96,
+      "avg_pnl": 0.6969,
+      "total_return": 67.4,
+      "meets_criteria": true,
+      "score": 1.2754
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 30,
+        "entry_mult": 0.75
+      },
+      "win_rate": 76.47,
+      "profit_factor": 1.605,
+      "sharpe_ratio": 2.632,
+      "max_drawdown": 2.0,
+      "total_trades": 102,
+      "avg_pnl": 0.6971,
+      "total_return": 70.73,
+      "meets_criteria": true,
+      "score": 1.274
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 30,
+        "entry_mult": 0.5
+      },
+      "win_rate": 77.42,
+      "profit_factor": 1.544,
+      "sharpe_ratio": 2.367,
+      "max_drawdown": 2.97,
+      "total_trades": 124,
+      "avg_pnl": 0.6086,
+      "total_return": 96.17,
+      "meets_criteria": true,
+      "score": 1.2661
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 30,
+        "entry_mult": 1.5
+      },
+      "win_rate": 73.91,
+      "profit_factor": 1.613,
+      "sharpe_ratio": 2.926,
+      "max_drawdown": 2.0,
+      "total_trades": 69,
+      "avg_pnl": 0.9095,
+      "total_return": 38.62,
+      "meets_criteria": true,
+      "score": 1.2638
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 20,
+        "entry_mult": 1.0
+      },
+      "win_rate": 73.08,
+      "profit_factor": 1.589,
+      "sharpe_ratio": 2.674,
+      "max_drawdown": 3.96,
+      "total_trades": 130,
+      "avg_pnl": 0.663,
+      "total_return": 81.03,
+      "meets_criteria": true,
+      "score": 1.2551
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 20,
+        "entry_mult": 1.25
+      },
+      "win_rate": 71.79,
+      "profit_factor": 1.614,
+      "sharpe_ratio": 2.79,
+      "max_drawdown": 3.96,
+      "total_trades": 117,
+      "avg_pnl": 0.7199,
+      "total_return": 65.56,
+      "meets_criteria": true,
+      "score": 1.2541
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 40,
+        "entry_mult": 1.25
+      },
+      "win_rate": 68.97,
+      "profit_factor": 1.662,
+      "sharpe_ratio": 2.983,
+      "max_drawdown": 2.99,
+      "total_trades": 58,
+      "avg_pnl": 0.9092,
+      "total_return": 24.25,
+      "meets_criteria": true,
+      "score": 1.2506
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 30,
+        "entry_mult": 1.0
+      },
+      "win_rate": 73.86,
+      "profit_factor": 1.533,
+      "sharpe_ratio": 2.456,
+      "max_drawdown": 2.01,
+      "total_trades": 88,
+      "avg_pnl": 0.7219,
+      "total_return": 51.53,
+      "meets_criteria": true,
+      "score": 1.2475
+    },
+    {
+      "strategy": "VWAP Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "lookback": 40,
+        "entry_mult": 1.5
+      },
+      "win_rate": 66.67,
+      "profit_factor": 1.665,
+      "sharpe_ratio": 3.069,
+      "max_drawdown": 2.99,
+      "total_trades": 54,
+      "avg_pnl": 0.9614,
+      "total_return": 19.4,
+      "meets_criteria": true,
+      "score": 1.2407
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "std_dev": 2.25,
+        "exit_at_mid": true
+      },
+      "win_rate": 71.43,
+      "profit_factor": 1.682,
+      "sharpe_ratio": 3.105,
+      "max_drawdown": 2.97,
+      "total_trades": 49,
+      "avg_pnl": 0.934,
+      "total_return": 23.07,
+      "meets_criteria": true,
+      "score": 1.2407
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 1.5,
+        "exit_at_mid": true
+      },
+      "win_rate": 70.51,
+      "profit_factor": 1.567,
+      "sharpe_ratio": 2.728,
+      "max_drawdown": 2.97,
+      "total_trades": 78,
+      "avg_pnl": 0.7802,
+      "total_return": 37.18,
+      "meets_criteria": true,
+      "score": 1.2389
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "std_dev": 1.5,
+        "exit_at_mid": true
+      },
+      "win_rate": 70.53,
+      "profit_factor": 1.511,
+      "sharpe_ratio": 2.294,
+      "max_drawdown": 2.98,
+      "total_trades": 95,
+      "avg_pnl": 0.6631,
+      "total_return": 47.0,
+      "meets_criteria": true,
+      "score": 1.2278
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 1.75,
+        "exit_at_mid": true
+      },
+      "win_rate": 68.12,
+      "profit_factor": 1.562,
+      "sharpe_ratio": 2.781,
+      "max_drawdown": 2.98,
+      "total_trades": 69,
+      "avg_pnl": 0.8293,
+      "total_return": 27.96,
+      "meets_criteria": true,
+      "score": 1.2268
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XCU/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 30,
+        "std_dev": 2.0,
+        "exit_at_mid": true
+      },
+      "win_rate": 67.31,
+      "profit_factor": 1.514,
+      "sharpe_ratio": 2.719,
+      "max_drawdown": 2.97,
+      "total_trades": 52,
+      "avg_pnl": 0.8699,
+      "total_return": 19.41,
+      "meets_criteria": true,
+      "score": 1.2134
+    }
+  ]
+}

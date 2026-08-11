@@ -1,0 +1,1361 @@
+{
+  "symbol": "XPT/USD",
+  "type": "optimization",
+  "timestamp": "2026-08-10 23:39:44",
+  "total_combos_tested": 40,
+  "passing": 30,
+  "results": [
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 10,
+        "oversold": 20,
+        "overbought": 80,
+        "exit_mid": 50
+      },
+      "win_rate": 75.41,
+      "profit_factor": 2.159,
+      "sharpe_ratio": 4.762,
+      "max_drawdown": 1.99,
+      "total_trades": 61,
+      "avg_pnl": 1.4595,
+      "total_return": 35.93,
+      "meets_criteria": true,
+      "score": 1.3798
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 10,
+        "oversold": 20,
+        "overbought": 80,
+        "exit_mid": 55
+      },
+      "win_rate": 70.49,
+      "profit_factor": 2.375,
+      "sharpe_ratio": 5.559,
+      "max_drawdown": 1.99,
+      "total_trades": 61,
+      "avg_pnl": 1.6134,
+      "total_return": 28.01,
+      "meets_criteria": true,
+      "score": 1.3753
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 10,
+        "oversold": 20,
+        "overbought": 75,
+        "exit_mid": 50
+      },
+      "win_rate": 73.97,
+      "profit_factor": 1.983,
+      "sharpe_ratio": 4.132,
+      "max_drawdown": 2.97,
+      "total_trades": 73,
+      "avg_pnl": 1.3687,
+      "total_return": 41.39,
+      "meets_criteria": true,
+      "score": 1.338
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 20,
+        "overbought": 70,
+        "exit_mid": 50
+      },
+      "win_rate": 80.0,
+      "profit_factor": 1.807,
+      "sharpe_ratio": 2.647,
+      "max_drawdown": 2.0,
+      "total_trades": 50,
+      "avg_pnl": 1.3745,
+      "total_return": 34.65,
+      "meets_criteria": true,
+      "score": 1.3307
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 10,
+        "oversold": 20,
+        "overbought": 75,
+        "exit_mid": 55
+      },
+      "win_rate": 67.12,
+      "profit_factor": 2.046,
+      "sharpe_ratio": 4.537,
+      "max_drawdown": 2.97,
+      "total_trades": 73,
+      "avg_pnl": 1.3757,
+      "total_return": 27.94,
+      "meets_criteria": true,
+      "score": 1.3189
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 10,
+        "oversold": 20,
+        "overbought": 80,
+        "exit_mid": 45
+      },
+      "win_rate": 73.33,
+      "profit_factor": 1.89,
+      "sharpe_ratio": 3.384,
+      "max_drawdown": 2.98,
+      "total_trades": 60,
+      "avg_pnl": 1.3488,
+      "total_return": 31.92,
+      "meets_criteria": true,
+      "score": 1.3165
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 20,
+        "overbought": 70,
+        "exit_mid": 45
+      },
+      "win_rate": 78.0,
+      "profit_factor": 1.776,
+      "sharpe_ratio": 2.682,
+      "max_drawdown": 2.0,
+      "total_trades": 50,
+      "avg_pnl": 1.5204,
+      "total_return": 31.98,
+      "meets_criteria": true,
+      "score": 1.3152
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 10,
+        "oversold": 20,
+        "overbought": 75,
+        "exit_mid": 45
+      },
+      "win_rate": 70.83,
+      "profit_factor": 1.89,
+      "sharpe_ratio": 3.434,
+      "max_drawdown": 2.97,
+      "total_trades": 72,
+      "avg_pnl": 1.3332,
+      "total_return": 34.5,
+      "meets_criteria": true,
+      "score": 1.3049
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 20,
+        "overbought": 70,
+        "exit_mid": 55
+      },
+      "win_rate": 80.77,
+      "profit_factor": 1.626,
+      "sharpe_ratio": 2.186,
+      "max_drawdown": 2.0,
+      "total_trades": 52,
+      "avg_pnl": 1.2205,
+      "total_return": 37.36,
+      "meets_criteria": true,
+      "score": 1.298
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 7,
+        "oversold": 20,
+        "overbought": 80,
+        "exit_mid": 45
+      },
+      "win_rate": 68.93,
+      "profit_factor": 1.792,
+      "sharpe_ratio": 3.306,
+      "max_drawdown": 3.94,
+      "total_trades": 103,
+      "avg_pnl": 0.8703,
+      "total_return": 46.94,
+      "meets_criteria": true,
+      "score": 1.2765
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 1.5,
+        "exit_at_mid": false
+      },
+      "win_rate": 69.81,
+      "profit_factor": 2.08,
+      "sharpe_ratio": 4.386,
+      "max_drawdown": 2.97,
+      "total_trades": 53,
+      "avg_pnl": 2.466,
+      "total_return": 23.04,
+      "meets_criteria": true,
+      "score": 1.3382
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 2.0,
+        "exit_at_mid": true
+      },
+      "win_rate": 76.67,
+      "profit_factor": 1.779,
+      "sharpe_ratio": 2.756,
+      "max_drawdown": 2.0,
+      "total_trades": 60,
+      "avg_pnl": 1.404,
+      "total_return": 37.3,
+      "meets_criteria": true,
+      "score": 1.3096
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 1.75,
+        "exit_at_mid": true
+      },
+      "win_rate": 76.06,
+      "profit_factor": 1.754,
+      "sharpe_ratio": 2.632,
+      "max_drawdown": 2.0,
+      "total_trades": 71,
+      "avg_pnl": 1.2735,
+      "total_return": 44.26,
+      "meets_criteria": true,
+      "score": 1.3019
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "std_dev": 2.0,
+        "exit_at_mid": true
+      },
+      "win_rate": 80.3,
+      "profit_factor": 1.62,
+      "sharpe_ratio": 2.169,
+      "max_drawdown": 1.99,
+      "total_trades": 66,
+      "avg_pnl": 1.0521,
+      "total_return": 48.69,
+      "meets_criteria": true,
+      "score": 1.2946
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 15,
+        "std_dev": 1.75,
+        "exit_at_mid": false
+      },
+      "win_rate": 73.02,
+      "profit_factor": 1.739,
+      "sharpe_ratio": 3.04,
+      "max_drawdown": 3.01,
+      "total_trades": 63,
+      "avg_pnl": 1.5507,
+      "total_return": 33.22,
+      "meets_criteria": true,
+      "score": 1.2849
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 1.75,
+        "exit_at_mid": false
+      },
+      "win_rate": 65.96,
+      "profit_factor": 2.295,
+      "sharpe_ratio": 4.843,
+      "max_drawdown": 3.94,
+      "total_trades": 47,
+      "avg_pnl": 2.8347,
+      "total_return": 15.91,
+      "meets_criteria": true,
+      "score": 1.2732
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 30,
+        "std_dev": 1.75,
+        "exit_at_mid": true
+      },
+      "win_rate": 72.22,
+      "profit_factor": 1.677,
+      "sharpe_ratio": 2.597,
+      "max_drawdown": 2.99,
+      "total_trades": 54,
+      "avg_pnl": 1.2914,
+      "total_return": 26.78,
+      "meets_criteria": true,
+      "score": 1.2687
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 15,
+        "std_dev": 1.5,
+        "exit_at_mid": false
+      },
+      "win_rate": 70.89,
+      "profit_factor": 1.7,
+      "sharpe_ratio": 2.967,
+      "max_drawdown": 3.0,
+      "total_trades": 79,
+      "avg_pnl": 1.3892,
+      "total_return": 38.55,
+      "meets_criteria": true,
+      "score": 1.2671
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "std_dev": 2.0,
+        "exit_at_mid": false
+      },
+      "win_rate": 75.56,
+      "profit_factor": 3.151,
+      "sharpe_ratio": 6.648,
+      "max_drawdown": 1.99,
+      "total_trades": 45,
+      "avg_pnl": 3.7646,
+      "total_return": 25.58,
+      "meets_criteria": true,
+      "score": 1.2588
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 1.5,
+        "exit_at_mid": true
+      },
+      "win_rate": 74.67,
+      "profit_factor": 1.509,
+      "sharpe_ratio": 1.978,
+      "max_drawdown": 2.0,
+      "total_trades": 75,
+      "avg_pnl": 0.954,
+      "total_return": 44.23,
+      "meets_criteria": true,
+      "score": 1.2464
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 30,
+        "z_entry": 1.75,
+        "z_exit": 0.5
+      },
+      "win_rate": 80.65,
+      "profit_factor": 2.041,
+      "sharpe_ratio": 3.309,
+      "max_drawdown": 1.99,
+      "total_trades": 62,
+      "avg_pnl": 1.7232,
+      "total_return": 45.78,
+      "meets_criteria": true,
+      "score": 1.3805
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "z_entry": 2.0,
+        "z_exit": 0.5
+      },
+      "win_rate": 76.47,
+      "profit_factor": 2.047,
+      "sharpe_ratio": 3.626,
+      "max_drawdown": 2.97,
+      "total_trades": 68,
+      "avg_pnl": 1.4547,
+      "total_return": 42.85,
+      "meets_criteria": true,
+      "score": 1.3623
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "z_entry": 2.25,
+        "z_exit": 0.5
+      },
+      "win_rate": 74.51,
+      "profit_factor": 1.853,
+      "sharpe_ratio": 3.276,
+      "max_drawdown": 2.97,
+      "total_trades": 51,
+      "avg_pnl": 1.4477,
+      "total_return": 28.08,
+      "meets_criteria": true,
+      "score": 1.3145
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "z_entry": 2.0,
+        "z_exit": 0.0
+      },
+      "win_rate": 76.67,
+      "profit_factor": 1.779,
+      "sharpe_ratio": 2.756,
+      "max_drawdown": 2.0,
+      "total_trades": 60,
+      "avg_pnl": 1.404,
+      "total_return": 37.3,
+      "meets_criteria": true,
+      "score": 1.3096
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "z_entry": 1.75,
+        "z_exit": 0.0
+      },
+      "win_rate": 76.06,
+      "profit_factor": 1.754,
+      "sharpe_ratio": 2.632,
+      "max_drawdown": 2.0,
+      "total_trades": 71,
+      "avg_pnl": 1.2735,
+      "total_return": 44.26,
+      "meets_criteria": true,
+      "score": 1.3019
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "z_entry": 2.0,
+        "z_exit": 0.0
+      },
+      "win_rate": 80.3,
+      "profit_factor": 1.62,
+      "sharpe_ratio": 2.169,
+      "max_drawdown": 1.99,
+      "total_trades": 66,
+      "avg_pnl": 1.0521,
+      "total_return": 48.69,
+      "meets_criteria": true,
+      "score": 1.2946
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "z_entry": 2.0,
+        "z_exit": 0.5
+      },
+      "win_rate": 73.77,
+      "profit_factor": 1.747,
+      "sharpe_ratio": 2.647,
+      "max_drawdown": 2.01,
+      "total_trades": 61,
+      "avg_pnl": 1.3458,
+      "total_return": 33.24,
+      "meets_criteria": true,
+      "score": 1.2899
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "z_entry": 1.75,
+        "z_exit": 0.5
+      },
+      "win_rate": 71.83,
+      "profit_factor": 1.752,
+      "sharpe_ratio": 2.75,
+      "max_drawdown": 3.95,
+      "total_trades": 71,
+      "avg_pnl": 1.3169,
+      "total_return": 35.86,
+      "meets_criteria": true,
+      "score": 1.2819
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 30,
+        "z_entry": 2.0,
+        "z_exit": 0.5
+      },
+      "win_rate": 77.55,
+      "profit_factor": 1.709,
+      "sharpe_ratio": 2.489,
+      "max_drawdown": 1.99,
+      "total_trades": 49,
+      "avg_pnl": 1.4589,
+      "total_return": 30.68,
+      "meets_criteria": true,
+      "score": 1.2738
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 30,
+        "z_entry": 1.75,
+        "z_exit": 0.0
+      },
+      "win_rate": 72.22,
+      "profit_factor": 1.677,
+      "sharpe_ratio": 2.597,
+      "max_drawdown": 2.99,
+      "total_trades": 54,
+      "avg_pnl": 1.2914,
+      "total_return": 26.78,
+      "meets_criteria": true,
+      "score": 1.2687
+    },
+    {
+      "strategy": "SMA Crossover",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 30,
+        "slow": 40,
+        "trend_period": 150
+      },
+      "win_rate": 46.43,
+      "profit_factor": 1.434,
+      "sharpe_ratio": 1.975,
+      "max_drawdown": 4.97,
+      "total_trades": 28,
+      "avg_pnl": 1.3071,
+      "total_return": -2.12,
+      "meets_criteria": false,
+      "score": 0.6166
+    },
+    {
+      "strategy": "SMA Crossover",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 30,
+        "slow": 40,
+        "trend_period": 200
+      },
+      "win_rate": 44.44,
+      "profit_factor": 1.421,
+      "sharpe_ratio": 1.872,
+      "max_drawdown": 5.91,
+      "total_trades": 27,
+      "avg_pnl": 1.2432,
+      "total_return": -3.09,
+      "meets_criteria": false,
+      "score": 0.5882
+    },
+    {
+      "strategy": "SMA Crossover",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 30,
+        "slow": 40,
+        "trend_period": 100
+      },
+      "win_rate": 36.67,
+      "profit_factor": 1.11,
+      "sharpe_ratio": 0.58,
+      "max_drawdown": 10.51,
+      "total_trades": 30,
+      "avg_pnl": 0.3802,
+      "total_return": -7.83,
+      "meets_criteria": false,
+      "score": 0.5451
+    },
+    {
+      "strategy": "SMA Crossover",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 10,
+        "slow": 75,
+        "trend_period": 150
+      },
+      "win_rate": 28.57,
+      "profit_factor": 1.486,
+      "sharpe_ratio": 1.239,
+      "max_drawdown": 13.18,
+      "total_trades": 28,
+      "avg_pnl": 1.6992,
+      "total_return": -11.43,
+      "meets_criteria": false,
+      "score": 0.5357
+    },
+    {
+      "strategy": "SMA Crossover",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 20,
+        "slow": 50,
+        "trend_period": 150
+      },
+      "win_rate": 41.67,
+      "profit_factor": 1.513,
+      "sharpe_ratio": 2.266,
+      "max_drawdown": 7.78,
+      "total_trades": 24,
+      "avg_pnl": 1.5532,
+      "total_return": -4.04,
+      "meets_criteria": false,
+      "score": 0.5256
+    },
+    {
+      "strategy": "SMA Crossover",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 10,
+        "slow": 50,
+        "trend_period": 150
+      },
+      "win_rate": 21.88,
+      "profit_factor": 1.172,
+      "sharpe_ratio": 0.814,
+      "max_drawdown": 18.23,
+      "total_trades": 32,
+      "avg_pnl": 0.5344,
+      "total_return": -16.61,
+      "meets_criteria": false,
+      "score": 0.5119
+    },
+    {
+      "strategy": "SMA Crossover",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 30,
+        "slow": 50,
+        "trend_period": 150
+      },
+      "win_rate": 40.91,
+      "profit_factor": 1.691,
+      "sharpe_ratio": 2.935,
+      "max_drawdown": 8.68,
+      "total_trades": 22,
+      "avg_pnl": 2.0074,
+      "total_return": -4.03,
+      "meets_criteria": false,
+      "score": 0.4959
+    },
+    {
+      "strategy": "SMA Crossover",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 20,
+        "slow": 50,
+        "trend_period": 200
+      },
+      "win_rate": 39.13,
+      "profit_factor": 1.441,
+      "sharpe_ratio": 1.966,
+      "max_drawdown": 7.77,
+      "total_trades": 23,
+      "avg_pnl": 1.3666,
+      "total_return": -4.99,
+      "meets_criteria": false,
+      "score": 0.4916
+    },
+    {
+      "strategy": "SMA Crossover",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 30,
+        "slow": 50,
+        "trend_period": 100
+      },
+      "win_rate": 39.13,
+      "profit_factor": 1.423,
+      "sharpe_ratio": 2.024,
+      "max_drawdown": 9.6,
+      "total_trades": 23,
+      "avg_pnl": 1.3974,
+      "total_return": -4.99,
+      "meets_criteria": false,
+      "score": 0.49
+    },
+    {
+      "strategy": "SMA Crossover",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "fast": 30,
+        "slow": 50,
+        "trend_period": 200
+      },
+      "win_rate": 42.86,
+      "profit_factor": 1.591,
+      "sharpe_ratio": 2.557,
+      "max_drawdown": 7.76,
+      "total_trades": 21,
+      "avg_pnl": 1.7561,
+      "total_return": -3.06,
+      "meets_criteria": false,
+      "score": 0.4687
+    }
+  ],
+  "passing_results": [
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 10,
+        "oversold": 20,
+        "overbought": 80,
+        "exit_mid": 50
+      },
+      "win_rate": 75.41,
+      "profit_factor": 2.159,
+      "sharpe_ratio": 4.762,
+      "max_drawdown": 1.99,
+      "total_trades": 61,
+      "avg_pnl": 1.4595,
+      "total_return": 35.93,
+      "meets_criteria": true,
+      "score": 1.3798
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 10,
+        "oversold": 20,
+        "overbought": 80,
+        "exit_mid": 55
+      },
+      "win_rate": 70.49,
+      "profit_factor": 2.375,
+      "sharpe_ratio": 5.559,
+      "max_drawdown": 1.99,
+      "total_trades": 61,
+      "avg_pnl": 1.6134,
+      "total_return": 28.01,
+      "meets_criteria": true,
+      "score": 1.3753
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 10,
+        "oversold": 20,
+        "overbought": 75,
+        "exit_mid": 50
+      },
+      "win_rate": 73.97,
+      "profit_factor": 1.983,
+      "sharpe_ratio": 4.132,
+      "max_drawdown": 2.97,
+      "total_trades": 73,
+      "avg_pnl": 1.3687,
+      "total_return": 41.39,
+      "meets_criteria": true,
+      "score": 1.338
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 20,
+        "overbought": 70,
+        "exit_mid": 50
+      },
+      "win_rate": 80.0,
+      "profit_factor": 1.807,
+      "sharpe_ratio": 2.647,
+      "max_drawdown": 2.0,
+      "total_trades": 50,
+      "avg_pnl": 1.3745,
+      "total_return": 34.65,
+      "meets_criteria": true,
+      "score": 1.3307
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 10,
+        "oversold": 20,
+        "overbought": 75,
+        "exit_mid": 55
+      },
+      "win_rate": 67.12,
+      "profit_factor": 2.046,
+      "sharpe_ratio": 4.537,
+      "max_drawdown": 2.97,
+      "total_trades": 73,
+      "avg_pnl": 1.3757,
+      "total_return": 27.94,
+      "meets_criteria": true,
+      "score": 1.3189
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 10,
+        "oversold": 20,
+        "overbought": 80,
+        "exit_mid": 45
+      },
+      "win_rate": 73.33,
+      "profit_factor": 1.89,
+      "sharpe_ratio": 3.384,
+      "max_drawdown": 2.98,
+      "total_trades": 60,
+      "avg_pnl": 1.3488,
+      "total_return": 31.92,
+      "meets_criteria": true,
+      "score": 1.3165
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 20,
+        "overbought": 70,
+        "exit_mid": 45
+      },
+      "win_rate": 78.0,
+      "profit_factor": 1.776,
+      "sharpe_ratio": 2.682,
+      "max_drawdown": 2.0,
+      "total_trades": 50,
+      "avg_pnl": 1.5204,
+      "total_return": 31.98,
+      "meets_criteria": true,
+      "score": 1.3152
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 10,
+        "oversold": 20,
+        "overbought": 75,
+        "exit_mid": 45
+      },
+      "win_rate": 70.83,
+      "profit_factor": 1.89,
+      "sharpe_ratio": 3.434,
+      "max_drawdown": 2.97,
+      "total_trades": 72,
+      "avg_pnl": 1.3332,
+      "total_return": 34.5,
+      "meets_criteria": true,
+      "score": 1.3049
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 14,
+        "oversold": 20,
+        "overbought": 70,
+        "exit_mid": 55
+      },
+      "win_rate": 80.77,
+      "profit_factor": 1.626,
+      "sharpe_ratio": 2.186,
+      "max_drawdown": 2.0,
+      "total_trades": 52,
+      "avg_pnl": 1.2205,
+      "total_return": 37.36,
+      "meets_criteria": true,
+      "score": 1.298
+    },
+    {
+      "strategy": "RSI Oversold/Overbought",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 7,
+        "oversold": 20,
+        "overbought": 80,
+        "exit_mid": 45
+      },
+      "win_rate": 68.93,
+      "profit_factor": 1.792,
+      "sharpe_ratio": 3.306,
+      "max_drawdown": 3.94,
+      "total_trades": 103,
+      "avg_pnl": 0.8703,
+      "total_return": 46.94,
+      "meets_criteria": true,
+      "score": 1.2765
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 1.5,
+        "exit_at_mid": false
+      },
+      "win_rate": 69.81,
+      "profit_factor": 2.08,
+      "sharpe_ratio": 4.386,
+      "max_drawdown": 2.97,
+      "total_trades": 53,
+      "avg_pnl": 2.466,
+      "total_return": 23.04,
+      "meets_criteria": true,
+      "score": 1.3382
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 2.0,
+        "exit_at_mid": true
+      },
+      "win_rate": 76.67,
+      "profit_factor": 1.779,
+      "sharpe_ratio": 2.756,
+      "max_drawdown": 2.0,
+      "total_trades": 60,
+      "avg_pnl": 1.404,
+      "total_return": 37.3,
+      "meets_criteria": true,
+      "score": 1.3096
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 1.75,
+        "exit_at_mid": true
+      },
+      "win_rate": 76.06,
+      "profit_factor": 1.754,
+      "sharpe_ratio": 2.632,
+      "max_drawdown": 2.0,
+      "total_trades": 71,
+      "avg_pnl": 1.2735,
+      "total_return": 44.26,
+      "meets_criteria": true,
+      "score": 1.3019
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "std_dev": 2.0,
+        "exit_at_mid": true
+      },
+      "win_rate": 80.3,
+      "profit_factor": 1.62,
+      "sharpe_ratio": 2.169,
+      "max_drawdown": 1.99,
+      "total_trades": 66,
+      "avg_pnl": 1.0521,
+      "total_return": 48.69,
+      "meets_criteria": true,
+      "score": 1.2946
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 15,
+        "std_dev": 1.75,
+        "exit_at_mid": false
+      },
+      "win_rate": 73.02,
+      "profit_factor": 1.739,
+      "sharpe_ratio": 3.04,
+      "max_drawdown": 3.01,
+      "total_trades": 63,
+      "avg_pnl": 1.5507,
+      "total_return": 33.22,
+      "meets_criteria": true,
+      "score": 1.2849
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 1.75,
+        "exit_at_mid": false
+      },
+      "win_rate": 65.96,
+      "profit_factor": 2.295,
+      "sharpe_ratio": 4.843,
+      "max_drawdown": 3.94,
+      "total_trades": 47,
+      "avg_pnl": 2.8347,
+      "total_return": 15.91,
+      "meets_criteria": true,
+      "score": 1.2732
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 30,
+        "std_dev": 1.75,
+        "exit_at_mid": true
+      },
+      "win_rate": 72.22,
+      "profit_factor": 1.677,
+      "sharpe_ratio": 2.597,
+      "max_drawdown": 2.99,
+      "total_trades": 54,
+      "avg_pnl": 1.2914,
+      "total_return": 26.78,
+      "meets_criteria": true,
+      "score": 1.2687
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 15,
+        "std_dev": 1.5,
+        "exit_at_mid": false
+      },
+      "win_rate": 70.89,
+      "profit_factor": 1.7,
+      "sharpe_ratio": 2.967,
+      "max_drawdown": 3.0,
+      "total_trades": 79,
+      "avg_pnl": 1.3892,
+      "total_return": 38.55,
+      "meets_criteria": true,
+      "score": 1.2671
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "std_dev": 2.0,
+        "exit_at_mid": false
+      },
+      "win_rate": 75.56,
+      "profit_factor": 3.151,
+      "sharpe_ratio": 6.648,
+      "max_drawdown": 1.99,
+      "total_trades": 45,
+      "avg_pnl": 3.7646,
+      "total_return": 25.58,
+      "meets_criteria": true,
+      "score": 1.2588
+    },
+    {
+      "strategy": "Bollinger Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "std_dev": 1.5,
+        "exit_at_mid": true
+      },
+      "win_rate": 74.67,
+      "profit_factor": 1.509,
+      "sharpe_ratio": 1.978,
+      "max_drawdown": 2.0,
+      "total_trades": 75,
+      "avg_pnl": 0.954,
+      "total_return": 44.23,
+      "meets_criteria": true,
+      "score": 1.2464
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 30,
+        "z_entry": 1.75,
+        "z_exit": 0.5
+      },
+      "win_rate": 80.65,
+      "profit_factor": 2.041,
+      "sharpe_ratio": 3.309,
+      "max_drawdown": 1.99,
+      "total_trades": 62,
+      "avg_pnl": 1.7232,
+      "total_return": 45.78,
+      "meets_criteria": true,
+      "score": 1.3805
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "z_entry": 2.0,
+        "z_exit": 0.5
+      },
+      "win_rate": 76.47,
+      "profit_factor": 2.047,
+      "sharpe_ratio": 3.626,
+      "max_drawdown": 2.97,
+      "total_trades": 68,
+      "avg_pnl": 1.4547,
+      "total_return": 42.85,
+      "meets_criteria": true,
+      "score": 1.3623
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "z_entry": 2.25,
+        "z_exit": 0.5
+      },
+      "win_rate": 74.51,
+      "profit_factor": 1.853,
+      "sharpe_ratio": 3.276,
+      "max_drawdown": 2.97,
+      "total_trades": 51,
+      "avg_pnl": 1.4477,
+      "total_return": 28.08,
+      "meets_criteria": true,
+      "score": 1.3145
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "z_entry": 2.0,
+        "z_exit": 0.0
+      },
+      "win_rate": 76.67,
+      "profit_factor": 1.779,
+      "sharpe_ratio": 2.756,
+      "max_drawdown": 2.0,
+      "total_trades": 60,
+      "avg_pnl": 1.404,
+      "total_return": 37.3,
+      "meets_criteria": true,
+      "score": 1.3096
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "z_entry": 1.75,
+        "z_exit": 0.0
+      },
+      "win_rate": 76.06,
+      "profit_factor": 1.754,
+      "sharpe_ratio": 2.632,
+      "max_drawdown": 2.0,
+      "total_trades": 71,
+      "avg_pnl": 1.2735,
+      "total_return": 44.26,
+      "meets_criteria": true,
+      "score": 1.3019
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 20,
+        "z_entry": 2.0,
+        "z_exit": 0.0
+      },
+      "win_rate": 80.3,
+      "profit_factor": 1.62,
+      "sharpe_ratio": 2.169,
+      "max_drawdown": 1.99,
+      "total_trades": 66,
+      "avg_pnl": 1.0521,
+      "total_return": 48.69,
+      "meets_criteria": true,
+      "score": 1.2946
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "z_entry": 2.0,
+        "z_exit": 0.5
+      },
+      "win_rate": 73.77,
+      "profit_factor": 1.747,
+      "sharpe_ratio": 2.647,
+      "max_drawdown": 2.01,
+      "total_trades": 61,
+      "avg_pnl": 1.3458,
+      "total_return": 33.24,
+      "meets_criteria": true,
+      "score": 1.2899
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 25,
+        "z_entry": 1.75,
+        "z_exit": 0.5
+      },
+      "win_rate": 71.83,
+      "profit_factor": 1.752,
+      "sharpe_ratio": 2.75,
+      "max_drawdown": 3.95,
+      "total_trades": 71,
+      "avg_pnl": 1.3169,
+      "total_return": 35.86,
+      "meets_criteria": true,
+      "score": 1.2819
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 30,
+        "z_entry": 2.0,
+        "z_exit": 0.5
+      },
+      "win_rate": 77.55,
+      "profit_factor": 1.709,
+      "sharpe_ratio": 2.489,
+      "max_drawdown": 1.99,
+      "total_trades": 49,
+      "avg_pnl": 1.4589,
+      "total_return": 30.68,
+      "meets_criteria": true,
+      "score": 1.2738
+    },
+    {
+      "strategy": "Z-Score Reversion",
+      "symbol": "XPT/USD",
+      "timeframe": "1d",
+      "params": {
+        "period": 30,
+        "z_entry": 1.75,
+        "z_exit": 0.0
+      },
+      "win_rate": 72.22,
+      "profit_factor": 1.677,
+      "sharpe_ratio": 2.597,
+      "max_drawdown": 2.99,
+      "total_trades": 54,
+      "avg_pnl": 1.2914,
+      "total_return": 26.78,
+      "meets_criteria": true,
+      "score": 1.2687
+    }
+  ]
+}

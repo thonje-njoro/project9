@@ -1,0 +1,86 @@
+{
+  "symbol": "XCU/USD",
+  "type": "session_strategies_15m",
+  "timestamp": "2026-08-10 23:53:07",
+  "data_rows": 84384,
+  "results": [
+    {
+      "strategy": "London Session Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "15m",
+      "win_rate": 41.88,
+      "profit_factor": 0.744,
+      "sharpe_ratio": -1.434,
+      "max_drawdown": 88.34,
+      "total_trades": 1237,
+      "avg_pnl": -0.1053,
+      "total_return": -87.41,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "NY Session Momentum",
+      "symbol": "XCU/USD",
+      "timeframe": "15m",
+      "win_rate": 27.6,
+      "profit_factor": 0.524,
+      "sharpe_ratio": -3.57,
+      "max_drawdown": 100.0,
+      "total_trades": 2866,
+      "avg_pnl": -0.0985,
+      "total_return": -100.0,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "Asian Range Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "15m",
+      "win_rate": 42.42,
+      "profit_factor": 0.812,
+      "sharpe_ratio": -1.004,
+      "max_drawdown": 80.71,
+      "total_trades": 990,
+      "avg_pnl": -0.0806,
+      "total_return": -78.77,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "Opening Range Breakout",
+      "symbol": "XCU/USD",
+      "timeframe": "15m",
+      "win_rate": 29.42,
+      "profit_factor": 0.782,
+      "sharpe_ratio": -1.275,
+      "max_drawdown": 100.0,
+      "total_trades": 2396,
+      "avg_pnl": -0.0844,
+      "total_return": -100.0,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "RSI (15m)",
+      "symbol": "XCU/USD",
+      "timeframe": "15m",
+      "win_rate": 49.82,
+      "profit_factor": 0.63,
+      "sharpe_ratio": -2.048,
+      "max_drawdown": 76.99,
+      "total_trades": 3115,
+      "avg_pnl": -0.0873,
+      "total_return": -23.34,
+      "meets_criteria": false
+    },
+    {
+      "strategy": "Bollinger (15m)",
+      "symbol": "XCU/USD",
+      "timeframe": "15m",
+      "win_rate": 56.61,
+      "profit_factor": 0.622,
+      "sharpe_ratio": -2.293,
+      "max_drawdown": 22.51,
+      "total_trades": 3222,
+      "avg_pnl": -0.0902,
+      "total_return": 5928.2,
+      "meets_criteria": false
+    }
+  ]
+}
