@@ -1,0 +1,11 @@
+[
+  {
+    "symbol": "XCUUSD",
+    "class": "commodity",
+    "strategy": "VWAP Reversion",
+    "wr": 76.0,
+    "pf": 2.311,
+    "sharpe": 5.207,
+    "max_dd": 14.8
+  }
+]
