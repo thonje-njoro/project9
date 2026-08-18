@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""XAUUSD Donchian Breakout Backtest — LSE API with proper pagination"""
+"""XAUUSD Donchian Breakout Backtest — LSE API with proper start-based pagination"""
 
 import os
 import json
@@ -34,21 +34,16 @@ ATR_PERIOD = 14
 COST_RT = 0.002  # 0.1% + 0.1%
 
 def fetch_lse(symbol, tf, start, end):
-    """Fetch candles with pagination — API ignores from/to, returns 5000 bar pages."""
+    """Paginated fetch using 'start' parameter. API ignores from/to, returns 5K bar pages."""
     headers = {"x-api-key": LSE_API_KEY}
     all_candles = []
-    seen_ts = set()
-    max_pages = 50  # safety limit
-    start_dt = datetime.strptime(start, "%Y-%m-%d")
     end_dt = datetime.strptime(end, "%Y-%m-%d")
+    cur_start = start
+    max_pages = 20
+    seen_ts = set()
     
     for page in range(max_pages):
-        params = {"symbol": symbol, "timeframe": tf}
-        if page == 0:
-            # First request: try with from parameter
-            params["from"] = start
-            params["to"] = end
-        
+        params = {"symbol": symbol, "timeframe": tf, "start": cur_start}
         try:
             r = requests.get(LSE_BASE_URL, headers=headers, params=params, timeout=60)
             if r.status_code != 200:
@@ -62,7 +57,7 @@ def fetch_lse(symbol, tf, start, end):
             print(f"  Page {page} failed: {e}")
             break
         
-        # Deduplicate and filter by date range
+        # Add new candles (dedup + filter to end date)
         new_count = 0
         last_ts = None
         for c in data:
@@ -70,28 +65,28 @@ def fetch_lse(symbol, tf, start, end):
             if ts in seen_ts:
                 continue
             seen_ts.add(ts)
-            # Parse date to check range
             dt = datetime.strptime(ts[:10], "%Y-%m-%d")
-            if dt < start_dt or dt > end_dt:
+            if dt > end_dt:
                 continue
             all_candles.append(c)
             new_count += 1
             last_ts = ts
         
-        print(f"  Page {page}: {len(data)} raw, {new_count} new in range, total={len(all_candles)}, last_ts={last_ts}")
+        first_ts = data[0]["ts"][:10]
+        last_page_ts = data[-1]["ts"][:10]
+        print(f"  Page {page}: {len(data)} bars ({first_ts} → {last_page_ts}), {new_count} new, total={len(all_candles)}")
         
-        if new_count == 0 and page > 0:
-            # No new data in range — we've passed the end
+        if new_count == 0:
             break
+        
+        # Next page starts after last timestamp
+        if last_ts:
+            cur_start = (datetime.strptime(last_ts[:10], "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d")
+            if datetime.strptime(last_ts[:10], "%Y-%m-%d") >= end_dt:
+                break
         
         if len(data) < 4900:
-            # Less than a full page — probably at the end
             break
-        
-        if last_ts:
-            last_dt = datetime.strptime(last_ts[:10], "%Y-%m-%d")
-            if last_dt >= end_dt:
-                break
     
     return all_candles
 
@@ -213,7 +208,7 @@ def main():
     print(f"Params: lookback={LOOKBACK}, RR={RR_TARGET}, stop_atr={STOP_ATR_MULT}, cost={COST_RT*100}%")
     print(f"API: {LSE_BASE_URL}\n")
     
-    print("Fetching XAUUSD 1h data (paginated)...")
+    print("Fetching XAUUSD 1h data (paginated with start=)...")
     candles = fetch_lse("XAU/USD", "1h", "2020-01-01", "2025-06-16")
     
     if len(candles) < 100:
