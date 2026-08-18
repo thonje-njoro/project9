@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""XAUUSD Donchian Breakout Backtest — direct LSE API call, no framework dependency"""
+"""XAUUSD Donchian Breakout Backtest — LSE API with proper pagination"""
 
 import os
 import json
@@ -9,7 +9,7 @@ import requests
 from datetime import datetime, timedelta
 from pathlib import Path
 
-# Load API key from .env
+# Load API key
 def load_env():
     env_path = Path(__file__).parent / "backtest" / ".env"
     if not env_path.exists():
@@ -27,327 +27,236 @@ ENV = load_env()
 LSE_API_KEY = ENV.get("LSE_API_KEY", "")
 LSE_BASE_URL = "https://api.londonstrategicedge.com/vault/candles"
 
-# Strategy parameters
 LOOKBACK = 50
 RR_TARGET = 3.0
 STOP_ATR_MULT = 2.0
 ATR_PERIOD = 14
-COST_RT = 0.002  # 0.1% commission + 0.1% slippage round-trip
+COST_RT = 0.002  # 0.1% + 0.1%
 
 def fetch_lse(symbol, tf, start, end):
-    """Fetch candles from LSE API. Returns list of dicts."""
+    """Fetch candles with pagination — API ignores from/to, returns 5000 bar pages."""
     headers = {"x-api-key": LSE_API_KEY}
     all_candles = []
-    
-    cur = datetime.strptime(start, "%Y-%m-%d")
+    seen_ts = set()
+    max_pages = 50  # safety limit
+    start_dt = datetime.strptime(start, "%Y-%m-%d")
     end_dt = datetime.strptime(end, "%Y-%m-%d")
     
-    while cur < end_dt:
-        nxt = min(cur + timedelta(days=365), end_dt)
-        params = {
-            "symbol": symbol,
-            "from": cur.strftime("%Y-%m-%d"),
-            "to": nxt.strftime("%Y-%m-%d"),
-            "timeframe": tf
-        }
+    for page in range(max_pages):
+        params = {"symbol": symbol, "timeframe": tf}
+        if page == 0:
+            # First request: try with from parameter
+            params["from"] = start
+            params["to"] = end
+        
         try:
             r = requests.get(LSE_BASE_URL, headers=headers, params=params, timeout=60)
-            if r.status_code == 200:
-                data = r.json()
-                if isinstance(data, list) and len(data) > 0:
-                    all_candles.extend(data)
-                    print(f"  Chunk {cur.strftime('%Y-%m-%d')} to {nxt.strftime('%Y-%m-%d')}: {len(data)} bars")
-                else:
-                    print(f"  Chunk {cur.strftime('%Y-%m-%d')}: empty response")
-            else:
-                print(f"  Chunk {cur.strftime('%Y-%m-%d')}: HTTP {r.status_code}")
+            if r.status_code != 200:
+                print(f"  Page {page}: HTTP {r.status_code}")
+                break
+            data = r.json()
+            if not isinstance(data, list) or len(data) == 0:
+                print(f"  Page {page}: empty")
+                break
         except Exception as e:
-            print(f"  Chunk failed: {e}")
-        cur = nxt
+            print(f"  Page {page} failed: {e}")
+            break
+        
+        # Deduplicate and filter by date range
+        new_count = 0
+        last_ts = None
+        for c in data:
+            ts = c["ts"]
+            if ts in seen_ts:
+                continue
+            seen_ts.add(ts)
+            # Parse date to check range
+            dt = datetime.strptime(ts[:10], "%Y-%m-%d")
+            if dt < start_dt or dt > end_dt:
+                continue
+            all_candles.append(c)
+            new_count += 1
+            last_ts = ts
+        
+        print(f"  Page {page}: {len(data)} raw, {new_count} new in range, total={len(all_candles)}, last_ts={last_ts}")
+        
+        if new_count == 0 and page > 0:
+            # No new data in range — we've passed the end
+            break
+        
+        if len(data) < 4900:
+            # Less than a full page — probably at the end
+            break
+        
+        if last_ts:
+            last_dt = datetime.strptime(last_ts[:10], "%Y-%m-%d")
+            if last_dt >= end_dt:
+                break
     
     return all_candles
 
 def parse_candles(candles):
-    """Parse LSE JSON array into parallel arrays."""
-    # Sort by timestamp
     candles.sort(key=lambda c: c["ts"])
-    
+    n = len(candles)
+    opens = np.zeros(n)
+    highs = np.zeros(n)
+    lows = np.zeros(n)
+    closes = np.zeros(n)
     times = []
-    opens = []
-    highs = []
-    lows = []
-    closes = []
-    volumes = []
-    
-    for c in candles:
+    for i, c in enumerate(candles):
         times.append(c["ts"])
-        opens.append(float(c["open"]))
-        highs.append(float(c["high"]))
-        lows.append(float(c["low"]))
-        closes.append(float(c["close"]))
-        volumes.append(float(c.get("volume", 0)))
-    
-    return {
-        "times": times,
-        "opens": np.array(opens),
-        "highs": np.array(highs),
-        "lows": np.array(lows),
-        "closes": np.array(closes),
-        "volumes": np.array(volumes),
-        "n": len(times)
-    }
+        opens[i] = float(c["open"])
+        highs[i] = float(c["high"])
+        lows[i] = float(c["low"])
+        closes[i] = float(c["close"])
+    return {"times": times, "opens": opens, "highs": highs, "lows": lows, "closes": closes, "n": n}
 
-def rolling_max(arr, window):
-    """Rolling max over array."""
-    result = np.full_like(arr, np.nan)
-    for i in range(window - 1, len(arr)):
-        result[i] = np.max(arr[i - window + 1:i + 1])
-    return result
+def rolling_max(arr, w):
+    out = np.full(len(arr), np.nan)
+    for i in range(w-1, len(arr)):
+        out[i] = np.max(arr[i-w+1:i+1])
+    return out
 
-def rolling_min(arr, window):
-    """Rolling min over array."""
-    result = np.full_like(arr, np.nan)
-    for i in range(window - 1, len(arr)):
-        result[i] = np.min(arr[i - window + 1:i + 1])
-    return result
+def rolling_min(arr, w):
+    out = np.full(len(arr), np.nan)
+    for i in range(w-1, len(arr)):
+        out[i] = np.min(arr[i-w+1:i+1])
+    return out
 
-def rolling_mean(arr, window):
-    """Rolling mean over array."""
-    result = np.full_like(arr, np.nan)
-    for i in range(window - 1, len(arr)):
-        result[i] = np.mean(arr[i - window + 1:i + 1])
-    return result
+def rolling_mean(arr, w):
+    out = np.full(len(arr), np.nan)
+    for i in range(w-1, len(arr)):
+        out[i] = np.mean(arr[i-w+1:i+1])
+    return out
 
-def run_backtest(data):
-    """Run Donchian breakout strategy."""
-    n = data["n"]
-    closes = data["closes"]
-    highs = data["highs"]
-    lows = data["lows"]
-    
-    high_n = rolling_max(highs, LOOKBACK)
-    low_n = rolling_min(lows, LOOKBACK)
-    atr = rolling_mean(highs - lows, ATR_PERIOD)
+def run_backtest(d):
+    n = d["n"]
+    c, h, l = d["closes"], d["highs"], d["lows"]
+    high_n = rolling_max(h, LOOKBACK)
+    low_n = rolling_min(l, LOOKBACK)
+    atr = rolling_mean(h - l, ATR_PERIOD)
     
     trades = []
-    pos = 0  # 0=flat, 1=long, -1=short
-    entry_price = 0.0
-    stop_price = 0.0
-    target_price = 0.0
+    pos = 0
+    entry = stop = target = 0.0
     
     for i in range(LOOKBACK, n):
-        price = closes[i]
-        h = high_n[i]
-        l = low_n[i]
-        a = atr[i]
-        
-        if np.isnan(h) or np.isnan(a) or a == 0:
+        price = c[i]
+        hn, ln, a = high_n[i], low_n[i], atr[i]
+        if np.isnan(hn) or np.isnan(a) or a == 0:
             continue
-        
         if pos == 0:
-            # Entry logic
-            if price >= h:
-                pos = 1
-                entry_price = price
-                stop_price = price - STOP_ATR_MULT * a
-                target_price = price + RR_TARGET * STOP_ATR_MULT * a
-            elif price <= l:
-                pos = -1
-                entry_price = price
-                stop_price = price + STOP_ATR_MULT * a
-                target_price = price - RR_TARGET * STOP_ATR_MULT * a
+            if price >= hn:
+                pos = 1; entry = price; stop = price - STOP_ATR_MULT*a; target = price + RR_TARGET*STOP_ATR_MULT*a
+            elif price <= ln:
+                pos = -1; entry = price; stop = price + STOP_ATR_MULT*a; target = price - RR_TARGET*STOP_ATR_MULT*a
         elif pos == 1:
-            # Long trade management
-            if price <= stop_price:
-                pnl = (stop_price - entry_price) / entry_price - COST_RT
-                trades.append(pnl)
-                pos = 0
-            elif price >= target_price:
-                pnl = (target_price - entry_price) / entry_price - COST_RT
-                trades.append(pnl)
-                pos = 0
+            if price <= stop:
+                trades.append((stop-entry)/entry - COST_RT); pos = 0
+            elif price >= target:
+                trades.append((target-entry)/entry - COST_RT); pos = 0
             else:
-                # Trailing stop
-                new_stop = price - STOP_ATR_MULT * a
-                if new_stop > stop_price:
-                    stop_price = new_stop
+                ns = price - STOP_ATR_MULT*a
+                if ns > stop: stop = ns
         elif pos == -1:
-            # Short trade management
-            if price >= stop_price:
-                pnl = (entry_price - stop_price) / entry_price - COST_RT
-                trades.append(pnl)
-                pos = 0
-            elif price <= target_price:
-                pnl = (entry_price - target_price) / entry_price - COST_RT
-                trades.append(pnl)
-                pos = 0
+            if price >= stop:
+                trades.append((entry-stop)/entry - COST_RT); pos = 0
+            elif price <= target:
+                trades.append((entry-target)/entry - COST_RT); pos = 0
             else:
-                # Trailing stop
-                new_stop = price + STOP_ATR_MULT * a
-                if new_stop < stop_price:
-                    stop_price = new_stop
-    
+                ns = price + STOP_ATR_MULT*a
+                if ns < stop: stop = ns
     return trades
 
-def walk_forward(data, n_windows=3):
-    """Walk-forward validation."""
-    n = data["n"]
+def walk_forward(d, n_windows=3):
+    n = d["n"]
     step = n // n_windows
     results = []
-    
     for i in range(n_windows):
-        start_idx = i * step
-        end_idx = min((i + 1) * step + LOOKBACK, n)
-        
-        window_data = {
-            "opens": data["opens"][start_idx:end_idx],
-            "highs": data["highs"][start_idx:end_idx],
-            "lows": data["lows"][start_idx:end_idx],
-            "closes": data["closes"][start_idx:end_idx],
-            "volumes": data["volumes"][start_idx:end_idx],
-            "times": data["times"][start_idx:end_idx],
-            "n": end_idx - start_idx
-        }
-        
-        if window_data["n"] < LOOKBACK + 10:
-            results.append({"window": i+1, "trades": 0, "pass": False})
-            continue
-        
-        trades = run_backtest(window_data)
-        
+        s = i * step
+        e = min((i+1)*step + LOOKBACK, n)
+        wd = {k: d[k][s:e] if isinstance(d[k], np.ndarray) else d[k][s:e] for k in ["opens","highs","lows","closes"]}
+        wd["n"] = e - s
+        if wd["n"] < LOOKBACK + 10:
+            results.append({"w": i+1, "trades": 0, "pass": False}); continue
+        trades = run_backtest(wd)
         if len(trades) < 3:
-            results.append({"window": i+1, "trades": len(trades), "pass": False})
-            continue
-        
-        wins = sum(1 for t in trades if t > 0)
-        wr = wins / len(trades)
-        avg = np.mean(trades)
-        std = np.std(trades)
-        sharpe = (avg / std) * np.sqrt(252) if std > 0 else 0
-        gross_profit = sum(t for t in trades if t > 0)
-        gross_loss = abs(sum(t for t in trades if t < 0))
-        pf = gross_profit / gross_loss if gross_loss > 0 else float("inf")
-        passed = wr >= 0.45 and sharpe >= 0.5 and pf >= 1.5
-        
-        results.append({
-            "window": i+1,
-            "trades": len(trades),
-            "wr": round(wr, 3),
-            "sharpe": round(sharpe, 3),
-            "pf": round(pf, 3),
-            "pass": passed
-        })
-    
+            results.append({"w": i+1, "trades": len(trades), "pass": False}); continue
+        wr = sum(1 for t in trades if t > 0) / len(trades)
+        avg, std = np.mean(trades), np.std(trades)
+        sharpe = (avg/std)*np.sqrt(252) if std > 0 else 0
+        gp = sum(t for t in trades if t > 0)
+        gl = abs(sum(t for t in trades if t < 0))
+        pf = gp/gl if gl > 0 else float("inf")
+        results.append({"w": i+1, "trades": len(trades), "wr": round(wr,3), "sharpe": round(sharpe,3),
+                        "pf": round(pf,3), "pass": wr>=0.45 and sharpe>=0.5 and pf>=1.5})
     return results
 
 def monte_carlo(trades, n_sims=2000):
-    """Monte Carlo simulation."""
-    sharpes = []
-    max_dds = []
-    
+    sharpes, dds = [], []
     for _ in range(n_sims):
-        sampled = np.random.choice(trades, size=len(trades), replace=True)
-        cum = np.cumsum(sampled)
-        peak = np.maximum.accumulate(cum)
-        dd = peak - cum
-        max_dd = dd.max() if len(dd) > 0 else 0
-        avg = sampled.mean()
-        std = sampled.std()
-        s = (avg / std) * np.sqrt(252) if std > 0 else 0
-        sharpes.append(s)
-        max_dds.append(max_dd)
-    
-    return {
-        "sharpe_median": round(float(np.median(sharpes)), 3),
-        "sharpe_5pct": round(float(np.percentile(sharpes, 5)), 3),
-        "sharpe_95pct": round(float(np.percentile(sharpes, 95)), 3),
-        "dd_median": round(float(np.median(max_dds)), 3),
-        "dd_95pct": round(float(np.percentile(max_dds, 95)), 3),
-        "dd_99pct": round(float(np.percentile(max_dds, 99)), 3),
-        "survival_rate": round(float(np.mean([1 if s > 0 else 0 for s in sharpes])), 3)
-    }
+        s = np.random.choice(trades, size=len(trades), replace=True)
+        cum = np.cumsum(s); pk = np.maximum.accumulate(cum)
+        dd = (pk - cum).max()
+        avg, std = s.mean(), s.std()
+        sharpes.append((avg/std)*np.sqrt(252) if std > 0 else 0)
+        dds.append(dd)
+    return {"sharpe_med": round(float(np.median(sharpes)),3),
+            "sharpe_5": round(float(np.percentile(sharpes,5)),3),
+            "sharpe_95": round(float(np.percentile(sharpes,95)),3),
+            "dd_med": round(float(np.median(dds)),3),
+            "dd_99": round(float(np.percentile(dds,99)),3),
+            "survival": round(float(np.mean([1 if s>0 else 0 for s in sharpes])),3)}
 
 def main():
     print("=== XAUUSD Donchian(50, R:R=3.0) Backtest ===")
-    print(f"Parameters: lookback={LOOKBACK}, RR={RR_TARGET}, stop_atr_mult={STOP_ATR_MULT}")
-    print(f"Costs: {COST_RT*100}% round-trip")
-    print(f"API: {LSE_BASE_URL}")
-    print(f"API Key: {LSE_API_KEY[:8]}...{LSE_API_KEY[-4:]}")
-    print()
+    print(f"Params: lookback={LOOKBACK}, RR={RR_TARGET}, stop_atr={STOP_ATR_MULT}, cost={COST_RT*100}%")
+    print(f"API: {LSE_BASE_URL}\n")
     
-    # Fetch data
-    print("Fetching XAUUSD data from LSE API...")
+    print("Fetching XAUUSD 1h data (paginated)...")
     candles = fetch_lse("XAU/USD", "1h", "2020-01-01", "2025-06-16")
     
-    if len(candles) == 0:
-        print("ERROR: No data returned from API")
-        sys.exit(1)
+    if len(candles) < 100:
+        print(f"ERROR: Only {len(candles)} candles"); sys.exit(1)
     
-    data = parse_candles(candles)
-    print(f"Total: {data['n']} bars from {data['times'][0]} to {data['times'][-1]}")
-    print()
+    d = parse_candles(candles)
+    print(f"\nTotal: {d['n']} bars, {d['times'][0][:10]} to {d['times'][-1][:10]}\n")
     
-    # Run backtest
-    print("Running backtest...")
-    trades = run_backtest(data)
-    
+    trades = run_backtest(d)
     if len(trades) < 5:
-        print(f"ERROR: Only {len(trades)} trades — need more data")
-        sys.exit(1)
+        print(f"ERROR: {len(trades)} trades"); sys.exit(1)
     
-    # Performance metrics
     wins = sum(1 for t in trades if t > 0)
-    wr = wins / len(trades)
-    avg_ret = np.mean(trades)
-    std_ret = np.std(trades)
-    sharpe = (avg_ret / std_ret) * np.sqrt(252) if std_ret > 0 else 0
+    wr = wins/len(trades)
+    avg, std = np.mean(trades), np.std(trades)
+    sharpe = (avg/std)*np.sqrt(252) if std > 0 else 0
+    gp = sum(t for t in trades if t > 0)
+    gl = abs(sum(t for t in trades if t < 0))
+    pf = gp/gl if gl > 0 else float("inf")
+    cum = np.cumsum(trades); pk = np.maximum.accumulate(cum)
+    max_dd = (pk - cum).max()
     
-    gross_profit = sum(t for t in trades if t > 0)
-    gross_loss = abs(sum(t for t in trades if t < 0))
-    pf = gross_profit / gross_loss if gross_loss > 0 else float("inf")
+    print(f"=== RESULTS ({d['times'][0][:10]} to {d['times'][-1][:10]}) ===")
+    print(f"Trades: {len(trades)}  |  WR: {wr*100:.1f}%  |  PF: {pf:.2f}  |  Sharpe: {sharpe:.3f}")
+    print(f"Max DD: {max_dd*100:.1f}%  |  Total Return: {sum(trades)*100:.1f}%  |  Avg: {avg*100:.3f}%\n")
     
-    cum = np.cumsum(trades)
-    peak = np.maximum.accumulate(cum)
-    dd = peak - cum
-    max_dd = dd.max() if len(dd) > 0 else 0
-    
-    total_ret = sum(trades)
-    
-    print(f"=== RESULTS ===")
-    print(f"Trades: {len(trades)}")
-    print(f"Win Rate: {wr*100:.1f}%")
-    print(f"Profit Factor: {pf:.2f}")
-    print(f"Sharpe Ratio: {sharpe:.3f}")
-    print(f"Max Drawdown: {max_dd*100:.1f}%")
-    print(f"Total Return: {total_ret*100:.1f}%")
-    print(f"Avg Trade: {avg_ret*100:.3f}%")
-    print()
-    
-    # Walk-forward
-    print(f"=== WALK-FORWARD VALIDATION ===")
-    wf = walk_forward(data)
+    print("=== WALK-FORWARD ===")
+    wf = walk_forward(d)
     for w in wf:
-        status = "✅" if w.get("pass", False) else "❌"
-        print(f"  Window {w['window']}: {w['trades']} trades, WR={w.get('wr',0)*100:.1f}%, Sharpe={w.get('sharpe',0):.3f}, PF={w.get('pf',0):.2f} {status}")
-    wf_passes = sum(1 for w in wf if w.get("pass", False))
-    print(f"  Walk-forward: {wf_passes}/{len(wf)} windows pass")
-    print()
+        s = "✅" if w.get("pass") else "❌"
+        print(f"  W{w['w']}: {w['trades']}T, WR={w.get('wr',0)*100:.1f}%, Sh={w.get('sharpe',0):.3f}, PF={w.get('pf',0):.2f} {s}")
+    wfp = sum(1 for w in wf if w.get("pass"))
+    print(f"  {wfp}/{len(wf)} pass\n")
     
-    # Monte Carlo
-    print(f"=== MONTE CARLO (2000 sims) ===")
+    print("=== MONTE CARLO ===")
     mc = monte_carlo(trades)
-    print(f"  Sharpe median: {mc['sharpe_median']}, 5th-95th: [{mc['sharpe_5pct']}, {mc['sharpe_95pct']}]")
-    print(f"  Max DD median: {mc['dd_median']*100:.1f}%, 99th: {mc['dd_99pct']*100:.1f}%")
-    print(f"  Survival rate: {mc['survival_rate']*100:.1f}%")
-    print()
+    print(f"  Sharpe: med={mc['sharpe_med']}, [{mc['sharpe_5']}, {mc['sharpe_95']}]")
+    print(f"  DD: med={mc['dd_med']*100:.1f}%, 99th={mc['dd_99']*100:.1f}%")
+    print(f"  Survival: {mc['survival']*100:.1f}%\n")
     
-    # Acceptance criteria
-    accept = wr >= 0.45 and sharpe >= 0.5 and pf >= 1.5 and max_dd <= 0.20
-    print(f"{'✅ ACCEPTED' if accept else '❌ REJECTED'}")
-    print(f"  WR={wr*100:.1f}% {'✅' if wr >= 0.45 else '❌ (need 45%)'}")
-    print(f"  Sharpe={sharpe:.3f} {'✅' if sharpe >= 0.5 else '❌ (need 0.5)'}")
-    print(f"  PF={pf:.2f} {'✅' if pf >= 1.5 else '❌ (need 1.5)'}")
-    print(f"  DD={max_dd*100:.1f}% {'✅' if max_dd <= 0.20 else '❌ (need <20%)'}")
+    ok = wr>=0.45 and sharpe>=0.5 and pf>=1.5 and max_dd<=0.20
+    print(f"{'✅ ACCEPTED' if ok else '❌ REJECTED'}")
+    print(f"  WR {wr*100:.1f}% {'✅' if wr>=0.45 else '❌'}  Sharpe {sharpe:.3f} {'✅' if sharpe>=0.5 else '❌'}  PF {pf:.2f} {'✅' if pf>=1.5 else '❌'}  DD {max_dd*100:.1f}% {'✅' if max_dd<=0.20 else '❌'}")
 
 if __name__ == "__main__":
     main()
