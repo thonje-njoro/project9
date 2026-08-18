@@ -1,103 +1,97 @@
-# Project9 — Automated Trading System
+# Project9 — Autonomous Quantitative Trading System
 
-## Overview
+A fully autonomous, self-improving quantitative trading system designed to run on a single GCP e2-medium VM (2 vCPU / 4 GB RAM).
 
-Multi-strategy automated trading system with 6 symbols, prop firm evaluation, and AI-driven optimization.
-
-## Directory Structure
+## Architecture
 
 ```
-project9/
-├── backtest/                    # Main backtesting framework
-│   ├── config.py                # All parameters centralized
-│   ├── engine.py                # vectorbt BacktestEngine with HMM regime filter
-│   ├── main.py                  # Entry point
-│   ├── strategies/              # 15 trading strategies
-│   │   ├── orb_strategy.py     # Opening Range Breakout (SPY/QQQ/TSLA/NVDA/AMD)
-│   │   ├── xauusd_session_mr.py # XAUUSD session mean reversion
-│   │   ├── kalman_trend.py     # Kalman filter trend following
-│   │   ├── mean_reversion.py   # Adaptive Bollinger + trailing stops
-│   │   ├── vwap_mean_reversion.py # VWAP Z-score framework
-│   │   └── ...                 # 10 more strategies
-│   ├── risk/                    # Risk management modules
-│   ├── reporting/               # Metrics, plotting, deflated Sharpe
-│   ├── optimization/            # Walk-forward, grid search, regime detection
-│   ├── paper_trading/           # Live signal engine, order manager
-│   ├── prop_firm/               # Prop firm rule simulator
-│   └── data/                    # Data fetching (Alpaca, yfinance, LSE)
-│
-├── trading-system/              # AI-driven strategy optimization loop
-│   ├── loop/                    # LLM-powered iteration loop
-│   ├── evaluator/               # Prop firm rule evaluation
-│   ├── strategies/              # Candidate strategies
-│   └── data/                    # XAUUSD data (15m, 1h)
-│
-├── strategies/                  # Standalone strategy implementations
-├── research/                    # Deep research documents
-│   ├── orb_strategy_pitfalls.md
-│   └── xauusd_session_mean_reversion_pitfalls.md
-├── scripts/                     # Utility scripts
-│   ├── mimo_claw_pipeline.py    # MiMo Claw data fetch + optimization
-│   ├── mimo_claw_pipeline_expanded.py # Full 6-symbol pipeline
-│   └── ...                      # Analysis and testing scripts
-└── config/                      # Config additions for new symbols
+backtest/           → Core backtesting engine + strategies
+  config.py         → Single source of truth for ALL parameters
+  engine.py         → BacktestEngine orchestrator
+  main.py           → CLI entry point
+  data/             → Data fetching (Alpaca, LSE, yfinance) + caching
+  strategies/       → 6 strategy implementations
+  risk/             → Regime filter, position sizing, correlation, Monte Carlo
+  optimization/     → Purged walk-forward validation
+  reporting/        → Metrics, deflated Sharpe, plotting
+  prop_firm/        → FTMO/The5ers/FundingPips rule simulation
+  paper_trading/    → Live paper trading via Alpaca
+ai_loop/            → Nightly AI self-improvement (MiMo v2.5 Pro)
+scripts/            → VM setup + health check
+systemd/            → Service files for 24/7 operation
 ```
 
-## Symbols
+## Strategies
 
-| Symbol | Strategy | Timeframe | Status |
-|--------|----------|-----------|--------|
-| SPY | ORB (5-min) | 15-min bars | ✓ Implemented |
-| QQQ | ORB (5-min) | 15-min bars | ✓ Implemented |
-| TSLA | ORB (5-min) | 1-min bars | ✓ Config ready |
-| NVDA | ORB (5-min) | 1-min bars | ✓ Config ready |
-| AMD | ORB (5-min) | 1-min bars | ✓ Config ready |
-| XAU/USD | Session MR | 1-hour bars | ✓ Implemented |
+| Instrument | Strategy | Timeframe | Data Source |
+|------------|----------|-----------|-------------|
+| GLD, TLT, IWM, CPER | Kalman Trend | 4H | Alpaca IEX |
+| CPER/GLD Ratio | Mean Reversion | 4H | Alpaca IEX |
+| SPY, QQQ | Opening Range Breakout | 15Min | Alpaca IEX |
+| NVDA, AMD, PLTR, MRVL | Momentum ORB | 5Min | Alpaca IEX |
+| SPY, IWM | VWAP Mean Reversion | 15Min | Alpaca IEX |
+| XAU/USD | Session Mean Reversion | 1H | LSE API |
 
 ## Quick Start
 
 ```bash
-cd backtest
+# 1. Clone and setup
+cd project9
+python3.11 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
-python main.py              # Full backtest
-python main.py --sweep      # Parameter sweep
+
+# 2. Configure API keys
+cp backtest/.env.example backtest/.env
+# Edit backtest/.env with real keys
+
+# 3. Run backtest
+python backtest/main.py
+
+# 4. Run validation
+python backtest/main.py --validate
+
+# 5. Single instrument
+python backtest/main.py --symbol GLD
+
+# 6. JSON output
+python backtest/main.py --json
 ```
 
-## MiMo Claw Pipeline
+## GCP Deployment
 
-Run the expanded pipeline in MiMo Claw to:
-1. Fetch 1-min data for all 6 symbols from London Strategic Edge API
-2. Deep research each symbol's characteristics
-3. Optimize parameters with walk-forward validation
-4. Assess prop firm readiness (FTMO, The5ers, FundingPips)
+```bash
+# On a fresh e2-medium VM:
+chmod +x scripts/setup_vm.sh
+./scripts/setup_vm.sh
 
-See `scripts/mimo_claw_pipeline_expanded.py` for the full script.
+# Edit .env, then:
+sudo systemctl start paper-trader
+sudo systemctl start ai-loop.timer
+```
 
-## Prop Firm Targets
+## Risk Management
 
-| Firm | Profit Target | Max DD | Daily Loss |
-|------|--------------|--------|------------|
-| FTMO 2-Step | 10% | 10% | 5% |
-| The5ers High Stakes | 8% | 6% | 3% |
-| FundingPips | 8% | 10% | 5% |
+- **Regime Gate**: Only trades when >55% of recent days are positive
+- **ATR Position Sizing**: 1% risk per trade, 25% max exposure cap
+- **Correlation Filter**: Blocks trades correlated >0.7 with existing positions
+- **Monte Carlo**: 2,000 bootstrap simulations, kills if 99th-pct DD > 12%
 
-## Research Documents
+## Validation Pipeline
 
-- `research/orb_strategy_pitfalls.md` — 10 professional pitfalls with code mitigations
-- `research/xauusd_session_mean_reversion_pitfalls.md` — 10 pitfalls for XAUUSD session MR
-- `prop_firm_intraday_strategy.md` — Prop firm challenge design
+1. Deflated Sharpe Ratio > 0.95
+2. Purged Walk-Forward (6 folds, 20-bar embargo) — consistency > 60%
+3. Monte Carlo survival rate > 85%
+4. Prop firm rule simulation (FTMO/The5ers/FundingPips)
 
-## API Keys
+## AI Self-Improvement
 
-- **London Strategic Edge**: `lse_live_f4c9a7419371ecdd9365e146247b0289` (free tier)
-- **Alpaca**: Set in `backtest/.env`
-- **yfinance**: No key needed
+Runs nightly at 18:00 ET via systemd timer:
+1. Backtest with current config
+2. MiMo v2.5 Pro proposes ONE parameter change
+3. Validated via walk-forward before applying
+4. All changes logged
 
-## Key Features
+## License
 
-- **Regime detection**: 3-method consensus (Hurst + Variance Ratio + Half-life)
-- **News event filter**: NFP, FOMC, CPI calendar blackout
-- **Prop firm simulation**: Daily DD, max DD, consistency checks
-- **Walk-forward validation**: Train/test splits with robustness scoring
-- **Deflated Sharpe Ratio**: Accounts for multiple testing
-- **Paper trading**: Live signal engine with order management
+Private — not for distribution.

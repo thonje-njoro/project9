@@ -1,105 +1,96 @@
-"""Deflated Sharpe Ratio — adjusts Sharpe significance for multiple testing.
-
-From arXiv:2512.12924 and Marcos López de Prado's 'Advances in Financial ML':
-The standard Sharpe Ratio doesn't account for the number of trials run.
-With 80 parameter combinations tested, the critical Sharpe threshold is
-NOT 0.0 — it's approximately sqrt(2 * ln(N_trials)) / sqrt(T_obs).
-
-Usage:
-    from reporting.deflated_sharpe import deflated_sharpe_ratio, dsr_critical
-    dsr = deflated_sharpe_ratio(max_sharpe=1.5, n_trials=80, n_obs=1000)
-    critical = dsr_critical(n_trials=80, n_obs=1000)
-    print(f"DSR: {dsr:.2f}  (critical: {critical:.2f})")
 """
+reporting/deflated_sharpe.py — Deflated Sharpe Ratio from López de Prado.
+'Advances in Financial ML', Chapter 8. Accounts for multiple testing inflation.
+"""
+
+import logging
 
 import numpy as np
 from scipy import stats
-from typing import Optional
+
+logger = logging.getLogger(__name__)
 
 
-def euler_mascheroni(n: int) -> float:
-    """Euler-Mascheroni gamma approximation for large n."""
-    return np.log(n) + 0.5772156649
+def deflated_sharpe_ratio(max_sharpe: float, n_trials: int, n_obs: int,
+                          skewness: float = 0.0, kurtosis: float = 3.0) -> float:
+    """
+    Compute Deflated Sharpe Ratio (DSR).
 
-
-def dsr_critical(
-    n_trials: int,
-    n_obs: int,
-    skewness: float = 0.0,
-    kurtosis: float = 3.0,
-    confidence: float = 0.95,
-) -> float:
-    """Compute the critical Sharpe Ratio threshold for multiple testing.
-
-    The DSR adjusts the Sharpe Ratio significance threshold based on the
-    number of independent trials (parameter combinations tested) and the
-    number of observations.
+    Accounts for multiple testing inflation of Sharpe Ratio.
+    DSR > 0.95 means the observed Sharpe is in the 95th percentile
+    of what we'd expect from random strategies.
 
     Args:
-        n_trials: Number of independent trials/parameter sets tested
-        n_obs: Number of observations in the sample
-        skewness: Return skewness (default 0 = normal)
-        kurtosis: Return kurtosis (default 3 = normal)
-        confidence: Statistical confidence level (default 0.95)
+        max_sharpe: Best observed Sharpe ratio.
+        n_trials: Number of strategies/trials tested.
+        n_obs: Number of observations (trading days).
+        skewness: Return distribution skewness.
+        kurtosis: Return distribution kurtosis (excess + 3).
 
     Returns:
-        Minimum Sharpe Ratio required for statistical significance
+        DSR as a probability (0 to 1). Gate: must be > 0.95.
     """
-    if n_trials <= 1 or n_obs < 10:
+    if n_obs < 10 or n_trials < 1:
         return 0.0
 
-    # Standard error of Sharpe Ratio (adjusted for non-normality)
-    se_sharpe = np.sqrt((1 + 0.5 * skewness**2 - 0.75 * (kurtosis - 3)) / max(n_obs - 1, 1))
+    # Expected max Sharpe under null (no skill)
+    # Using Euler-Mascheroni constant for extreme value theory
+    gamma = np.log(n_trials) + 0.5772  # Euler-Mascheroni
+    sharpe_star = np.sqrt(2 * gamma) / np.sqrt(n_obs)
 
-    # Expected maximum of N i.i.d. normal variables (E[max Z])
-    e_max_z = np.sqrt(2 * np.log(n_trials)) - (np.log(np.log(n_trials)) + np.log(4 * np.pi)) / (2 * np.sqrt(2 * np.log(n_trials)))
-    e_max_z = max(e_max_z, 0)
+    # Adjust for non-normality
+    sharpe_adj = sharpe_star * np.sqrt(
+        1 - skewness * sharpe_star + ((kurtosis - 1) / 4) * sharpe_star**2
+    )
 
-    # Multiple testing correction: adjust for number of trials
-    z_score = stats.norm.ppf(confidence)
-    adjusted_threshold = e_max_z * se_sharpe + z_score * se_sharpe / np.sqrt(n_trials)
+    # Z-statistic for the observed Sharpe
+    denominator = np.sqrt(
+        1 - skewness * max_sharpe + ((kurtosis - 1) / 4) * max_sharpe**2
+    )
+    if denominator <= 0:
+        return 0.0
 
-    return max(adjusted_threshold, 0.0)
+    z = (max_sharpe - sharpe_adj) * np.sqrt(n_obs - 1) / denominator
+
+    return float(stats.norm.cdf(z))
 
 
-def deflated_sharpe_ratio(
-    max_sharpe: float,
-    n_trials: int,
-    n_obs: int,
-    skewness: float = 0.0,
-    kurtosis: float = 3.0,
-) -> float:
-    """Compute the Deflated Sharpe Ratio.
-
-    The DSR tells you the probability that the best backtest Sharpe is
-    statistically significant after accounting for multiple testing.
+def compute_dsr_from_returns(returns: np.ndarray, n_trials: int = 10,
+                             risk_free: float = 0.045) -> dict:
+    """
+    Compute DSR from a return series.
 
     Args:
-        max_sharpe: The maximum Sharpe observed across all trials
-        n_trials: Number of independent trials tested
-        n_obs: Number of observations
-        skewness: Return skewness
-        kurtosis: Return kurtosis
+        returns: Array of daily returns.
+        n_trials: Number of strategy variants tested.
+        risk_free: Annual risk-free rate.
 
     Returns:
-        DSR value. DSR > 0 means the Sharpe is statistically significant.
+        dict with: sharpe, dsr, skewness, kurtosis, n_obs, passes
     """
-    if n_trials <= 1 or n_obs < 10:
-        return max_sharpe
+    if len(returns) < 10:
+        return {"sharpe": 0, "dsr": 0, "passes": False}
 
-    critical = dsr_critical(n_trials, n_obs, skewness, kurtosis)
-    return max_sharpe - critical
+    excess = returns - risk_free / 252
+    sharpe = float(excess.mean() / excess.std() * np.sqrt(252)) if excess.std() > 0 else 0
 
+    from scipy.stats import skew, kurtosis as scipy_kurtosis
+    skew_val = float(skew(returns))
+    kurt_val = float(scipy_kurtosis(returns, fisher=False))  # Non-excess kurtosis
 
-def min_significant_sharpe(
-    n_trials: int,
-    n_obs: int,
-    confidence: float = 0.95,
-) -> float:
-    """Quick helper: what Sharpe do I need for this to be real?
+    dsr = deflated_sharpe_ratio(
+        max_sharpe=sharpe,
+        n_trials=n_trials,
+        n_obs=len(returns),
+        skewness=skew_val,
+        kurtosis=kurt_val,
+    )
 
-    Example:
-        >>> min_significant_sharpe(80, 1000)
-        0.29  # Sharpe must be > 0.29 to be significant with 80 trials
-    """
-    return dsr_critical(n_trials, n_obs, confidence=confidence)
+    return {
+        "sharpe": sharpe,
+        "dsr": dsr,
+        "skewness": skew_val,
+        "kurtosis": kurt_val,
+        "n_obs": len(returns),
+        "passes": dsr > 0.95,
+    }

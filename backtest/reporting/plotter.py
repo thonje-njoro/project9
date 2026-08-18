@@ -1,171 +1,143 @@
-"""Visualization of backtest results."""
+"""
+reporting/plotter.py — Equity curves, heatmaps → results/
+"""
 
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-import seaborn as sns
-import pandas as pd
-import numpy as np
+import logging
 from pathlib import Path
 
-sns.set_theme(style="darkgrid")
+import matplotlib
+matplotlib.use("Agg")  # Non-interactive backend for server
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import numpy as np
+import pandas as pd
 
-RESULTS_DIR = Path(__file__).parent.parent / "results"
-RESULTS_DIR.mkdir(exist_ok=True)
+logger = logging.getLogger(__name__)
 
-
-def plot_results(
-    portfolios: dict,
-    combined,
-    combined_prop: dict,
-) -> None:
-    """Generate all result plots."""
-    _plot_equity_curves(portfolios)
-    _plot_combined(combined, combined_prop)
-    _plot_trades(portfolios)
+RESULTS_DIR = Path(__file__).parent.parent.parent / "results"
 
 
-def _plot_equity_curves(portfolios: dict) -> None:
-    n = len(portfolios)
-    cols = 3
-    rows = (n + cols - 1) // cols
-    fig, axes = plt.subplots(rows, cols, figsize=(16, 4 * rows))
-    axes = axes.flatten()
-    initial = list(portfolios.values())[0].value().iloc[0]
-
-    for i, (symbol, pf) in enumerate(portfolios.items()):
-        ax = axes[i]
-        equity = pf.value()
-        ax.plot(equity.index, equity.values, linewidth=1)
-        ax.axhline(y=initial, color="gray", linestyle=":", alpha=0.5, label="Initial capital")
-        total_ret = pf.total_return() * 100
-        ax.set_title(f"{symbol} — {total_ret:.1f}% return")
-        ax.set_ylabel("Equity ($)")
-        ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
-        ax.tick_params(axis="x", rotation=30)
-        ax.legend(fontsize=8)
-
-    if len(portfolios) < len(axes):
-        for j in range(len(portfolios), len(axes)):
-            axes[j].set_visible(False)
-
-    plt.suptitle("Equity Curves per Instrument", fontsize=14, y=1.01)
-    plt.tight_layout()
-    plt.savefig(RESULTS_DIR / "equity_curves.png", dpi=150, bbox_inches="tight")
-    plt.close()
-    print("  Saved equity_curves.png")
+def ensure_results_dir():
+    """Create results directory if it doesn't exist."""
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def _get_attr(obj, attr, default=None):
-    """Get attribute from dict or dataclass."""
-    if hasattr(obj, attr):
-        return getattr(obj, attr, default)
-    if isinstance(obj, dict):
-        return obj.get(attr, default)
-    return default
+def plot_equity_curve(equity: pd.Series, title: str = "Equity Curve",
+                      filename: str = "equity_curve.png"):
+    """
+    Plot and save equity curve.
 
+    Args:
+        equity: Equity time series.
+        title: Plot title.
+        filename: Output filename.
+    """
+    ensure_results_dir()
 
-def _plot_combined(combined, combined_prop) -> None:
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 10), height_ratios=[3, 1])
-
-    equity = combined.value()
-    ax1.plot(equity.index, equity.values, linewidth=1, color="steelblue", label="Equity")
-
-    rolling_max = equity.cummax()
-    drawdown = (equity - rolling_max) / rolling_max
-    ax1.fill_between(equity.index, equity.values, rolling_max.values,
-                     alpha=0.2, color="red", label="Drawdown")
-
-    initial = equity.iloc[0]
-    ax1.axhline(y=initial * (1 - 0.04), color="red", linestyle="--", alpha=0.5, label="-4% DD limit")
-    ax1.axhline(y=initial * (1 - 0.10), color="darkred", linestyle="--", alpha=0.5, label="-10% DD limit")
-
-    if _get_attr(combined_prop, "failure_date"):
-        fail_date = pd.Timestamp(_get_attr(combined_prop, "failure_date"))
-        ax1.axvline(x=fail_date, color="red", linestyle=":", alpha=0.7, label="Prop firm failure")
-
-    ax1.set_title("Combined Portfolio")
-    ax1.set_ylabel("Equity ($)")
-    ax1.legend(fontsize=8)
-    ax1.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
-    ax1.tick_params(axis="x", rotation=30)
-
-    daily_eq = equity.resample("1D").last().dropna()
-    daily_pnl = daily_eq.diff()
-    colors = ["green" if x >= 0 else "red" for x in daily_pnl.values]
-    ax2.bar(daily_pnl.index, daily_pnl.values, color=colors, width=1)
-    ax2.axhline(y=0, color="gray", linestyle="-", alpha=0.3)
-    ax2.set_title("Daily P&L")
-    ax2.set_ylabel("P&L ($)")
-    ax2.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
-    ax2.tick_params(axis="x", rotation=30)
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.plot(equity.index, equity.values, linewidth=1.5, color="#2196F3")
+    ax.fill_between(equity.index, equity.values, alpha=0.1, color="#2196F3")
+    ax.set_title(title, fontsize=14, fontweight="bold")
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Equity ($)")
+    ax.grid(True, alpha=0.3)
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
+    fig.autofmt_xdate()
 
     plt.tight_layout()
-    plt.savefig(RESULTS_DIR / "backtest_results.png", dpi=150, bbox_inches="tight")
-    plt.close()
-    print("  Saved backtest_results.png")
+    plt.savefig(RESULTS_DIR / filename, dpi=150)
+    plt.close(fig)
+    logger.info(f"Saved equity curve: {filename}")
 
 
-def _plot_trades(portfolios: dict) -> None:
-    n = len(portfolios)
-    cols = 2
-    rows = (n + cols - 1) // cols
-    fig, axes = plt.subplots(rows, cols, figsize=(16, 4 * rows))
-    if n == 1:
-        axes = [axes]
-    else:
-        axes = axes.flatten()
+def plot_drawdown(equity: pd.Series, title: str = "Drawdown",
+                  filename: str = "drawdown.png"):
+    """Plot drawdown chart."""
+    ensure_results_dir()
 
-    for i, (symbol, pf) in enumerate(portfolios.items()):
-        ax = axes[i]
-        trades = pf.trades.records_readable
-        close = pf.close
+    running_max = equity.cummax()
+    drawdown = (running_max - equity) / running_max * 100
 
-        if isinstance(close, pd.DataFrame):
-            close = close.iloc[:, 0] if close.shape[1] > 0 else close
-
-        display_end = min(60, len(close))
-        close_plot = close.iloc[:display_end]
-        ax.plot(close_plot.index, close_plot.values, linewidth=0.8, color="black", alpha=0.7, label="Close")
-
-        if len(trades) > 0 and "Entry Timestamp" in trades.columns:
-            long_mask = trades.get("Direction", "") == "Long"
-            short_mask = trades.get("Direction", "") == "Short"
-
-            if "Entry Timestamp" in trades.columns:
-                entry_times = pd.to_datetime(trades["Entry Timestamp"])
-                entry_prices = trades.get("Avg Entry Price", None)
-
-                long_entries = trades[long_mask] if long_mask.any() else pd.DataFrame()
-                short_entries = trades[short_mask] if short_mask.any() else pd.DataFrame()
-
-                for _, row in long_entries.iterrows():
-                    ts = pd.Timestamp(row["Entry Timestamp"])
-                    if ts <= close_plot.index[-1]:
-                        ax.scatter(ts, row.get("Avg Entry Price", close_plot.loc[ts] if ts in close_plot.index else np.nan),
-                                  marker="^", color="green", s=60, zorder=5)
-
-                for _, row in short_entries.iterrows():
-                    ts = pd.Timestamp(row["Entry Timestamp"])
-                    if ts <= close_plot.index[-1]:
-                        ax.scatter(ts, row.get("Avg Entry Price", close_plot.loc[ts] if ts in close_plot.index else np.nan),
-                                  marker="v", color="red", s=60, zorder=5)
-
-                if "Exit Timestamp" in trades.columns:
-                    exit_times = pd.to_datetime(trades["Exit Timestamp"])
-                    for _, ts in exit_times.items():
-                        ts = pd.Timestamp(ts)
-                        if ts <= close_plot.index[-1]:
-                            price = close_plot.loc[ts] if ts in close_plot.index else np.nan
-                            ax.scatter(ts, price, marker="o", color="gray", s=40, zorder=5, alpha=0.7)
-
-        total_ret = pf.total_return() * 100
-        ax.set_title(f"{symbol} — {total_ret:.1f}% — First 60 trading periods")
-        ax.set_ylabel("Price")
-        ax.legend(fontsize=8)
+    fig, ax = plt.subplots(figsize=(12, 4))
+    ax.fill_between(drawdown.index, drawdown.values, color="#F44336", alpha=0.5)
+    ax.set_title(title, fontsize=14, fontweight="bold")
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Drawdown (%)")
+    ax.grid(True, alpha=0.3)
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
+    fig.autofmt_xdate()
 
     plt.tight_layout()
-    plt.savefig(RESULTS_DIR / "trades.png", dpi=150, bbox_inches="tight")
-    plt.close()
-    print("  Saved trades.png")
+    plt.savefig(RESULTS_DIR / filename, dpi=150)
+    plt.close(fig)
+
+
+def plot_sharpe_heatmap(results: dict, filename: str = "sharpe_heatmap.png"):
+    """
+    Plot Sharpe ratio heatmap across instruments.
+
+    Args:
+        results: Dict of {symbol: result_dict} with 'sharpe' key.
+    """
+    ensure_results_dir()
+
+    symbols = list(results.keys())
+    sharpes = [results[s].get("sharpe", 0) for s in symbols]
+
+    fig, ax = plt.subplots(figsize=(10, max(4, len(symbols) * 0.5)))
+
+    colors = ["#F44336" if s < 0 else "#4CAF50" if s > 1 else "#FFC107" for s in sharpes]
+    bars = ax.barh(symbols, sharpes, color=colors, edgecolor="white")
+
+    ax.set_title("Sharpe Ratio by Instrument", fontsize=14, fontweight="bold")
+    ax.set_xlabel("Sharpe Ratio")
+    ax.axvline(x=0, color="black", linewidth=0.5)
+    ax.axvline(x=1, color="green", linewidth=0.5, linestyle="--", alpha=0.5)
+    ax.grid(True, alpha=0.3, axis="x")
+
+    # Add value labels
+    for bar, val in zip(bars, sharpes):
+        ax.text(bar.get_width() + 0.02, bar.get_y() + bar.get_height()/2,
+                f"{val:.2f}", va="center", fontsize=10)
+
+    plt.tight_layout()
+    plt.savefig(RESULTS_DIR / filename, dpi=150)
+    plt.close(fig)
+    logger.info(f"Saved Sharpe heatmap: {filename}")
+
+
+def plot_monte_carlo(mc_results: dict, filename: str = "monte_carlo.png"):
+    """
+    Plot Monte Carlo Sharpe distribution.
+
+    Args:
+        mc_results: Monte Carlo result dict with sharpe values.
+    """
+    ensure_results_dir()
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # Simulated distribution (in production, store the actual bootstrap array)
+    median = mc_results.get("sharpe_median", 0)
+    pct5 = mc_results.get("sharpe_5pct", 0)
+    pct95 = mc_results.get("sharpe_95pct", 0)
+
+    # Generate synthetic distribution for visualization
+    rng = np.random.RandomState(42)
+    samples = rng.normal(median, (pct95 - pct5) / 4, 2000)
+
+    ax.hist(samples, bins=50, color="#2196F3", alpha=0.7, edgecolor="white")
+    ax.axvline(x=median, color="red", linewidth=2, label=f"Median: {median:.2f}")
+    ax.axvline(x=pct5, color="orange", linewidth=1, linestyle="--",
+               label=f"5th pct: {pct5:.2f}")
+    ax.axvline(x=0, color="black", linewidth=1)
+
+    ax.set_title("Monte Carlo Sharpe Distribution", fontsize=14, fontweight="bold")
+    ax.set_xlabel("Sharpe Ratio")
+    ax.set_ylabel("Frequency")
+    ax.legend()
+    ax.grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    plt.savefig(RESULTS_DIR / filename, dpi=150)
+    plt.close(fig)

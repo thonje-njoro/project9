@@ -1,107 +1,123 @@
-"""CPER/GLD ratio mean-reversion strategy.
-
-Research findings from CPER data analysis:
-  - CPER/GLD ratio daily return AC(1) = -0.102 (mean-reversion signature)
-  - Ratio range: [0.103, 0.165], mean=0.132, std=0.014
-  - The pair is structurally cointegrated: both track gold/copper macro cycles
-  - When CPER outperforms GLD (ratio ↑), short the ratio → mean reverts
-  - When CPER underperforms GLD (ratio ↓), long the ratio → mean reverts
-
-This is similar to GLD_USO_RATIO but uses copper instead of oil.
-Copper tracks industrial demand (China PMI, global growth).
-Gold tracks safe-haven demand and real rates.
-The ratio mean-reverts around macroeconomic cycle shifts.
-
-Strategy:
-  - Z-score of CPER/GLD ratio with 20-day rolling window
-  - Entry: |z-score| > 1.5 (extreme deviation)
-  - Exit: z-score crosses zero (reversion to mean)
-  - Stop: ATR-based trailing
 """
+strategies/cper_gld_ratio.py — Copper/Gold ratio pair trade (mean reversion).
+Synthetic instrument: ratio = CPER_close / GLD_close.
+Applies to: CPER_GLD on 4H timeframe.
+"""
+
+import logging
 
 import numpy as np
 import pandas as pd
 
+from backtest.data.resampler import compute_atr
 
-def generate_signals(
-    df_pair: pd.DataFrame,
-    df_ref: pd.DataFrame = None,
-    pair_name: str = "CPER_GLD_RATIO",
-    z_entry: float = 1.5,
-    z_exit: float = 0.0,
-    z_take_profit: float = 0.0,
-    window: int = 20,
-    use_trailing_stop: bool = True,
-    trail_atr_mult: float = 2.0,
-) -> tuple:
-    """CPER/GLD ratio mean reversion.
+logger = logging.getLogger(__name__)
 
-    The pair DataFrame (df_pair) has 'close' = CPER (or the spread/ratio).
-    df_ref has 'close' = GLD (the reference asset).
 
-    If df_ref is not provided, we assume df_pair['close'] IS the ratio already
-    (as constructed by main.py's _build_synthetic_instruments).
+def generate_signals(df: pd.DataFrame,
+                     z_entry: float = 1.8,
+                     z_exit: float = 0.0,
+                     z_take_profit: float = 0.0,
+                     window: int = 20,
+                     use_trailing_stop: bool = True,
+                     trail_atr_mult: float = 2.0,
+                     atr_period: int = 14,
+                     **kwargs) -> tuple:
+    """
+    CPER/GLD ratio mean reversion.
+
+    Computes rolling Z-score of the ratio. Enters long CPER / short GLD
+    when Z < -z_entry. Exits at Z > -z_exit or Z > z_take_profit.
 
     Args:
-        df_pair: DataFrame with ratio as 'close'
-        df_ref: Optional reference DataFrame (GLD)
-        pair_name: Name for logging
-        z_entry: Z-score threshold for entry
-        z_exit: Z-score threshold for exit (0 = cross mean)
-        window: Rolling window for mean/std estimation
-        use_trailing_stop: Apply ATR trailing stop
-        trail_atr_mult: Multiplier for stop distance
+        df: OHLCV DataFrame for the synthetic CPER/GLD ratio.
+        z_entry: Z-score threshold for entry.
+        z_exit: Z-score threshold for exit.
+        z_take_profit: Z-score for take profit.
+        window: Rolling window for Z-score computation.
+        use_trailing_stop: Enable ATR trailing stop.
+        trail_atr_mult: ATR multiplier for trailing stop.
+        atr_period: ATR lookback period.
 
     Returns:
-        (long_entries, long_exits, short_entries, short_exits, trailing_stops)
+        4-tuple: (long_entries, long_exits, short_entries, short_exits)
     """
-    close = df_pair["close"]
-    idx = close.index
+    if df.empty:
+        empty = pd.Series(dtype=bool)
+        return empty, empty, empty, empty
 
-    if len(close) < window + 5:
-        empty = pd.Series(False, index=idx)
-        zero = pd.Series(0.0, index=idx)
-        return (empty, empty, empty, empty, zero)
+    close = df["close"]
+    n = len(df)
 
-    # If df_ref provided, compute ratio; otherwise assume close IS the ratio
-    if df_ref is not None:
-        ref_close = df_ref["close"].reindex(idx, method="ffill")
-        ratio = close / ref_close
-    else:
-        ratio = close
+    # ─── Compute Z-score of ratio ────────────────────────────────────────────
+    ratio_mean = close.rolling(window=window, min_periods=5).mean()
+    ratio_std = close.rolling(window=window, min_periods=5).std()
+    ratio_std = ratio_std.replace(0, np.nan).bfill().fillna(1.0)
+    z_score = (close - ratio_mean) / ratio_std
 
-    # Z-score the ratio
-    ratio_mean = ratio.rolling(window, min_periods=window // 2).mean()
-    ratio_std = ratio.rolling(window, min_periods=window // 2).std()
-    z_score = (ratio - ratio_mean) / ratio_std.replace(0, np.nan)
+    # ─── ATR on ratio series ─────────────────────────────────────────────────
+    atr = compute_atr(df, period=atr_period)
+    atr = atr.bfill().fillna(0)
 
-    # Entry signals
-    long_entries_raw = z_score < -z_entry        # ratio too low → buy (long CPER/short GLD)
-    short_entries_raw = z_score > z_entry        # ratio too high → sell (short CPER/long GLD)
+    # ─── Entry signals ───────────────────────────────────────────────────────
+    # Long CPER / Short GLD when ratio is cheap (Z < -z_entry)
+    long_entries = (z_score < -z_entry) & (z_score.shift(1) >= -z_entry)
 
-    # Exit signals: cross back toward mean
-    long_exits_raw = z_score >= -abs(z_exit) if z_exit != 0 else z_score >= 0
-    short_exits_raw = z_score <= abs(z_exit) if z_exit != 0 else z_score <= 0
+    # Short CPER / Long GLD when ratio is expensive (Z > z_entry)
+    short_entries = (z_score > z_entry) & (z_score.shift(1) <= z_entry)
 
-    # Take-profit: exit when z-score has recovered partially toward mean
+    # ─── Exit signals ────────────────────────────────────────────────────────
+    # Exit long when Z reverts to z_exit or take profit
+    long_exits = (z_score > -z_exit) & (z_score.shift(1) <= -z_exit)
     if z_take_profit > 0:
-        tp_z = z_entry * z_take_profit  # e.g., entry at z=-1.5 → exit at z=-0.6
-        long_tp = z_score >= -tp_z
-        short_tp = z_score <= tp_z
-        long_exits_raw = long_exits_raw | long_tp
-        short_exits_raw = short_exits_raw | short_tp
+        long_exits = long_exits | (z_score > z_take_profit)
 
-    # Trailing stop
-    trailing_stops = pd.Series(0.0, index=idx)
+    # Exit short when Z reverts
+    short_exits = (z_score < z_exit) & (z_score.shift(1) >= z_exit)
+    if z_take_profit > 0:
+        short_exits = short_exits | (z_score < -z_take_profit)
+
+    # ─── Trailing stop ───────────────────────────────────────────────────────
     if use_trailing_stop:
-        from risk.position_sizer import compute_atr
-        atr = compute_atr(df_pair, 14)
-        trailing_stops = atr * trail_atr_mult
+        trailing_stops = pd.Series(np.nan, index=df.index)
+        in_position = False
+        position_side = None
+        stop_price = 0.0
 
-    return (
-        long_entries_raw.shift(1).fillna(False).astype(bool),
-        long_exits_raw.shift(1).fillna(False).astype(bool),
-        short_entries_raw.shift(1).fillna(False).astype(bool),
-        short_exits_raw.shift(1).fillna(False).astype(bool),
-        trailing_stops.shift(1).fillna(0),
-    )
+        for i in range(n):
+            current_atr = atr.iloc[i] if not pd.isna(atr.iloc[i]) else 0
+
+            if long_entries.iloc[i] and not in_position:
+                in_position = True
+                position_side = "long"
+                stop_price = close.iloc[i] - trail_atr_mult * current_atr
+
+            elif short_entries.iloc[i] and not in_position:
+                in_position = True
+                position_side = "short"
+                stop_price = close.iloc[i] + trail_atr_mult * current_atr
+
+            if in_position:
+                if position_side == "long":
+                    new_stop = close.iloc[i] - trail_atr_mult * current_atr
+                    stop_price = max(stop_price, new_stop)
+                    if close.iloc[i] <= stop_price:
+                        long_exits.iloc[i] = True
+                        in_position = False
+
+                elif position_side == "short":
+                    new_stop = close.iloc[i] + trail_atr_mult * current_atr
+                    stop_price = min(stop_price, new_stop)
+                    if close.iloc[i] >= stop_price:
+                        short_exits.iloc[i] = True
+                        in_position = False
+
+            trailing_stops.iloc[i] = stop_price if in_position else np.nan
+
+    # ─── Anti-lookahead: shift by 1 ──────────────────────────────────────────
+    long_entries = long_entries.shift(1).fillna(False).astype(bool)
+    long_exits = long_exits.shift(1).fillna(False).astype(bool)
+    short_entries = short_entries.shift(1).fillna(False).astype(bool)
+    short_exits = short_exits.shift(1).fillna(False).astype(bool)
+
+    return long_entries, long_exits, short_entries, short_exits

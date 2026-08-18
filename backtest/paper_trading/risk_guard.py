@@ -1,91 +1,124 @@
-"""Real-time prop firm risk enforcement."""
+"""
+paper_trading/risk_guard.py — Real-time drawdown check against prop firm rules.
+"""
 
-from datetime import datetime, date
+import logging
+from datetime import datetime
+
+from backtest.config import PROP_FIRM_RULES, RISK_CONFIG
+
+logger = logging.getLogger(__name__)
 
 
 class RiskGuard:
-    """Enforces daily DD, max DD, and consistency rules in real-time."""
+    """
+    Real-time risk management for paper trading.
+    Checks daily loss limits and total drawdown against prop firm rules.
+    """
 
-    def __init__(self, rules: dict, state_dir: str = "paper_trading/state/") -> None:
-        self.rules = rules
-        self.initial_equity = 0.0
+    def __init__(self, firm_rules: str = "ftmo_2step"):
+        """
+        Args:
+            firm_rules: Key into PROP_FIRM_RULES dict.
+        """
+        self.rules = PROP_FIRM_RULES.get(firm_rules, PROP_FIRM_RULES["ftmo_2step"])
+        self.firm_name = firm_rules
+
+        # State
+        self.start_of_day_equity = 0.0
         self.peak_equity = 0.0
-        self.equity_history: list[tuple[str, float]] = []
-        self.day_start_equity: float | None = None
-        self._current_date: date | None = None
+        self.is_halted = False
+        self.halt_reason = None
+        self.blocked_today = False
 
-    def initialize(self, initial_equity: float, equity_history: list | None = None) -> None:
-        self.initial_equity = initial_equity
-        self.peak_equity = initial_equity
-        self.equity_history = equity_history or []
-        if equity_history:
-            self.peak_equity = max(eq for _, eq in equity_history)
+    def update_equity(self, current_equity: float):
+        """
+        Update equity tracking. Call on each bar.
 
-        today = date.today()
-        self._current_date = today
-        for ts, eq in reversed(self.equity_history):
-            if not ts.startswith(str(today)):
-                self.day_start_equity = eq
-                break
-        if self.day_start_equity is None:
-            self.day_start_equity = initial_equity
+        Args:
+            current_equity: Current account equity.
+        """
+        if self.start_of_day_equity == 0:
+            self.start_of_day_equity = current_equity
 
-    def update_equity(self, timestamp: str, equity: float) -> None:
-        self.equity_history.append((timestamp, equity))
-        if equity > self.peak_equity:
-            self.peak_equity = equity
+        if current_equity > self.peak_equity:
+            self.peak_equity = current_equity
 
-        today = date.today()
-        if self._current_date != today:
-            self._current_date = today
-            self.day_start_equity = equity
-        elif self.day_start_equity is None:
-            self.day_start_equity = equity
+    def new_day(self, equity: float):
+        """Reset daily tracking at market open."""
+        self.start_of_day_equity = equity
+        self.blocked_today = False
+        logger.info(f"New trading day — equity: ${equity:,.2f}")
 
-        if len(self.equity_history) > 200:
-            self.equity_history = self.equity_history[-200:]
+    def check(self, current_equity: float) -> dict:
+        """
+        Check all risk limits.
 
-    def check_daily_drawdown(self, equity: float) -> bool:
-        if self.day_start_equity is None or self.day_start_equity == 0:
-            return True
-        dd = (equity - self.day_start_equity) / self.day_start_equity
-        allowed = dd >= -self.rules["daily_drawdown_pct"]
-        if not allowed:
-            print(f"RISK BLOCK: daily drawdown {dd*100:.2f}% exceeds "
-                  f"{self.rules['daily_drawdown_pct']*100:.0f}% limit")
-        return allowed
+        Args:
+            current_equity: Current account equity.
 
-    def check_max_drawdown(self, equity: float) -> bool:
-        if self.peak_equity == 0:
-            return True
-        dd = (equity - self.peak_equity) / self.peak_equity
-        allowed = dd >= -self.rules["max_drawdown_pct"]
-        if not allowed:
-            print(f"RISK BLOCK: max drawdown {dd*100:.2f}% exceeds "
-                  f"{self.rules['max_drawdown_pct']*100:.0f}% limit")
-        return allowed
+        Returns:
+            dict with:
+                allow_trading: bool
+                daily_loss_pct: float
+                total_dd_pct: float
+                reason: str or None
+        """
+        if self.is_halted:
+            return {
+                "allow_trading": False,
+                "reason": f"HALTED: {self.halt_reason}",
+            }
 
-    def check_consistency(self, equity: float, proposed_profit: float = 0.0) -> bool:
-        total_profit = equity - self.initial_equity
-        if total_profit <= 0:
-            return True
-
-        if self.day_start_equity is None:
-            day_pnl = 0.0
+        # Daily loss check
+        if self.start_of_day_equity > 0:
+            daily_loss = (self.start_of_day_equity - current_equity) / self.start_of_day_equity
         else:
-            day_pnl = equity - self.day_start_equity
+            daily_loss = 0
 
-        projected_day_pnl = day_pnl + proposed_profit
-        ratio = abs(projected_day_pnl) / abs(total_profit) if total_profit != 0 else 0
-        allowed = ratio <= self.rules["consistency_block_pct"]
-        if not allowed:
-            print(f"RISK BLOCK: consistency ratio {ratio*100:.1f}% exceeds "
-                  f"{self.rules['consistency_block_pct']*100:.0f}% limit")
-        return allowed
+        if daily_loss > self.rules["daily_loss_pct"]:
+            self.blocked_today = True
+            logger.warning(
+                f"Daily loss {daily_loss:.3%} exceeds limit "
+                f"{self.rules['daily_loss_pct']:.3%} — blocking new entries"
+            )
+            return {
+                "allow_trading": False,
+                "daily_loss_pct": daily_loss,
+                "reason": f"daily_loss_exceeded_{daily_loss:.3%}",
+            }
 
-    def can_trade(self, equity: float, proposed_profit: float = 0.0) -> bool:
-        return (
-            self.check_daily_drawdown(equity)
-            and self.check_max_drawdown(equity)
-            and self.check_consistency(equity, proposed_profit)
-        )
+        # Total drawdown check
+        if self.peak_equity > 0:
+            total_dd = (self.peak_equity - current_equity) / self.peak_equity
+        else:
+            total_dd = 0
+
+        if total_dd > self.rules["max_drawdown_pct"]:
+            self.is_halted = True
+            self.halt_reason = f"total_dd_{total_dd:.3%}_exceeds_{self.rules['max_drawdown_pct']:.3%}"
+            logger.error(f"RISK HALT: {self.halt_reason}")
+            return {
+                "allow_trading": False,
+                "total_dd_pct": total_dd,
+                "reason": self.halt_reason,
+            }
+
+        return {
+            "allow_trading": True,
+            "daily_loss_pct": daily_loss,
+            "total_dd_pct": total_dd,
+            "reason": None,
+        }
+
+    def get_status(self) -> dict:
+        """Get current risk guard status."""
+        return {
+            "firm": self.firm_name,
+            "start_of_day_equity": self.start_of_day_equity,
+            "peak_equity": self.peak_equity,
+            "is_halted": self.is_halted,
+            "halt_reason": self.halt_reason,
+            "blocked_today": self.blocked_today,
+            "rules": self.rules,
+        }

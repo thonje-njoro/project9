@@ -1,293 +1,251 @@
-"""Main paper trading runner."""
+"""
+paper_trading/runner.py — Main loop: fetch → signal → order.
+Runs continuously via systemd.
+"""
 
-import os
-import sys
-import signal
+import gc
 import logging
-from pathlib import Path
+import signal
+import sys
+import time
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
+from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add project root to path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from config import INSTRUMENTS, RISK_CONFIG, PROP_FIRM_RULES
-from data.resampler import resample_ohlcv
-from paper_trading.config import PAPER_TRADING_CONFIG
-from paper_trading.signal_engine import LiveSignalEngine
-from paper_trading.order_manager import OrderManager
-from paper_trading.risk_guard import RiskGuard
-from paper_trading.state import StateManager
-from paper_trading.market_calendar import MarketCalendar
+from backtest.config import ALPACA_API_KEY, ALPACA_SECRET_KEY, INSTRUMENTS
+from backtest.paper_trading.signal_engine import LiveSignalEngine
+from backtest.paper_trading.order_manager import OrderManager
+from backtest.paper_trading.risk_guard import RiskGuard
+from backtest.paper_trading.state import StateManager
+from backtest.paper_trading.market_calendar import is_trading_day, market_is_open
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-    handlers=[
-        logging.FileHandler("paper_trading/state/paper_trading.log"),
-        logging.StreamHandler(),
-    ],
-)
-logger = logging.getLogger("runner")
+logger = logging.getLogger(__name__)
 
 
 class PaperTradingRunner:
-    """Orchestrates live paper trading on Alpaca."""
+    """
+    Main paper trading loop.
+    Architecture:
+        on_bar() — called every minute
+            → fetch latest bar
+            → generate signals
+            → check risk
+            → submit orders
+        on_day_open() — 09:30 ET
+            → load regime gate
+            → check daily loss limit
+        on_day_close() — 16:00 ET
+            → force-close intraday positions
+            → log daily P&L
+    """
 
-    def __init__(self) -> None:
-        load_dotenv(Path(__file__).parent.parent / ".env")
-        api_key = os.getenv("ALPACA_API_KEY", "")
-        secret_key = os.getenv("ALPACA_SECRET_KEY", "")
-        dry_run = PAPER_TRADING_CONFIG.get("dry_run", True)
-
+    def __init__(self):
         self.signal_engine = LiveSignalEngine()
-        self.order_manager = OrderManager(api_key, secret_key, dry_run=dry_run)
-        self.risk_guard = RiskGuard(PROP_FIRM_RULES, PAPER_TRADING_CONFIG["state_dir"])
-        self.state = StateManager(PAPER_TRADING_CONFIG["state_dir"])
+        self.order_manager = OrderManager(
+            api_key=ALPACA_API_KEY,
+            secret_key=ALPACA_SECRET_KEY,
+        )
+        self.risk_guard = RiskGuard(firm_rules="ftmo_2step")
+        self.state = StateManager()
 
-        self._restore_state()
-        self._shutdown = False
+        self.running = True
+        self.last_day_open = None
+        self.last_day_close = None
 
-    def _restore_state(self) -> None:
-        self.order_manager._sync_positions()
-        logger.info(f"Restored {len(self.order_manager.open_positions)} open positions")
+        # Graceful shutdown
+        signal.signal(signal.SIGINT, self._shutdown)
+        signal.signal(signal.SIGTERM, self._shutdown)
 
-        equity_df = self.state.load_equity_curve()
-        equity_history = []
-        if not equity_df.empty:
-            equity_history = list(zip(
-                equity_df["timestamp"].tolist(),
-                equity_df["equity"].tolist(),
-            ))
+    def _shutdown(self, signum, frame):
+        logger.info("Shutdown signal received")
+        self.running = False
 
-        current_equity = self.order_manager.get_account_equity()
-        self.risk_guard.initialize(current_equity, equity_history)
+    def run(self):
+        """Main loop — runs until stopped."""
+        logger.info("Paper trading runner started")
 
-        historical_data = self._fetch_historical_bars()
-        if historical_data:
-            self.signal_engine.initialize_regime_filters(historical_data)
-            self.state.save_regime_state(self.signal_engine.regime_filters)
-            logger.info("Regime filters fitted from historical data")
+        # Sync positions on startup
+        self.order_manager.sync_positions()
 
-    def _fetch_historical_bars(self) -> dict:
-        from alpaca.data.historical import StockHistoricalDataClient, CryptoHistoricalDataClient
-        from alpaca.data.requests import StockBarsRequest, CryptoBarsRequest
-        from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
-        import pandas as pd
-
-        api_key = os.getenv("ALPACA_API_KEY", "")
-        secret_key = os.getenv("ALPACA_SECRET_KEY", "")
-
-        stock_client = StockHistoricalDataClient(api_key, secret_key)
-        crypto_client = CryptoHistoricalDataClient()
-
-        data = {}
-        now = datetime.utcnow()
-
-        for symbol, info in INSTRUMENTS.items():
-            days_back = 30
-            start = now - timedelta(days=days_back)
+        while self.running:
             try:
-                if info["asset_class"] == "crypto":
-                    request = CryptoBarsRequest(
-                        symbol_or_symbols=symbol,
-                        timeframe=TimeFrame(1, TimeFrameUnit.Minute),
-                        start=start,
-                    )
-                    bars = crypto_client.get_crypto_bars(request)
-                else:
-                    request = StockBarsRequest(
-                        symbol_or_symbols=symbol,
-                        timeframe=TimeFrame(1, TimeFrameUnit.Minute),
-                        start=start,
-                        feed="iex",
-                    )
-                    bars = stock_client.get_stock_bars(request)
+                now = datetime.utcnow()
 
-                df = bars.df
-                if isinstance(df.index, pd.MultiIndex):
-                    df = df.droplevel("symbol")
-                df = df[["open", "high", "low", "close", "volume"]]
-                df.index = pd.to_datetime(df.index).tz_convert("UTC")
+                # Check if it's a trading day
+                if not is_trading_day(now.date()):
+                    logger.debug("Not a trading day — sleeping 60s")
+                    time.sleep(60)
+                    continue
 
-                target_tf = INSTRUMENTS[symbol]["target_tf"]
-                data[symbol] = resample_ohlcv(df, target_tf, info["asset_class"])
-                logger.info(f"Fetched {len(data[symbol])} bars for {symbol}")
+                # Day open logic
+                if self._is_day_open(now):
+                    self._on_day_open()
+
+                # Main bar processing
+                if market_is_open(now):
+                    self._on_bar()
+
+                # Day close logic
+                if self._is_day_close(now):
+                    self._on_day_close()
+
+                # Heartbeat
+                self.state.save_heartbeat("ok")
+
+                # Sleep until next minute
+                time.sleep(60)
+
+            except KeyboardInterrupt:
+                break
             except Exception as e:
-                logger.error(f"Failed to fetch historical bars for {symbol}: {e}")
-        return data
+                logger.error(f"Runner error: {e}", exc_info=True)
+                time.sleep(30)
 
-    def _fetch_latest_bar(self, symbol: str, info: dict):
-        from alpaca.data.historical import StockHistoricalDataClient, CryptoHistoricalDataClient
-        from alpaca.data.requests import StockBarsRequest, CryptoBarsRequest
-        from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
-        import pandas as pd
+        logger.info("Paper trading runner stopped")
 
-        api_key = os.getenv("ALPACA_API_KEY", "")
-        secret_key = os.getenv("ALPACA_SECRET_KEY", "")
+    def _is_day_open(self, now: datetime) -> bool:
+        """Check if we should run day-open logic (9:30 ET)."""
+        import pytz
+        et = pytz.timezone("US/Eastern")
+        now_et = now.replace(tzinfo=pytz.UTC).astimezone(et)
 
-        stock_client = StockHistoricalDataClient(api_key, secret_key)
-        crypto_client = CryptoHistoricalDataClient()
+        if now_et.hour == 9 and now_et.minute >= 30:
+            if self.last_day_open != now_et.date():
+                return True
+        return False
 
-        try:
-            now = datetime.utcnow()
-            start = now - timedelta(hours=2)
+    def _is_day_close(self, now: datetime) -> bool:
+        """Check if we should run day-close logic (16:00 ET)."""
+        import pytz
+        et = pytz.timezone("US/Eastern")
+        now_et = now.replace(tzinfo=pytz.UTC).astimezone(et)
 
-            if info["asset_class"] == "crypto":
-                request = CryptoBarsRequest(
-                    symbol_or_symbols=symbol,
-                    timeframe=TimeFrame(1, TimeFrameUnit.Minute),
-                    start=start,
-                )
-                bars = crypto_client.get_crypto_bars(request)
-            else:
-                request = StockBarsRequest(
-                    symbol_or_symbols=symbol,
-                    timeframe=TimeFrame(1, TimeFrameUnit.Minute),
-                    start=start,
-                    feed="iex",
-                )
-                bars = stock_client.get_stock_bars(request)
+        if now_et.hour == 16 and now_et.minute < 5:
+            if self.last_day_close != now_et.date():
+                return True
+        return False
 
-            df = bars.df
-            if isinstance(df.index, pd.MultiIndex):
-                df = df.droplevel("symbol")
-            df = df[["open", "high", "low", "close", "volume"]]
-            df.index = pd.to_datetime(df.index).tz_convert("UTC")
-            target_tf = INSTRUMENTS[symbol]["target_tf"]
-            return resample_ohlcv(df, target_tf, info["asset_class"])
-        except Exception as e:
-            logger.error(f"Failed to fetch latest bar for {symbol}: {e}")
-            return None
+    def _on_day_open(self):
+        """Day open: load regime, reset daily risk."""
+        logger.info("=== Market Open ===")
+        self.last_day_open = datetime.utcnow().date()
 
-    def _evaluate_and_trade(self, symbol: str, info: dict) -> None:
-        if not MarketCalendar.can_trade(symbol, info["asset_class"]):
-            return
+        # Get current equity
+        account = self.order_manager.get_account()
+        equity = account.get("equity", 0)
+        if equity > 0:
+            self.risk_guard.new_day(equity)
 
-        df = self._fetch_latest_bar(symbol, info)
-        if df is None or len(df) < 30:
-            logger.warning(f"Insufficient data for {symbol}, skipping")
-            return
+        # Sync positions
+        self.order_manager.sync_positions()
 
-        signal = self.signal_engine.evaluate(symbol, df)
-        logger.info(f"{symbol}: action={signal['action']} price={signal['price']:.2f} "
-                     f"regime={signal['regime']}")
+    def _on_day_close(self):
+        """Day close: force-close intraday positions, log P&L."""
+        logger.info("=== Market Close ===")
+        self.last_day_close = datetime.utcnow().date()
 
-        if signal["action"] == "hold":
-            return
+        # Force close all intraday positions
+        intraday_symbols = [
+            sym for sym, inst in INSTRUMENTS.items()
+            if inst["timeframe"] in ("5min", "15min")
+        ]
 
-        equity = self.order_manager.get_account_equity()
-        self.risk_guard.update_equity(datetime.utcnow().isoformat(), equity)
-
-        if signal["action"] in ("long_exit", "short_exit"):
-            pos = self.order_manager.get_position(symbol)
-            if pos:
+        for symbol in intraday_symbols:
+            if symbol in self.order_manager.open_positions:
+                logger.info(f"Force-closing intraday position: {symbol}")
                 self.order_manager.close_position(symbol)
-                self._log_trade(symbol, "exit", 0, signal["price"], "exit_signal")
+
+        # Log equity
+        account = self.order_manager.get_account()
+        equity = account.get("equity", 0)
+        if equity > 0:
+            self.state.append_equity(equity)
+
+        # Sync
+        self.order_manager.sync_positions()
+
+    def _on_bar(self):
+        """Main bar processing: fetch → signal → risk check → order."""
+        # Generate signals
+        signals = self.signal_engine.generate(lookback_bars=200)
+
+        if not signals:
             return
 
-        if signal["action"] in ("long_entry", "short_entry"):
-            if not self.risk_guard.can_trade(equity):
-                logger.warning(f"Trade BLOCKED by risk guard for {symbol}")
-                return
+        # Get current equity for risk check
+        account = self.order_manager.get_account()
+        equity = account.get("equity", 0)
 
-            from risk.position_sizer import compute_atr, atr_position_sizes
-            atr = compute_atr(df, RISK_CONFIG["atr_period"])
-            sizes = atr_position_sizes(
-                equity, atr, df["close"],
-                RISK_CONFIG["max_risk_per_trade_pct"],
-                RISK_CONFIG.get("max_exposure_pct", 0.25),
+        if equity <= 0:
+            logger.warning("Could not get account equity")
+            return
+
+        # Risk check
+        risk_check = self.risk_guard.check(equity)
+        if not risk_check["allow_trading"]:
+            logger.info(f"Trading blocked: {risk_check['reason']}")
+            return
+
+        # Process each signal
+        for symbol, signal_data in signals.items():
+            self._process_signal(symbol, signal_data, equity)
+
+    def _process_signal(self, symbol: str, signal_data: dict, equity: float):
+        """Process a single trading signal."""
+        side = signal_data.get("side")
+        price = signal_data.get("price", 0)
+
+        if side is None or price <= 0:
+            return
+
+        # Check if already in position
+        positions = self.order_manager.get_positions()
+        if symbol in positions:
+            existing_side = positions[symbol].get("side")
+            if existing_side == side:
+                return  # Already in same direction
+            # Close opposite position first
+            self.order_manager.close_position(symbol)
+
+        # Compute position size using ATR from signal engine
+        from backtest.risk.position_sizer import atr_position_size
+        atr_estimate = signal_data.get("atr") or price * 0.02  # fall back only if missing
+        qty = atr_position_size(equity, atr_estimate, price)
+
+        if qty < 1:
+            return
+
+        order_side = "buy" if side == "long" else "sell"
+        stop_price = price - atr_estimate * 2 if side == "long" else price + atr_estimate * 2
+
+        order_id = self.order_manager.submit(
+            symbol=symbol,
+            qty=int(qty),
+            side=order_side,
+            stop_price=round(stop_price, 2),
+        )
+
+        if order_id:
+            logger.info(f"Signal processed: {side} {int(qty)} {symbol} @ {price}")
+            self.state.log_trade(
+                symbol=symbol, side=side, qty=int(qty),
+                entry_price=price, exit_price=0, pnl=0,
             )
-            trade_notional = float(sizes.iloc[-1] * signal["price"])
 
-            max_notional = equity * RISK_CONFIG.get("max_exposure_pct", 0.25)
-            trade_notional = min(trade_notional, max_notional)
 
-            if trade_notional < 10:
-                logger.info(f"Trade size too small for {symbol}: ${trade_notional:.2f}")
-                return
+def main():
+    """Entry point for paper trading runner."""
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
 
-            side = "buy" if signal["action"] == "long_entry" else "sell"
-            result = self.order_manager.submit_market_order(
-                symbol, trade_notional, side, signal["trailing_stop_pct"]
-            )
-            self._log_trade(symbol, side, trade_notional, signal["price"], signal["action"])
-
-    def _log_trade(self, symbol, side, notional, price, reason) -> None:
-        self.state.append_trade({
-            "timestamp": datetime.utcnow().isoformat(),
-            "symbol": symbol,
-            "side": side,
-            "notional": notional,
-            "price": price,
-            "reason": reason,
-            "equity": self.order_manager.get_account_equity(),
-        })
-
-    def _snapshot_equity(self) -> None:
-        equity = self.order_manager.get_account_equity()
-        self.state.save_equity_snapshot(datetime.utcnow().isoformat(), equity, 0.0)
-        self.risk_guard.update_equity(datetime.utcnow().isoformat(), equity)
-
-    def tick(self) -> None:
-        logger.info("--- Tick start ---")
-        for symbol, info in INSTRUMENTS.items():
-            try:
-                self._evaluate_and_trade(symbol, info)
-            except Exception as e:
-                logger.error(f"Error evaluating {symbol}: {e}", exc_info=True)
-        self._snapshot_equity()
-        self.state.save_positions(self.order_manager.open_positions)
-        self.state.save_risk_state({
-            "equity_history": self.risk_guard.equity_history[-100:],
-            "peak_equity": self.risk_guard.peak_equity,
-        })
-        logger.info("--- Tick end ---")
-
-    def run(self) -> None:
-        from apscheduler.schedulers.blocking import BlockingScheduler
-        from apscheduler.triggers.cron import CronTrigger
-
-        scheduler = BlockingScheduler(timezone="UTC")
-
-        scheduler.add_job(
-            self.tick, CronTrigger(
-                minute="*/15", day_of_week="mon-fri",
-                hour="9-15", timezone="America/New_York",
-            ),
-            id="stock_tick",
-        )
-
-        scheduler.add_job(
-            self.tick, CronTrigger(minute="0", hour="*/1"),
-            id="crypto_tick",
-        )
-
-        scheduler.add_job(
-            self.tick, CronTrigger(minute="0", hour="*/4"),
-            id="gld_uso_tick",
-        )
-
-        def shutdown_handler(signum, frame):
-            logger.info("Shutdown signal received, stopping...")
-            self._shutdown = True
-            scheduler.shutdown(wait=False)
-
-        signal.signal(signal.SIGINT, shutdown_handler)
-        signal.signal(signal.SIGTERM, shutdown_handler)
-
-        logger.info("Paper trading system started")
-        self.tick()
-
-        try:
-            scheduler.start()
-        except (KeyboardInterrupt, SystemExit):
-            logger.info("Scheduler stopped")
-        finally:
-            self._snapshot_equity()
-            self.state.save_positions(self.order_manager.open_positions)
-            logger.info("State saved, exiting")
+    runner = PaperTradingRunner()
+    runner.run()
 
 
 if __name__ == "__main__":
-    runner = PaperTradingRunner()
-    runner.run()
+    main()

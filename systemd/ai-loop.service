@@ -1,0 +1,12 @@
+[Unit]
+Description=Project9 AI Loop Single Run
+After=network.target
+
+[Service]
+Type=oneshot
+User=gathimbu
+WorkingDirectory=/home/gathimbu/project9
+Environment=PYTHONPATH=/home/gathimbu/project9
+ExecStart=/home/gathimbu/project9/venv/bin/python ai_loop/ai_loop.py
+StandardOutput=journal
+StandardError=journal

@@ -1,0 +1,18 @@
+[Unit]
+Description=Project9 Autonomous Paper Trading System
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=gathimbu
+WorkingDirectory=/home/gathimbu/project9/backtest
+Environment=PYTHONPATH=/home/gathimbu/project9
+ExecStart=/home/gathimbu/project9/venv/bin/python paper_trading/runner.py
+Restart=always
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

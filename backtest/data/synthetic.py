@@ -1,79 +1,109 @@
-"""Generate realistic synthetic OHLCV data for testing when API keys are unavailable."""
+"""
+data/synthetic.py — Fallback synthetic OHLCV data via geometric Brownian motion.
+Used when Alpaca/LSE API keys are missing or fetch fails.
+"""
+
+import logging
 
 import numpy as np
 import pandas as pd
 
+logger = logging.getLogger(__name__)
 
-def generate_synthetic_data(symbols: dict, config: dict) -> dict[str, pd.DataFrame]:
-    """Generate synthetic 1-minute OHLCV data for each symbol."""
-    np.random.seed(42)
-    start = pd.Timestamp(config["start_date"], tz="UTC")
-    end = pd.Timestamp(config["end_date"], tz="UTC")
+# Realistic starting prices for known instruments
+SYNTHETIC_PRICES = {
+    "GLD": 175.0, "TLT": 100.0, "IWM": 190.0, "CPER": 25.0,
+    "CPER_GLD": 0.14, "SPY": 400.0, "IWM_VWAP": 190.0,
+    "SPY_ORB": 400.0, "QQQ_ORB": 350.0,
+    "NVDA_MORB": 450.0, "AMD_MORB": 120.0, "PLTR_MORB": 20.0, "MRVL_MORB": 60.0,
+    "XAUUSD_MR": 1950.0,
+}
 
-    stock_base_prices = {"SPY": 470.0, "QQQ": 390.0, "GLD": 190.0, "USO": 75.0}
-    crypto_base_prices = {"BTC/USD": 42000.0}
+# Volatility scaling by asset class
+SYNTHETIC_VOL = {
+    "equity_etf": 0.015,
+    "bond_etf": 0.008,
+    "equity": 0.025,
+    "forex": 0.008,
+    "synthetic": 0.012,
+}
 
-    annual_vol = {"SPY": 0.16, "QQQ": 0.22, "GLD": 0.15, "USO": 0.30, "BTC/USD": 0.65}
-    drift = {"SPY": 0.12, "QQQ": 0.15, "GLD": 0.05, "USO": 0.03, "BTC/USD": 0.30}
 
-    data = {}
-    for symbol, info in symbols.items():
-        print(f"Generating synthetic data for {symbol}...")
-        is_crypto = info["asset_class"] == "crypto"
+def generate_synthetic(symbol: str, n_bars: int = 10_000,
+                       mu: float = 0.0002, sigma: float | None = None,
+                       initial_price: float | None = None,
+                       timeframe: str = "15min") -> pd.DataFrame:
+    """
+    Generate realistic synthetic OHLCV data using geometric Brownian motion.
 
-        if is_crypto:
-            idx = pd.date_range(start, end, freq="1min", tz="UTC")
-        else:
-            idx = pd.bdate_range(start, end, tz="UTC")
-            idx = idx.intersection(
-                pd.date_range(start, end, freq="min", tz="UTC")
-            )
-            hours = idx.hour + idx.minute / 60.0
-            mask = (hours >= 9.5) & (hours < 16.0)
-            idx = idx[mask]
-            if len(idx) == 0:
-                idx = pd.date_range(start, end, freq="15min", tz="UTC")
-                hours = idx.hour + idx.minute / 60.0
-                mask = (hours >= 9.5) & (hours < 16.0)
-                idx = idx[mask]
+    Args:
+        symbol: Instrument symbol (used for price/vol lookup).
+        n_bars: Number of bars to generate.
+        mu: Drift per bar (annualized ~5% for daily, scaled by bar frequency).
+        sigma: Volatility per bar. If None, uses asset-class default.
+        initial_price: Starting price. If None, uses known price or 100.
+        timeframe: Bar frequency for date index generation.
 
-        n = len(idx)
-        base = stock_base_prices.get(symbol, crypto_base_prices.get(symbol, 100.0))
-        vol = annual_vol.get(symbol, 0.20)
-        dr = drift.get(symbol, 0.10)
+    Returns:
+        DataFrame with columns: open, high, low, close, volume
+        DatetimeIndex starting 2022-01-01.
+    """
+    from backtest.config import INSTRUMENTS
 
-        dt = 1.0 / (252 * 390)
-        vol_min = vol * np.sqrt(dt)
-        dr_min = (dr - 0.5 * vol**2) * dt
+    if initial_price is None:
+        initial_price = SYNTHETIC_PRICES.get(symbol, 100.0)
 
-        log_returns = np.random.normal(dr_min, vol_min, n)
-        log_prices = np.log(base) + np.cumsum(log_returns)
-        close = np.exp(log_prices)
+    if sigma is None:
+        asset_class = INSTRUMENTS.get(symbol, {}).get("asset_class", "equity_etf")
+        sigma = SYNTHETIC_VOL.get(asset_class, 0.015)
 
-        noise_h = np.abs(np.random.normal(0, vol_min * 0.3, n))
-        noise_l = np.abs(np.random.normal(0, vol_min * 0.3, n))
-        high = close * (1 + noise_h)
-        low = close * (1 - noise_l)
-        open_ = np.roll(close, 1)
-        open_[0] = base
+    logger.warning(f"Generating synthetic data for {symbol} ({n_bars} bars) — NOT for live trading")
 
-        if is_crypto:
-            base_vol = 500.0
-        elif symbol in ("SPY", "QQQ"):
-            base_vol = 80_000_000.0 / 390.0
-        else:
-            base_vol = 5_000_000.0 / 390.0
+    np.random.seed(hash(symbol) % (2**31))
 
-        volume = np.random.lognormal(np.log(base_vol), 0.5, n)
+    # Generate log returns
+    log_returns = np.random.normal(mu, sigma, n_bars)
 
-        df = pd.DataFrame({
-            "open": open_,
-            "high": np.maximum(high, np.maximum(open_, close)),
-            "low": np.minimum(low, np.minimum(open_, close)),
-            "close": close,
-            "volume": volume,
-        }, index=idx[:n])
+    # Add mean-reversion component for realism
+    prices = np.zeros(n_bars)
+    prices[0] = initial_price
+    for i in range(1, n_bars):
+        # Mild mean reversion toward initial price
+        mean_rev = -0.001 * (prices[i-1] / initial_price - 1)
+        ret = log_returns[i] + mean_rev
+        prices[i] = prices[i-1] * np.exp(ret)
 
-        data[symbol] = df
+    # Generate OHLC from close prices
+    opens = prices * (1 + np.random.normal(0, sigma * 0.1, n_bars))
+    highs = np.maximum(opens, prices) * (1 + np.abs(np.random.normal(0, sigma * 0.3, n_bars)))
+    lows = np.minimum(opens, prices) * (1 - np.abs(np.random.normal(0, sigma * 0.3, n_bars)))
 
-    return data
+    # Volume: lognormal with autocorrelation
+    base_vol = 1_000_000 if "SY" in symbol or "QQQ" in symbol else 500_000
+    log_vol = np.random.normal(np.log(base_vol), 0.5, n_bars)
+    # Add volume autocorrelation
+    for i in range(1, n_bars):
+        log_vol[i] = 0.9 * log_vol[i-1] + 0.1 * log_vol[i]
+    volumes = np.exp(log_vol)
+
+    # Build date index
+    tf_minutes = {"1min": 1, "5min": 5, "15min": 15, "1h": 60, "4h": 240, "1d": 1440}
+    freq_min = tf_minutes.get(timeframe, 15)
+    dates = pd.date_range(
+        start="2022-01-01", periods=n_bars,
+        freq=f"{freq_min}min", tz="UTC",
+    )
+
+    df = pd.DataFrame({
+        "open": opens,
+        "high": highs,
+        "low": lows,
+        "close": prices,
+        "volume": volumes,
+    }, index=dates)
+
+    # Ensure high >= max(open, close) and low <= min(open, close)
+    df["high"] = df[["open", "high", "close"]].max(axis=1)
+    df["low"] = df[["open", "low", "close"]].min(axis=1)
+
+    return df

@@ -1,16 +1,40 @@
+# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
+*.py[cod]
+*.so
 *.egg-info/
 dist/
 build/
 .eggs/
-*.egg
-.env
-.venv/
+
+# Virtual environment
 venv/
-*.parquet
-!data/*.parquet
-graphify-out/
+.venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+.env
+*.env.local
+
+# Data cache
+backtest/data/cache/
+
+# Results
+results/
+
+# Logs
+*.log
+ai_loop/logs/
+
+# State
+backtest/paper_trading/state/
+
+# OS
+.DS_Store
+Thumbs.db
