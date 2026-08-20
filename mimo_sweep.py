@@ -37,21 +37,55 @@ END   = datetime.utcnow().strftime("%Y-%m-%d")
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
 # ---------------------------------------------------------------------------
-# SYMBOL UNIVERSE (Yahoo tickers)
+# SYMBOL UNIVERSE (Yahoo tickers) — expanded: ~260 symbols
 # ---------------------------------------------------------------------------
 SYMBOLS = [
-    # Large-cap equities
-    "AAPL","MSFT","GOOGL","AMZN","NVDA","AMD","META","TSLA","NFLX","AVGO",
-    "JPM","BAC","XOM","JNJ","WMT","V","MA","PG","DIS","INTC",
-    # ETFs
-    "SPY","QQQ","IWM","DIA","XLK","XLF","XLE","XLU","GLD","SLV",
-    "TLT","IEF","HYG","EEM","EFA","VXX","TQQQ","SQQQ","ARKK","XBI",
-    # Forex (Yahoo format)
+    # --- S&P 500 large caps (sector-diverse) ---
+    "AAPL","MSFT","GOOGL","GOOG","AMZN","NVDA","AMD","META","TSLA","NFLX",
+    "AVGO","ORCL","CRM","ADBE","CSCO","ACN","INTU","QCOM","TXN","IBM",
+    "JPM","BAC","WFC","C","GS","MS","USB","PNC","COF","AXP",
+    "XOM","CVX","COP","OXY","SLB","EOG","MPC","VLO","PSX","KMI",
+    "JNJ","PFE","MRK","ABBV","UNH","LLY","TMO","ABT","DHR","BMY",
+    "WMT","COST","HD","LOW","TGT","KR","DG","DLTR","MCD","SBUX",
+    "V","MA","PYPL","SQ","AXP","FISV","GPN","PAYX","INTU","NOW",
+    "PG","KO","PEP","PM","MO","CL","KMB","GIS","KHC","HSY",
+    "DIS","CMCSA","T","VZ","TMUS","NKE","MCD","SBUX","ABNB","UBER",
+    "INTC","MU","AMAT","LRCX","KLAC","NVDA","AMD","TXN","ADI","SWKS",
+    # --- Mid/small-cap & growth ---
+    "PLTR","SNOW","SHOP","SQ","RBLX","COIN","HOOD","DASH","AFRM","SOFI",
+    "GME","AMC","BYND","PLUG","FCEL","RIVN","LCID","MARA","RIOT","SNAP",
+    "NET","HUBS","ZM","DOCU","CRWD","PANW","FTNT","ZS","OKTA","MDB",
+    # --- ETFs: broad/index ---
+    "SPY","QQQ","IWM","DIA","VO","VB","VOO","VTI","VXUS","BND",
+    # --- ETFs: sector ---
+    "XLK","XLF","XLE","XLU","XLV","XLY","XLP","XLI","XLB","XLRE",
+    "XLC","XBI","XLG","XLI","XLV","XLY","XLP","XLE","XLU","XLK",
+    # --- ETFs: thematic/leveraged/inverse ---
+    "TQQQ","SQQQ","SOXL","SOXX","SPXL","SPXS","UDOW","SDOW","TNA","TZA",
+    "ARKK","ARKW","ARKG","ARKF","ARKX","BOTZ","IBB","XBI","XBI","IBB",
+    # --- ETFs: fixed income ---
+    "TLT","IEF","SHY","LQD","HYG","JNK","AGG","BND","MBB","TIP",
+    # --- ETFs: international/EM ---
+    "EEM","EFA","VWO","FXI","EWJ","EWG","EWU","ACWI","VEA","GXC",
+    # --- ETFs: commodities ---
+    "GLD","SLV","GDX","GDXJ","USO","UNG","UGA","DBA","DBC","CC",
+    "COPX","URA","LIT","TAN","ICLN","PBW","PICK","REMX","XME","XLB",
+    # --- Forex (Yahoo format) ---
     "EURUSD=X","GBPUSD=X","AUDUSD=X","NZDUSD=X","USDJPY=X","USDCAD=X","USDCHF=X",
-    # Commodities/energy
-    "GC=F","SI=F","CL=F","NG=F","HG=F","ZC=F","ZW=F","ZS=F","BRK-B",
-    # Crypto
-    "BTC-USD","ETH-USD",
+    "USDSGD=X","USDHKD=X","USDSEK=X","USDNOK=X","USDDKK=X","EURJPY=X","EURGBP=X",
+    "GBPJPY=X","AUDJPY=X","CHFJPY=X","CADJPY=X","NZDJPY=X","EURNZD=X","GBPAUD=X",
+    "AUDNZD=X","NZDCAD=X","EURCHF=X","GBPCHF=X","AUDCHF=X","CADCHF=X","USDMXN=X",
+    "USDZAR=X","USDTRY=X","USDBRL=X","USDRUB=X","USDKRW=X","USDTWD=X","USDINR=X",
+    # --- Commodities/energy/metals ---
+    "GC=F","SI=F","HG=F","PL=F","PA=F","CL=F","BZ=F","NG=F","HO=F","RB=F",
+    "ZC=F","ZW=F","ZS=F","ZM=F","ZL=F","ZO=F","ZR=F","KC=F","SB=F","CC=F",
+    "CT=F","OJ=F","LE=F","GF=F","HE=F","LH=F","W=F","RR=F","YI=F","MGC=F",
+    # --- Crypto ---
+    "BTC-USD","ETH-USD","BNB-USD","SOL-USD","XRP-USD","ADA-USD","DOGE-USD",
+    "DOT-USD","LTC-USD","LINK-USD","MATIC-USD","AVAX-USD","UNI-USD","ATOM-USD",
+    "XLM-USD","TRX-USD","ETC-USD","FIL-USD","NEAR-USD","SHIB-USD",
+    # --- BRK special ---
+    "BRK-B",
 ]
 
 # ---------------------------------------------------------------------------
@@ -333,7 +367,7 @@ def main():
     ap.add_argument("--budget", type=int, default=360, help="max minutes budget")
     args = ap.parse_args()
 
-    symbols = args.symbols if args.symbols else SYMBOLS
+    symbols = list(dict.fromkeys(args.symbols if args.symbols else SYMBOLS))
     t0 = time.time()
 
     print(f"MIMO SWEEP — {len(symbols)} symbols x {len(GRIDS)} families")
@@ -364,8 +398,8 @@ def main():
                       f"TEST n={t['n']} Sh={t['sharpe']:.2f} PF={t['pf']:.2f} WR={t['wr']:.0f}% "
                       f"DD={t['maxdd']:.1f}% Ret={t['ret']:.1f}%  {star}")
                 results.append({"symbol": sym, **r})
-        # brief pause to avoid hammering Yahoo
-        time.sleep(0.5)
+        # brief pause to avoid hammering Yahoo (gentler pacing for ~260 symbols)
+        time.sleep(1.0)
 
     # -------------------------------------------------------------------------
     # RANKING & FINAL REPORT
